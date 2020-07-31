@@ -53,11 +53,10 @@ var Platformer;
         else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
             player.act(Platformer.ACTION.JUMP, player.dir);
         }
-        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
-            player.isDead = true;
-            player.act(Platformer.ACTION.DIE, player.dir);
+        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+            player.act(Platformer.ACTION.ATTACK, player.dir);
         }
-        else if (!player.isDead)
+        else if (!player.isDead || player.isIdle)
             player.act(Platformer.ACTION.IDLE);
     }
     function createLevel() {

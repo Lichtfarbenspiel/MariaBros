@@ -66,11 +66,10 @@ namespace Platformer {
     else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
       player.act(ACTION.JUMP, player.dir);
     }
-    else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
-      player.isDead = true;
-      player.act(ACTION.DIE, player.dir);
+    else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+      player.act(ACTION.ATTACK, player.dir);
     }
-    else if (!player.isDead)
+    else if (!player.isDead || player.isIdle)
       player.act(ACTION.IDLE);
   }
   

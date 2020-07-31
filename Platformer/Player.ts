@@ -23,6 +23,7 @@ namespace Platformer {
         public dir: DIRECTION = DIRECTION.RIGHT;
         public speed: f.Vector3 = f.Vector3.ZERO();
         public isDead: boolean = false;
+        public isIdle: boolean = true;
         private action: ACTION;
 
         constructor(_name: string = "Player", scaleX: number, scaleY: number) {
@@ -38,29 +39,38 @@ namespace Platformer {
         public static generateSprites(_spritesheet: f.CoatTextured): void {
             Player.animations = {};
 
-            let sprite: fAid.SpriteSheetAnimation = new fAid.SpriteSheetAnimation(ACTION.JUMP, _spritesheet);
+            let sprite: fAid.SpriteSheetAnimation = new fAid.SpriteSheetAnimation(ACTION.IDLE, _spritesheet);
             // sprite.generateByGrid(f.Rectangle.GET(85, 70, 198, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             sprite.generateByGrid(f.Rectangle.GET(85, 70, 300, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.JUMP] = sprite;
+            Player.animations[ACTION.IDLE] = sprite;
             for (let i: number = 0; i < 8; i++) {
-                sprite.frames[i].timeScale = 1.5;
+                sprite.frames[i].timeScale = 2;
             }
 
             sprite = new fAid.SpriteSheetAnimation(ACTION.WALK, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 455, 350, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             Player.animations[ACTION.WALK] = sprite;
             
-            sprite = new fAid.SpriteSheetAnimation(ACTION.IDLE, _spritesheet);
+            sprite = new fAid.SpriteSheetAnimation(ACTION.JUMP, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 850, 300, 250), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.IDLE] = sprite;
+            Player.animations[ACTION.JUMP] = sprite;
             for (let i: number = 0; i < 3; i++) {
-                sprite.frames[i].timeScale = 12;
+                sprite.frames[i].timeScale = 3;
+            }
+
+            sprite = new fAid.SpriteSheetAnimation(ACTION.ATTACK, _spritesheet);
+            sprite.generateByGrid(f.Rectangle.GET(85, 1570, 360, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+            Player.animations[ACTION.ATTACK] = sprite;
+            for (let i: number = 0; i < 8; i++) {
+                sprite.frames[i].timeScale = 2;
             }
 
             sprite = new fAid.SpriteSheetAnimation(ACTION.DIE, _spritesheet);
-            sprite.generateByGrid(f.Rectangle.GET(85, 1000, 350, 283), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(f.Rectangle.GET(85, 1170, 380, 283), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             Player.animations[ACTION.DIE] = sprite;
-           
+            for (let i: number = 0; i < 3; i++) {
+                sprite.frames[i].timeScale = 10 ;
+            }
             
         }
 
@@ -77,15 +87,19 @@ namespace Platformer {
                     this.speed.x = 0;
                     break;
                 case ACTION.WALK:
+                    this.isIdle = false;
                     let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
                     this.speed.x = Player.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break; 
                 case ACTION.JUMP:
+                    this.isIdle = false;
                     this.speed.y = 2.5;
                     this.speed.x = 2.5;
                     break;
                 case ACTION.DIE:
+                    this.isIdle = false;
+                    this.isDead = true;
                     this.speed.x = 0;
                     break;
             }
@@ -103,10 +117,10 @@ namespace Platformer {
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
       
-            this.checkCollision();
+            this.checkPlatformCollision();
         }
 
-        private checkCollision(): void {
+        private checkPlatformCollision(): void {
             for (let platform of level.getChildren()) {
                 let rect: f.Rectangle = (<Platform> platform).getRectWorld();
                 let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
@@ -115,6 +129,7 @@ namespace Platformer {
                     let translation: f.Vector3 = this.cmpTransform.local.translation;
                     translation.y = rect.y;
                     this.cmpTransform.local.translation = translation;
+                    this.isIdle = true;
                     this.speed.y = 0;
                 }
             }
