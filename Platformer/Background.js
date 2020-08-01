@@ -3,15 +3,14 @@ var Platformer;
 (function (Platformer) {
     var f = FudgeCore;
     class Background extends f.Node {
-        constructor(width, sprite) {
+        constructor(posX, sprite) {
             super("Background");
             this.name = name;
-            this.width = width;
             this.addComponent(new f.ComponentTransform);
             let coat = new f.CoatTextured();
             coat.texture = sprite;
             let pivot = new f.Matrix4x4();
-            pivot.translate(new f.Vector3(0, 0, 0));
+            pivot.translate(new f.Vector3(posX - 0.5, 0, -1));
             let cmpMesh = new f.ComponentMesh(Background.mesh);
             cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);

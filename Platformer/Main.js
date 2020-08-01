@@ -9,16 +9,18 @@ var Platformer;
     function test() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
-        let img = document.querySelector("img");
-        let spritesheet = fAid.createSpriteSheet("Player", img);
+        let playerImg = document.querySelector("img.player");
+        let spritesheet = fAid.createSpriteSheet("Player", playerImg);
         Platformer.Player.generateSprites(spritesheet);
         Platformer.game = new f.Node("Game");
         player = new Platformer.Player("Player 1", 0.15, 0.15);
-        Platformer.level = createLevel();
+        Platformer.level = createPlatform();
+        createBackground();
         Platformer.game.appendChild(Platformer.level);
         Platformer.game.appendChild(player);
+        // game.appendChild(background);
         cmpCamera = new f.ComponentCamera();
-        cmpCamera.pivot.translateZ(6);
+        cmpCamera.pivot.translateZ(30);
         cmpCamera.pivot.lookAt(f.Vector3.ZERO());
         cmpCamera.backgroundColor = f.Color.CSS("lightgreen");
         let viewport = new f.Viewport();
@@ -59,35 +61,120 @@ var Platformer;
         else if (!player.isDead || player.isIdle)
             player.act(Platformer.ACTION.IDLE);
     }
-    function createLevel() {
+    function camMovement() {
+        let playerPos = player.cmpTransform.local.translation;
+        cmpCamera.pivot.translation = new f.Vector3(playerPos.x, playerPos.y + 0.5, cmpCamera.pivot.translation.z);
+    }
+    // create Environment
+    function createBackground() {
+        let width = 6;
+        let texture = new f.TextureImage();
+        let bgImg = document.querySelector("img.background");
+        for (let i = 0; i < width; i++) {
+            texture.image = bgImg;
+            let bg = new Platformer.Background(i, texture);
+            bg.cmpTransform.local.scaleY(3 * 2);
+            bg.cmpTransform.local.scaleX(3 * 2);
+            Platformer.game.appendChild(bg);
+        }
+    }
+    function createPlatform() {
         let level = new f.Node("Level");
         let platform = new Platformer.Platform();
         platform.cmpTransform.local.scaleY(0.2);
-        platform.cmpTransform.local.translateY(-2);
+        platform.cmpTransform.local.translateY(-3);
         level.appendChild(platform);
         platform = new Platformer.Platform();
-        platform.cmpTransform.local.translateX(2);
-        platform.cmpTransform.local.translateY(0.1);
+        platform.cmpTransform.local.translateY(-0.6);
+        platform.cmpTransform.local.translateX(-3.5);
+        platform.cmpTransform.local.scaleY(1);
+        platform.cmpTransform.local.scaleX(2);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-2);
+        platform.cmpTransform.local.translateX(-5.3);
+        platform.cmpTransform.local.scaleY(0.5);
+        platform.cmpTransform.local.scaleX(1);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1.6);
+        platform.cmpTransform.local.translateX(0);
+        platform.cmpTransform.local.scaleY(0.5);
+        platform.cmpTransform.local.scaleX(5);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1.6);
+        platform.cmpTransform.local.translateX(6);
+        platform.cmpTransform.local.scaleY(0.5);
+        platform.cmpTransform.local.scaleX(5);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1);
+        platform.cmpTransform.local.translateX(6);
+        platform.cmpTransform.local.scaleY(1);
+        platform.cmpTransform.local.scaleX(1);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1.3);
+        platform.cmpTransform.local.translateX(5.35);
+        platform.cmpTransform.local.scaleY(0.3);
+        platform.cmpTransform.local.scaleX(0.3);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateX(8);
+        platform.cmpTransform.local.translateY(-0.6);
+        platform.cmpTransform.local.scaleY(0.3);
+        platform.cmpTransform.local.scaleX(0.3);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1.6);
+        platform.cmpTransform.local.translateX(9.5);
+        platform.cmpTransform.local.scaleY(0.3);
+        platform.cmpTransform.local.scaleX(0.3);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1.6);
+        platform.cmpTransform.local.translateX(11);
+        platform.cmpTransform.local.scaleY(0.3);
+        platform.cmpTransform.local.scaleX(0.3);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateX(10);
+        platform.cmpTransform.local.translateY(-0.3);
         platform.cmpTransform.local.scaleY(0.2);
         platform.cmpTransform.local.scaleX(2);
         level.appendChild(platform);
         platform = new Platformer.Platform();
         platform.cmpTransform.local.translateY(-1.6);
-        platform.cmpTransform.local.translateX(-2.2);
+        platform.cmpTransform.local.translateX(14);
+        platform.cmpTransform.local.scaleY(1);
+        platform.cmpTransform.local.scaleX(4);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-1.1);
+        platform.cmpTransform.local.translateX(17);
         platform.cmpTransform.local.scaleY(0.5);
-        platform.cmpTransform.local.scaleX(10);
+        platform.cmpTransform.local.scaleX(2);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-0.6);
+        platform.cmpTransform.local.translateX(20);
+        platform.cmpTransform.local.scaleY(0.5);
+        platform.cmpTransform.local.scaleX(2);
+        level.appendChild(platform);
+        platform = new Platformer.Platform();
+        platform.cmpTransform.local.translateY(-2.2);
+        platform.cmpTransform.local.translateX(18);
+        platform.cmpTransform.local.scaleY(0.4);
+        platform.cmpTransform.local.scaleX(4);
         level.appendChild(platform);
         platform = new Platformer.Platform();
         platform.cmpTransform.local.translateY(-1.6);
-        platform.cmpTransform.local.translateX(9);
+        platform.cmpTransform.local.translateX(26);
         platform.cmpTransform.local.scaleY(0.5);
-        platform.cmpTransform.local.scaleX(10);
+        platform.cmpTransform.local.scaleX(7.29);
         level.appendChild(platform);
         return level;
-    }
-    function camMovement() {
-        let playerPos = player.cmpTransform.local.translation;
-        cmpCamera.pivot.translation = new f.Vector3(playerPos.x, playerPos.y + 0.5, cmpCamera.pivot.translation.z);
     }
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

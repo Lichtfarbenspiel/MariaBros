@@ -17,7 +17,7 @@ namespace Platformer {
     export class Player extends fAid.NodeSprite {
         
         private static animations: fAid.SpriteSheetAnimations;
-        private static maxSpeed: f.Vector2 = new f.Vector2(2, 5);
+        private static maxSpeed: f.Vector2 = new f.Vector2(5, 5);
         private static gravity: f.Vector2 = f.Vector2.Y(-3.5);
 
         public dir: DIRECTION = DIRECTION.RIGHT;
@@ -44,7 +44,7 @@ namespace Platformer {
             sprite.generateByGrid(f.Rectangle.GET(85, 70, 300, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             Player.animations[ACTION.IDLE] = sprite;
             for (let i: number = 0; i < 8; i++) {
-                sprite.frames[i].timeScale = 2;
+                sprite.frames[i].timeScale = 2.5;
             }
 
             sprite = new fAid.SpriteSheetAnimation(ACTION.WALK, _spritesheet);
@@ -95,7 +95,6 @@ namespace Platformer {
                 case ACTION.JUMP:
                     this.isIdle = false;
                     this.speed.y = 2.5;
-                    this.speed.x = 2.5;
                     break;
                 case ACTION.DIE:
                     this.isIdle = false;

@@ -43,7 +43,7 @@ var Platformer;
             sprite.generateByGrid(f.Rectangle.GET(85, 70, 300, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             Player.animations[ACTION.IDLE] = sprite;
             for (let i = 0; i < 8; i++) {
-                sprite.frames[i].timeScale = 2;
+                sprite.frames[i].timeScale = 2.5;
             }
             sprite = new fAid.SpriteSheetAnimation(ACTION.WALK, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 455, 350, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
@@ -87,7 +87,6 @@ var Platformer;
                 case ACTION.JUMP:
                     this.isIdle = false;
                     this.speed.y = 2.5;
-                    this.speed.x = 2.5;
                     break;
                 case ACTION.DIE:
                     this.isIdle = false;
@@ -114,7 +113,7 @@ var Platformer;
             }
         }
     }
-    Player.maxSpeed = new f.Vector2(2, 5);
+    Player.maxSpeed = new f.Vector2(5, 5);
     Player.gravity = f.Vector2.Y(-3.5);
     Platformer.Player = Player;
 })(Platformer || (Platformer = {}));
