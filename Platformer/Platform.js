@@ -2,20 +2,47 @@
 var Platformer;
 (function (Platformer) {
     var f = FudgeCore;
+    let TILE;
+    (function (TILE) {
+        TILE["TILE_LEFT"] = "tile_left";
+        TILE["TILE_MIDDLE"] = "tile_middle";
+        TILE["TILE_RIGHT"] = "tile_right";
+    })(TILE = Platformer.TILE || (Platformer.TILE = {}));
+    let TYPE;
+    (function (TYPE) {
+        TYPE["GROUND"] = "ground";
+        TYPE["UNDERGROUND"] = "underground";
+        TYPE["FLOATING"] = "floating";
+        TYPE["WATER"] = "water";
+        TYPE["UNDERWATER"] = "underwater";
+    })(TYPE = Platformer.TYPE || (Platformer.TYPE = {}));
     class Platform extends f.Node {
-        constructor() {
+        constructor(posX, posY, posZ = 0, type, tiles, height = 1) {
             super("Platform");
+            this.width = tiles;
+            this.height = height;
             this.addComponent(new ƒ.ComponentTransform());
-            this.addComponent(new ƒ.ComponentMaterial(Platform.material));
-            let cmpMesh = new ƒ.ComponentMesh(Platform.mesh);
-            //cmpMesh.pivot.translateY(-0.5);
-            cmpMesh.pivot = Platform.pivot;
+            let pivot = new f.Matrix4x4();
+            pivot.translate(new f.Vector3(posX, posY - 0.5, posZ));
+            let cmpMesh = new f.ComponentMesh(Platform.mesh);
+            cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);
+            for (let i = 0; i < tiles; i++) {
+                let tileType;
+                if (i == 0)
+                    tileType = TILE.TILE_LEFT;
+                else if (i == tiles - 1)
+                    tileType = TILE.TILE_RIGHT;
+                else
+                    tileType = TILE.TILE_MIDDLE;
+                let tile = new Platformer.Tile(i, type, tileType);
+                this.appendChild(tile);
+            }
         }
         getRectWorld() {
-            let rect = f.Rectangle.GET(0, 0, 100, 100);
-            let topLeft = new f.Vector3(-0.5, 0.5, 0);
-            let bottomRight = new f.Vector3(0.5, -0.5, 0);
+            let rect = f.Rectangle.GET(0, 0, this.width, this.height);
+            let topLeft = new f.Vector3(-this.width / 1.8, this.height / 2, 0);
+            let bottomRight = new f.Vector3(this.width / 1.8, -this.height / 2, 0);
             let mtxResult = f.Matrix4x4.MULTIPLICATION(this.mtxWorld, Platform.pivot);
             topLeft.transform(mtxResult, true);
             bottomRight.transform(mtxResult, true);
@@ -26,7 +53,7 @@ var Platformer;
         }
     }
     Platform.mesh = new f.MeshSprite();
-    Platform.material = new f.Material("Platform", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("green")));
+    // private static material: f.Material = new f.Material("Platform", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("green")));
     Platform.pivot = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
     Platformer.Platform = Platform;
 })(Platformer || (Platformer = {}));

@@ -120,7 +120,7 @@ namespace Platformer {
         }
 
         private checkPlatformCollision(): void {
-            for (let platform of level.getChildren()) {
+            for (let platform of level.getChildren()) { 
                 let rect: f.Rectangle = (<Platform> platform).getRectWorld();
                 let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
                 

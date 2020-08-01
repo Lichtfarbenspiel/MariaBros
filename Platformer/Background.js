@@ -5,7 +5,6 @@ var Platformer;
     class Background extends f.Node {
         constructor(posX, sprite) {
             super("Background");
-            this.name = name;
             this.addComponent(new f.ComponentTransform);
             let coat = new f.CoatTextured();
             coat.texture = sprite;

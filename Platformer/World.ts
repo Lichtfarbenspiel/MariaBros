@@ -25,31 +25,31 @@ namespace Platformer {
 
         private createPlatform(): f.Node {
             let level: f.Node = new f.Node("Level");
-            let platform: Platform = new Platform();
-            platform.cmpTransform.local.scaleY(0.2);
-            platform.cmpTransform.local.translateY(-2);
-            level.appendChild(platform);
+            // let platform: Platform = new Platform();
+            // platform.cmpTransform.local.scaleY(0.2);
+            // platform.cmpTransform.local.translateY(-2);
+            // level.appendChild(platform);
         
-            platform = new Platform();
-            platform.cmpTransform.local.translateX(2);
-            platform.cmpTransform.local.translateY(0.1);
-            platform.cmpTransform.local.scaleY(0.2);
-            platform.cmpTransform.local.scaleX(2);
-            level.appendChild(platform);
+            // platform = new Platform();
+            // platform.cmpTransform.local.translateX(2);
+            // platform.cmpTransform.local.translateY(0.1);
+            // platform.cmpTransform.local.scaleY(0.2);
+            // platform.cmpTransform.local.scaleX(2);
+            // level.appendChild(platform);
         
-            platform = new Platform();
-            platform.cmpTransform.local.translateY(-1.6);
-            platform.cmpTransform.local.translateX(-2.2);
-            platform.cmpTransform.local.scaleY(0.5);
-            platform.cmpTransform.local.scaleX(10);
-            level.appendChild(platform);
+            // platform = new Platform();
+            // platform.cmpTransform.local.translateY(-1.6);
+            // platform.cmpTransform.local.translateX(-2.2);
+            // platform.cmpTransform.local.scaleY(0.5);
+            // platform.cmpTransform.local.scaleX(10);
+            // level.appendChild(platform);
         
-            platform = new Platform();
-            platform.cmpTransform.local.translateY(-1.6);
-            platform.cmpTransform.local.translateX(9);
-            platform.cmpTransform.local.scaleY(0.5);
-            platform.cmpTransform.local.scaleX(10);
-            level.appendChild(platform);
+            // platform = new Platform();
+            // platform.cmpTransform.local.translateY(-1.6);
+            // platform.cmpTransform.local.translateX(9);
+            // platform.cmpTransform.local.scaleY(0.5);
+            // platform.cmpTransform.local.scaleX(10);
+            // level.appendChild(platform);
         
             return level;
           } 

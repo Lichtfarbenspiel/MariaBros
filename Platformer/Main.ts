@@ -23,14 +23,12 @@ namespace Platformer {
     game.appendChild(level);
     game.appendChild(player);
 
-   
-
     // game.appendChild(background);
 
     cmpCamera = new f.ComponentCamera();
-    cmpCamera.pivot.translateZ(30);
+    cmpCamera.pivot.translateZ(10);
     cmpCamera.pivot.lookAt(f.Vector3.ZERO());
-    cmpCamera.backgroundColor = f.Color.CSS("lightgreen");
+    cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
 
     let viewport: f.Viewport = new f.Viewport();
     viewport.initialize("Viewport", game, cmpCamera, canvas);
@@ -102,115 +100,126 @@ namespace Platformer {
 
   function createPlatform(): f.Node {
     let level: f.Node = new f.Node("Level");
-    let platform: Platform = new Platform();
-    platform.cmpTransform.local.scaleY(0.2);
-    platform.cmpTransform.local.translateY(-3);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-0.6);
-    platform.cmpTransform.local.translateX(-3.5);
-    platform.cmpTransform.local.scaleY(1);
-    platform.cmpTransform.local.scaleX(2);
-    level.appendChild(platform);
+    level.appendChild(new Platform(0, -1, 0, TYPE.GROUND, 3));
+  
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-2);
-    platform.cmpTransform.local.translateX(-5.3);
-    platform.cmpTransform.local.scaleY(0.5);
-    platform.cmpTransform.local.scaleX(1);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.6);
-    platform.cmpTransform.local.translateX(0);
-    platform.cmpTransform.local.scaleY(0.5);
-    platform.cmpTransform.local.scaleX(5);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.6);
-    platform.cmpTransform.local.translateX(6);
-    platform.cmpTransform.local.scaleY(0.5);
-    platform.cmpTransform.local.scaleX(5);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1);
-    platform.cmpTransform.local.translateX(6);
-    platform.cmpTransform.local.scaleY(1);
-    platform.cmpTransform.local.scaleX(1);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.3);
-    platform.cmpTransform.local.translateX(5.35);
-    platform.cmpTransform.local.scaleY(0.3);
-    platform.cmpTransform.local.scaleX(0.3);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateX(8);
-    platform.cmpTransform.local.translateY(-0.6);
-    platform.cmpTransform.local.scaleY(0.3);
-    platform.cmpTransform.local.scaleX(0.3);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.6);
-    platform.cmpTransform.local.translateX(9.5);
-    platform.cmpTransform.local.scaleY(0.3);
-    platform.cmpTransform.local.scaleX(0.3);
-    level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.6);
-    platform.cmpTransform.local.translateX(11);
-    platform.cmpTransform.local.scaleY(0.3);
-    platform.cmpTransform.local.scaleX(0.3);
-    level.appendChild(platform);
+      // let platform: Platform = new Platform();
+      // platform.cmpTransform.local.scaleY(0.2);
+      // platform.cmpTransform.local.translateY(-3);
+      // level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateX(10);
-    platform.cmpTransform.local.translateY(-0.3);
-    platform.cmpTransform.local.scaleY(0.2);
-    platform.cmpTransform.local.scaleX(2);
-    level.appendChild(platform);
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-0.6);
+      // platform.cmpTransform.local.translateX(-3.5);
+      // platform.cmpTransform.local.scaleY(1);
+      // platform.cmpTransform.local.scaleX(2);
+      // level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.6);
-    platform.cmpTransform.local.translateX(14);
-    platform.cmpTransform.local.scaleY(1);
-    platform.cmpTransform.local.scaleX(4);
-    level.appendChild(platform);
-    
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.1);
-    platform.cmpTransform.local.translateX(17);
-    platform.cmpTransform.local.scaleY(0.5);
-    platform.cmpTransform.local.scaleX(2);
-    level.appendChild(platform);
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-2);
+      // platform.cmpTransform.local.translateX(-5.3);
+      // platform.cmpTransform.local.scaleY(0.5);
+      // platform.cmpTransform.local.scaleX(1);
+      // level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-0.6);
-    platform.cmpTransform.local.translateX(20);
-    platform.cmpTransform.local.scaleY(0.5);
-    platform.cmpTransform.local.scaleX(2);
-    level.appendChild(platform);
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.6);
+      // platform.cmpTransform.local.translateX(0);
+      // platform.cmpTransform.local.scaleY(0.5);
+      // platform.cmpTransform.local.scaleX(5);
+      // level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-2.2);
-    platform.cmpTransform.local.translateX(18);
-    platform.cmpTransform.local.scaleY(0.4);
-    platform.cmpTransform.local.scaleX(4);
-    level.appendChild(platform);
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.6);
+      // platform.cmpTransform.local.translateX(6);
+      // platform.cmpTransform.local.scaleY(0.5);
+      // platform.cmpTransform.local.scaleX(5);
+      // level.appendChild(platform);
 
-    platform = new Platform();
-    platform.cmpTransform.local.translateY(-1.6);
-    platform.cmpTransform.local.translateX(26);
-    platform.cmpTransform.local.scaleY(0.5);
-    platform.cmpTransform.local.scaleX(7.29);
-    level.appendChild(platform);
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1);
+      // platform.cmpTransform.local.translateX(6);
+      // platform.cmpTransform.local.scaleY(1);
+      // platform.cmpTransform.local.scaleX(1);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.3);
+      // platform.cmpTransform.local.translateX(5.35);
+      // platform.cmpTransform.local.scaleY(0.3);
+      // platform.cmpTransform.local.scaleX(0.3);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateX(8);
+      // platform.cmpTransform.local.translateY(-0.6);
+      // platform.cmpTransform.local.scaleY(0.3);
+      // platform.cmpTransform.local.scaleX(0.3);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.6);
+      // platform.cmpTransform.local.translateX(9.5);
+      // platform.cmpTransform.local.scaleY(0.3);
+      // platform.cmpTransform.local.scaleX(0.3);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.6);
+      // platform.cmpTransform.local.translateX(11);
+      // platform.cmpTransform.local.scaleY(0.3);
+      // platform.cmpTransform.local.scaleX(0.3);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateX(10);
+      // platform.cmpTransform.local.translateY(-0.3);
+      // platform.cmpTransform.local.scaleY(0.2);
+      // platform.cmpTransform.local.scaleX(2);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.6);
+      // platform.cmpTransform.local.translateX(14);
+      // platform.cmpTransform.local.scaleY(1);
+      // platform.cmpTransform.local.scaleX(4);
+      // level.appendChild(platform);
+      
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.1);
+      // platform.cmpTransform.local.translateX(17);
+      // platform.cmpTransform.local.scaleY(0.5);
+      // platform.cmpTransform.local.scaleX(2);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-0.6);
+      // platform.cmpTransform.local.translateX(20);
+      // platform.cmpTransform.local.scaleY(0.5);
+      // platform.cmpTransform.local.scaleX(2);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-2.2);
+      // platform.cmpTransform.local.translateX(18);
+      // platform.cmpTransform.local.scaleY(0.4);
+      // platform.cmpTransform.local.scaleX(4);
+      // level.appendChild(platform);
+
+      // platform = new Platform();
+      // platform.cmpTransform.local.translateY(-1.6);
+      // platform.cmpTransform.local.translateX(26);
+      // platform.cmpTransform.local.scaleY(0.5);
+      // platform.cmpTransform.local.scaleX(7.29);
+      // level.appendChild(platform);
 
     return level;
   } 

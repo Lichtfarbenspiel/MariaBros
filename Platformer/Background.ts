@@ -3,11 +3,9 @@ namespace Platformer {
 
     export class Background extends f.Node {
         private static mesh: f.MeshSprite = new f.MeshSprite();
-        public name: string;
 
         public constructor(posX: number, sprite: f.TextureImage) {
             super("Background");
-            this.name = name;
 
             this.addComponent(new f.ComponentTransform);
             let coat: f.CoatTextured = new f.CoatTextured();
