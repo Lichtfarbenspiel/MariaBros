@@ -6,9 +6,9 @@ namespace Platformer {
 
   export let game: f.Node;
   export let level: f.Node;
+  export let objects: f.Node;
 
   let player: Player;
-  let objects: f.Node;
   let cmpCamera: f.ComponentCamera;
 
   function test(): void {
@@ -23,9 +23,14 @@ namespace Platformer {
     level = createPlatform();
     objects = addObjects();
 
+    let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
+    let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
+    let enemy: Enemy = new Enemy("Frog", -1, -1, 1.5, 1.5, ENEMY.FROG, sprite);
+
     game.appendChild(player);
     game.appendChild(level);
     game.appendChild(objects);
+    game.appendChild(enemy);
 
     createBackground();
     
@@ -152,16 +157,16 @@ namespace Platformer {
     return level;
   } 
 
-  function addObjects(): f.Node{
+  function addObjects(): f.Node {
     let objects: f.Node = new f.Node("Objects");
 
-    objects.appendChild(new Object(-5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_2));
-    objects.appendChild(new Object(-5.5, -1.6, -0.1, 1, 0.5, TYPE.BUSH_1));
+    objects.appendChild(new Object("Baum1", -5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_2));
+    objects.appendChild(new Object("Busch1", -5.5, -1.6, -0.1, 1, 0.5, TYPE.BUSH_1));
 
-    objects.appendChild(new Object(-1.5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_1));
-    objects.appendChild(new Object(-0.9, -1.6, -0.2, 1, 0.5, TYPE.BUSH_3));
-    objects.appendChild(new Object(-0.6, -1.6, -0.1, 0.5, 0.5, TYPE.ARROW_SIGN));
-    objects.appendChild(new Object(0.8, -1.6, 0, 0.4, 0.4, TYPE.BOX));
+    objects.appendChild(new Object("Baum2", -1.5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_1));
+    objects.appendChild(new Object("Busch2", -0.9, -1.6, -0.2, 1, 0.5, TYPE.BUSH_3));
+    objects.appendChild(new Object("Schild1", -0.6, -1.6, -0.1, 0.5, 0.5, TYPE.ARROW_SIGN));
+    objects.appendChild(new Object("Box1", 0.8, -1.6, 0, 0.4, 0.4, TYPE.BOX));
 
     return objects;
   }

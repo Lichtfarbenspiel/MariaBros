@@ -27,9 +27,10 @@ namespace Platformer {
 
         private objectIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.object");
 
-        public constructor(posX: number, posY: number, posZ: number = 0, scaleX: number = 1, scaleY: number = 1, type: TYPE) {
-            super("Object");
+        public constructor(name: string, posX: number, posY: number, posZ: number = 0, scaleX: number = 1, scaleY: number = 1, type: TYPE) {
             
+            super(name);
+    
             this.width = scaleX;
             this.height = scaleY;
             this.type = type;
@@ -46,7 +47,6 @@ namespace Platformer {
 
             let material: f.Material = new f.Material(type.toString(), f.ShaderTexture, coat);
             this.addComponent(new f.ComponentMaterial(material));
-        
         }
 
         public getRectWorld(): f.Rectangle {

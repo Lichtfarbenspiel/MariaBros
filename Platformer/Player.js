@@ -3,66 +3,59 @@ var Platformer;
 (function (Platformer) {
     var f = FudgeCore;
     var fAid = FudgeAid;
-    let ACTION;
-    (function (ACTION) {
-        ACTION["IDLE"] = "idle";
-        ACTION["WALK"] = "walk";
-        ACTION["JUMP"] = "jump";
-        ACTION["ATTACK"] = "attack";
-        ACTION["DIE"] = "die";
-    })(ACTION = Platformer.ACTION || (Platformer.ACTION = {}));
-    let DIRECTION;
-    (function (DIRECTION) {
-        DIRECTION[DIRECTION["LEFT"] = 0] = "LEFT";
-        DIRECTION[DIRECTION["RIGHT"] = 1] = "RIGHT";
-    })(DIRECTION = Platformer.DIRECTION || (Platformer.DIRECTION = {}));
-    class Player extends fAid.NodeSprite {
+    // export enum DIRECTION {
+    //     LEFT, RIGHT
+    // }
+    class Player extends Platformer.Character {
+        // private static animations: fAid.SpriteSheetAnimations;
+        // private static maxSpeed: f.Vector2 = new f.Vector2(5, 5);
+        // private static gravity: f.Vector2 = f.Vector2.Y(-3.5);
+        // public dir: DIRECTION = DIRECTION.RIGHT;
+        // public speed: f.Vector3 = f.Vector3.ZERO();
+        // public isDead: boolean = false;
+        // public isIdle: boolean = true;
         constructor(_name = "Player", scaleX, scaleY) {
             super(_name);
-            this.dir = DIRECTION.RIGHT;
-            this.speed = f.Vector3.ZERO();
-            this.isDead = false;
-            this.isIdle = true;
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
                 this.speed.y += Player.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
-                this.checkPlatformCollision();
+                super.checkPlatformCollision();
             };
             this.addComponent(new f.ComponentTransform());
             // this.mtxWorld.translation = new f.Vector3(posX, posY, 0);
             this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
-            this.show(ACTION.IDLE);
+            this.show(Platformer.ACTION.IDLE);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
         }
         static generateSprites(_spritesheet) {
             Player.animations = {};
-            let sprite = new fAid.SpriteSheetAnimation(ACTION.IDLE, _spritesheet);
+            let sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.IDLE, _spritesheet);
             // sprite.generateByGrid(f.Rectangle.GET(85, 70, 198, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             sprite.generateByGrid(f.Rectangle.GET(85, 70, 300, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.IDLE] = sprite;
+            Player.animations[Platformer.ACTION.IDLE] = sprite;
             for (let i = 0; i < 8; i++) {
                 sprite.frames[i].timeScale = 2.5;
             }
-            sprite = new fAid.SpriteSheetAnimation(ACTION.WALK, _spritesheet);
+            sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.WALK, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 455, 350, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.WALK] = sprite;
-            sprite = new fAid.SpriteSheetAnimation(ACTION.JUMP, _spritesheet);
+            Player.animations[Platformer.ACTION.WALK] = sprite;
+            sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.JUMP, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 850, 300, 250), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.JUMP] = sprite;
+            Player.animations[Platformer.ACTION.JUMP] = sprite;
             for (let i = 0; i < 3; i++) {
                 sprite.frames[i].timeScale = 3;
             }
-            sprite = new fAid.SpriteSheetAnimation(ACTION.ATTACK, _spritesheet);
+            sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.ATTACK, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 1570, 360, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.ATTACK] = sprite;
+            Player.animations[Platformer.ACTION.ATTACK] = sprite;
             for (let i = 0; i < 8; i++) {
                 sprite.frames[i].timeScale = 2;
             }
-            sprite = new fAid.SpriteSheetAnimation(ACTION.DIE, _spritesheet);
+            sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.DIE, _spritesheet);
             sprite.generateByGrid(f.Rectangle.GET(85, 1170, 380, 283), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
-            Player.animations[ACTION.DIE] = sprite;
+            Player.animations[Platformer.ACTION.DIE] = sprite;
             for (let i = 0; i < 3; i++) {
                 sprite.frames[i].timeScale = 10;
             }
@@ -75,20 +68,20 @@ var Platformer;
         }
         act(_action, _direction) {
             switch (_action) {
-                case ACTION.IDLE:
+                case Platformer.ACTION.IDLE:
                     this.speed.x = 0;
                     break;
-                case ACTION.WALK:
+                case Platformer.ACTION.WALK:
                     this.isIdle = false;
-                    let direction = (_direction == DIRECTION.RIGHT ? 1 : -1);
+                    let direction = (_direction == Platformer.DIRECTION.RIGHT ? 1 : -1);
                     this.speed.x = Player.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
-                case ACTION.JUMP:
+                case Platformer.ACTION.JUMP:
                     this.isIdle = false;
                     this.speed.y = 2.5;
                     break;
-                case ACTION.DIE:
+                case Platformer.ACTION.DIE:
                     this.isIdle = false;
                     this.isDead = true;
                     this.speed.x = 0;
@@ -99,25 +92,7 @@ var Platformer;
             this.action = _action;
             this.show(_action);
         }
-        checkPlatformCollision() {
-            for (let platform of Platformer.level.getChildren()) {
-                let rect = platform.getRectWorld();
-                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (platform.type == Platformer.TYPE.WATER || platform.type == Platformer.TYPE.UNDERWATER || platform.type == Platformer.TYPE.MIDDLEGROUND || platform.type == Platformer.TYPE.UNDERGROUND) {
-                    hit = false;
-                }
-                if (hit) {
-                    let translation = this.cmpTransform.local.translation;
-                    translation.y = rect.y;
-                    this.cmpTransform.local.translation = translation;
-                    this.isIdle = true;
-                    this.speed.y = 0;
-                }
-            }
-        }
     }
-    Player.maxSpeed = new f.Vector2(5, 5);
-    Player.gravity = f.Vector2.Y(-3.5);
     Platformer.Player = Player;
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Player.js.map

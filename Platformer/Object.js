@@ -19,8 +19,8 @@ var Platformer;
         TYPE["TREE_2"] = "tree_2";
     })(TYPE = Platformer.TYPE || (Platformer.TYPE = {}));
     class Object extends f.Node {
-        constructor(posX, posY, posZ = 0, scaleX = 1, scaleY = 1, type) {
-            super("Object");
+        constructor(name, posX, posY, posZ = 0, scaleX = 1, scaleY = 1, type) {
+            super(name);
             this.objectIMG = document.querySelectorAll("img.object");
             this.width = scaleX;
             this.height = scaleY;
