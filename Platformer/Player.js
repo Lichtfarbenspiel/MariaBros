@@ -103,6 +103,9 @@ var Platformer;
             for (let platform of Platformer.level.getChildren()) {
                 let rect = platform.getRectWorld();
                 let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                if (platform.type == Platformer.TYPE.WATER || platform.type == Platformer.TYPE.UNDERWATER || platform.type == Platformer.TYPE.MIDDLEGROUND || platform.type == Platformer.TYPE.UNDERGROUND) {
+                    hit = false;
+                }
                 if (hit) {
                     let translation = this.cmpTransform.local.translation;
                     translation.y = rect.y;

@@ -11,6 +11,7 @@ var Platformer;
     let TYPE;
     (function (TYPE) {
         TYPE["GROUND"] = "ground";
+        TYPE["MIDDLEGROUND"] = "middelground";
         TYPE["UNDERGROUND"] = "underground";
         TYPE["FLOATING"] = "floating";
         TYPE["WATER"] = "water";
@@ -21,6 +22,7 @@ var Platformer;
             super("Platform");
             this.width = tiles;
             this.height = height;
+            this.type = type;
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
             let pivot = new f.Matrix4x4();
@@ -30,29 +32,29 @@ var Platformer;
             this.addComponent(cmpMesh);
             let tile;
             for (let i = 0; i < tiles; i++) {
-                let tileType;
+                let tilePos;
                 if (tiles != 1) {
                     if (i == 0)
-                        tileType = TILE.TILE_LEFT;
+                        tilePos = TILE.TILE_LEFT;
                     else if (i == tiles - 1)
-                        tileType = TILE.TILE_RIGHT;
+                        tilePos = TILE.TILE_RIGHT;
                     else
-                        tileType = TILE.TILE_MIDDLE;
-                    tile = new Platformer.Tile(i - (tiles / 2.8), type, tileType);
+                        tilePos = TILE.TILE_MIDDLE;
+                    tile = new Platformer.Tile(i - (tiles / 2.8), this.type, tilePos);
                     this.appendChild(tile);
                 }
                 else {
                     for (let j = 0; j < 2; j++) {
                         switch (j) {
                             case 0:
-                                tileType = TILE.TILE_LEFT;
+                                tilePos = TILE.TILE_LEFT;
                                 break;
                             case 1:
-                                tileType = TILE.TILE_RIGHT;
+                                tilePos = TILE.TILE_RIGHT;
                                 break;
                         }
-                        tile = new Platformer.Tile(j - (j / 2), type, tileType);
-                        tile.cmpTransform.local.scaling = new f.Vector3(0.5, 1);
+                        tile = new Platformer.Tile(j - (j / 2), this.type, tilePos);
+                        tile.cmpTransform.local.scaleX(0.5);
                         this.appendChild(tile);
                     }
                 }

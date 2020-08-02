@@ -39,7 +39,7 @@ var Platformer;
                         texture.image = this.platformIMG[1];
                     }
                     break;
-                case Platformer.TYPE.UNDERGROUND:
+                case Platformer.TYPE.MIDDLEGROUND:
                     // first file on the left
                     if (tile == Platformer.TILE.TILE_LEFT || tile == null) {
                         texture.image = this.platformIMG[3];
@@ -53,7 +53,7 @@ var Platformer;
                         texture.image = this.platformIMG[4];
                     }
                     break;
-                case Platformer.TYPE.FLOATING:
+                case Platformer.TYPE.UNDERGROUND:
                     // first file on the left
                     if (tile == Platformer.TILE.TILE_LEFT || tile == null) {
                         texture.image = this.platformIMG[6];
@@ -67,11 +67,26 @@ var Platformer;
                         texture.image = this.platformIMG[7];
                     }
                     break;
+                case Platformer.TYPE.FLOATING:
+                    this.cmpTransform.local.scaleY(0.5);
+                    // first file on the left
+                    if (tile == Platformer.TILE.TILE_LEFT || tile == null) {
+                        texture.image = this.platformIMG[9];
+                    }
+                    // last file on the right
+                    else if (tile == Platformer.TILE.TILE_RIGHT) {
+                        texture.image = this.platformIMG[11];
+                    }
+                    // middle tile
+                    else if (tile == Platformer.TILE.TILE_MIDDLE) {
+                        texture.image = this.platformIMG[10];
+                    }
+                    break;
                 case Platformer.TYPE.WATER:
-                    texture.image = this.platformIMG[9];
+                    texture.image = this.platformIMG[12];
                     break;
                 case Platformer.TYPE.UNDERWATER:
-                    texture.image = this.platformIMG[10];
+                    texture.image = this.platformIMG[13];
                     break;
             }
             return texture;

@@ -115,7 +115,7 @@ namespace Platformer {
             this.speed.y += Player.gravity.y * timeFrame;
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
-      
+            
             this.checkPlatformCollision();
         }
 
@@ -123,6 +123,10 @@ namespace Platformer {
             for (let platform of level.getChildren()) { 
                 let rect: f.Rectangle = (<Platform> platform).getRectWorld();
                 let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+
+                if ((<Platform> platform).type == TYPE.WATER || (<Platform> platform).type == TYPE.UNDERWATER || (<Platform> platform).type == TYPE.MIDDLEGROUND  || (<Platform> platform).type == TYPE.UNDERGROUND ) {
+                    hit = false;
+                }
                 
                 if (hit) {
                     let translation: f.Vector3 = this.cmpTransform.local.translation;

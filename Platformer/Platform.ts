@@ -9,6 +9,7 @@ namespace Platformer {
 
     export enum TYPE {
         GROUND = "ground",
+        MIDDLEGROUND = "middelground",
         UNDERGROUND = "underground",
         FLOATING = "floating",
         WATER = "water",
@@ -23,12 +24,14 @@ namespace Platformer {
         // public platformIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.platform");
         public width: number;
         public height: number;
+        public type: TYPE;
 
         public constructor(posX: number, posY: number, posZ: number = 0, type: TYPE, tiles: number, height: number = 1) {
             super("Platform");
            
             this.width = tiles;
             this.height = height;
+            this.type = type;
 
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
@@ -39,19 +42,20 @@ namespace Platformer {
             let cmpMesh: f.ComponentMesh = new f.ComponentMesh(Platform.mesh);
             cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);
+            
             let tile: Tile;
             
             for (let i: number = 0; i < tiles; i++) {
-                let tileType: TILE;
+                let tilePos: TILE;
                 if (tiles != 1) {
                     if (i == 0)    
-                        tileType = TILE.TILE_LEFT;
+                        tilePos = TILE.TILE_LEFT;
                     else if (i == tiles - 1) 
-                        tileType = TILE.TILE_RIGHT;
+                        tilePos = TILE.TILE_RIGHT;
                     else 
-                        tileType = TILE.TILE_MIDDLE;
+                        tilePos = TILE.TILE_MIDDLE;
 
-                    tile = new Tile(i - (tiles / 2.8), type, tileType);
+                    tile = new Tile(i - (tiles / 2.8), this.type, tilePos);
                     this.appendChild(tile);
                 }
                 else  {
@@ -59,14 +63,14 @@ namespace Platformer {
                     
                         switch (j) {
                             case 0:
-                                tileType = TILE.TILE_LEFT;
+                                tilePos = TILE.TILE_LEFT;
                                 break;
                             case 1: 
-                                tileType = TILE.TILE_RIGHT;
+                                tilePos = TILE.TILE_RIGHT;
                                 break;
                         } 
-                        tile = new Tile(j - (j / 2), type, tileType);
-                        tile.cmpTransform.local.scaling = new f.Vector3(0.5, 1);
+                        tile = new Tile(j - (j / 2), this.type, tilePos);
+                        tile.cmpTransform.local.scaleX(0.5);
                         this.appendChild(tile);
                     }
                 }

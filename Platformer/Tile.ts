@@ -48,7 +48,7 @@ namespace Platformer {
                         texture.image = this.platformIMG[1];
                     }
                     break;
-                case TYPE.UNDERGROUND:
+                case TYPE.MIDDLEGROUND:
                     // first file on the left
                     if (tile == TILE.TILE_LEFT || tile == null) {
                         texture.image = this.platformIMG[3];
@@ -62,7 +62,7 @@ namespace Platformer {
                         texture.image = this.platformIMG[4];
                     }
                     break;
-                case TYPE.FLOATING:
+                case TYPE.UNDERGROUND:
                     // first file on the left
                     if (tile == TILE.TILE_LEFT || tile == null) {
                         texture.image = this.platformIMG[6];
@@ -74,13 +74,28 @@ namespace Platformer {
                     // middle tile
                     else if (tile == TILE.TILE_MIDDLE) {
                         texture.image = this.platformIMG[7];
+                    }
+                    break;
+                case TYPE.FLOATING:
+                    this.cmpTransform.local.scaleY(0.5);
+                    // first file on the left
+                    if (tile == TILE.TILE_LEFT || tile == null) {
+                        texture.image = this.platformIMG[9];
+                    } 
+                    // last file on the right
+                    else if (tile == TILE.TILE_RIGHT) {
+                        texture.image = this.platformIMG[11];
+                    } 
+                    // middle tile
+                    else if (tile == TILE.TILE_MIDDLE) {
+                        texture.image = this.platformIMG[10];
                     }  
                     break;
                 case TYPE.WATER:
-                    texture.image = this.platformIMG[9];
+                    texture.image = this.platformIMG[12];
                     break;
                 case TYPE.UNDERWATER:
-                    texture.image = this.platformIMG[10];
+                    texture.image = this.platformIMG[13];
                     break;
                 
             }
