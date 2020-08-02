@@ -15,11 +15,13 @@ namespace Platformer {
             super("Tile");
 
             this.addComponent(new f.ComponentTransform);
+            
             let coat: f.CoatTextured = new f.CoatTextured();
             coat.texture = this.getImageType(type, tile);
-
+            
             let pivot: f.Matrix4x4 = new f.Matrix4x4();
-            pivot.translate(new f.Vector3(posX - 1, -0.5, 0));
+            pivot.translate(new f.Vector3(posX, -0.5, 0));
+            
             let cmpMesh: f.ComponentMesh = new f.ComponentMesh(Tile.mesh);
             cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);

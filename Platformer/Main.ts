@@ -19,14 +19,14 @@ namespace Platformer {
     game = new f.Node("Game");
     player = new Player("Player 1", 0.15, 0.15);
     level = createPlatform();
-    createBackground();
     game.appendChild(level);
     game.appendChild(player);
 
-    // game.appendChild(background);
+    createBackground();
+
 
     cmpCamera = new f.ComponentCamera();
-    cmpCamera.pivot.translateZ(10);
+    cmpCamera.pivot.translateZ(6);
     cmpCamera.pivot.lookAt(f.Vector3.ZERO());
     cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
 
@@ -47,8 +47,8 @@ namespace Platformer {
       viewport.draw();
 
       
-      crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
-      crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
+      // crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
+      // crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
     }
   }
   
@@ -101,7 +101,8 @@ namespace Platformer {
   function createPlatform(): f.Node {
     let level: f.Node = new f.Node("Level");
 
-    level.appendChild(new Platform(0, -1, 0, TYPE.GROUND, 3));
+    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 1));
+    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4));
   
 
 

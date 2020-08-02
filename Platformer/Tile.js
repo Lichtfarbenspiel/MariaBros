@@ -15,7 +15,7 @@ var Platformer;
             let coat = new f.CoatTextured();
             coat.texture = this.getImageType(type, tile);
             let pivot = new f.Matrix4x4();
-            pivot.translate(new f.Vector3(posX - 1, -0.5, 0));
+            pivot.translate(new f.Vector3(posX, -0.5, 0));
             let cmpMesh = new f.ComponentMesh(Tile.mesh);
             cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);

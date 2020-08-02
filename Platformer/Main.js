@@ -15,12 +15,11 @@ var Platformer;
         Platformer.game = new f.Node("Game");
         player = new Platformer.Player("Player 1", 0.15, 0.15);
         Platformer.level = createPlatform();
-        createBackground();
         Platformer.game.appendChild(Platformer.level);
         Platformer.game.appendChild(player);
-        // game.appendChild(background);
+        createBackground();
         cmpCamera = new f.ComponentCamera();
-        cmpCamera.pivot.translateZ(10);
+        cmpCamera.pivot.translateZ(6);
         cmpCamera.pivot.lookAt(f.Vector3.ZERO());
         cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
         let viewport = new f.Viewport();
@@ -35,8 +34,8 @@ var Platformer;
             processInput();
             camMovement();
             viewport.draw();
-            crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
-            crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
+            // crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
+            // crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
         }
     }
     function hndKeyboard(_event) {
@@ -80,7 +79,8 @@ var Platformer;
     }
     function createPlatform() {
         let level = new f.Node("Level");
-        level.appendChild(new Platformer.Platform(0, -1, 0, Platformer.TYPE.GROUND, 3));
+        level.appendChild(new Platformer.Platform(-5, -1.8, 0, Platformer.TYPE.GROUND, 1));
+        level.appendChild(new Platformer.Platform(-1, -1.8, 0, Platformer.TYPE.GROUND, 4));
         // let platform: Platform = new Platform();
         // platform.cmpTransform.local.scaleY(0.2);
         // platform.cmpTransform.local.translateY(-3);

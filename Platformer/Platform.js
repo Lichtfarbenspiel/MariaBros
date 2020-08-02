@@ -22,21 +22,40 @@ var Platformer;
             this.width = tiles;
             this.height = height;
             this.addComponent(new ƒ.ComponentTransform());
+            this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
             let pivot = new f.Matrix4x4();
             pivot.translate(new f.Vector3(posX, posY - 0.5, posZ));
             let cmpMesh = new f.ComponentMesh(Platform.mesh);
             cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);
+            let tile;
             for (let i = 0; i < tiles; i++) {
                 let tileType;
-                if (i == 0)
-                    tileType = TILE.TILE_LEFT;
-                else if (i == tiles - 1)
-                    tileType = TILE.TILE_RIGHT;
-                else
-                    tileType = TILE.TILE_MIDDLE;
-                let tile = new Platformer.Tile(i, type, tileType);
-                this.appendChild(tile);
+                if (tiles != 1) {
+                    if (i == 0)
+                        tileType = TILE.TILE_LEFT;
+                    else if (i == tiles - 1)
+                        tileType = TILE.TILE_RIGHT;
+                    else
+                        tileType = TILE.TILE_MIDDLE;
+                    tile = new Platformer.Tile(i - (tiles / 2.8), type, tileType);
+                    this.appendChild(tile);
+                }
+                else {
+                    for (let j = 0; j < 2; j++) {
+                        switch (j) {
+                            case 0:
+                                tileType = TILE.TILE_LEFT;
+                                break;
+                            case 1:
+                                tileType = TILE.TILE_RIGHT;
+                                break;
+                        }
+                        tile = new Platformer.Tile(j - (j / 2), type, tileType);
+                        tile.cmpTransform.local.scaling = new f.Vector3(0.5, 1);
+                        this.appendChild(tile);
+                    }
+                }
             }
         }
         getRectWorld() {
