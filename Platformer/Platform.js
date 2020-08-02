@@ -25,10 +25,7 @@ var Platformer;
             this.type = type;
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
-            let pivot = new f.Matrix4x4();
-            pivot.translate(new f.Vector3(posX, posY - 0.5, posZ));
             let cmpMesh = new f.ComponentMesh(Platform.mesh);
-            cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);
             let tile;
             for (let i = 0; i < tiles; i++) {
@@ -62,8 +59,8 @@ var Platformer;
         }
         getRectWorld() {
             let rect = f.Rectangle.GET(0, 0, this.width, this.height);
-            let topLeft = new f.Vector3(-this.width / 1.8, this.height / 2, 0);
-            let bottomRight = new f.Vector3(this.width / 1.8, -this.height / 2, 0);
+            let topLeft = new f.Vector3(-this.width / 2, this.height / 2, 0);
+            let bottomRight = new f.Vector3(this.width / 2, -this.height / 2, 0);
             let mtxResult = f.Matrix4x4.MULTIPLICATION(this.mtxWorld, Platform.pivot);
             topLeft.transform(mtxResult, true);
             bottomRight.transform(mtxResult, true);
@@ -74,7 +71,6 @@ var Platformer;
         }
     }
     Platform.mesh = new f.MeshSprite();
-    // private static material: f.Material = new f.Material("Platform", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("green")));
     Platform.pivot = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
     Platformer.Platform = Platform;
 })(Platformer || (Platformer = {}));

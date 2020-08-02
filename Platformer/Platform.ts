@@ -18,10 +18,8 @@ namespace Platformer {
 
     export class Platform extends f.Node {
         private static mesh: f.MeshSprite = new f.MeshSprite();
-        // private static material: f.Material = new f.Material("Platform", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("green")));
         private static readonly pivot: ƒ.Matrix4x4 = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
 
-        // public platformIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.platform");
         public width: number;
         public height: number;
         public type: TYPE;
@@ -36,11 +34,8 @@ namespace Platformer {
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
 
-            let pivot: f.Matrix4x4 = new f.Matrix4x4();
-            pivot.translate(new f.Vector3(posX, posY - 0.5, posZ));
             
             let cmpMesh: f.ComponentMesh = new f.ComponentMesh(Platform.mesh);
-            cmpMesh.pivot = pivot;
             this.addComponent(cmpMesh);
             
             let tile: Tile;
@@ -80,8 +75,8 @@ namespace Platformer {
 
         public getRectWorld(): f.Rectangle {
             let rect: f.Rectangle = f.Rectangle.GET(0, 0, this.width, this.height);
-            let topLeft: f.Vector3 = new f.Vector3(-this.width / 1.8, this.height / 2, 0);
-            let bottomRight: f.Vector3 = new f.Vector3(this.width / 1.8, -this.height / 2, 0);
+            let topLeft: f.Vector3 = new f.Vector3(-this.width / 2, this.height / 2, 0);
+            let bottomRight: f.Vector3 = new f.Vector3(this.width / 2, -this.height / 2, 0);
 
             let mtxResult: f.Matrix4x4 = f.Matrix4x4.MULTIPLICATION(this.mtxWorld, Platform.pivot);
             topLeft.transform(mtxResult, true);
@@ -94,61 +89,6 @@ namespace Platformer {
             return rect;
         }
 
-        // public getImageType(type: TYPE, tile?: TILE): f.TextureImage {
-
-        //     let texture: f.TextureImage = new f.TextureImage();
-        //     switch (type) {
-        //         case TYPE.GROUND:
-        //             // first file on the left
-        //             if (tile == TILE.TILE_LEFT || tile == null) {
-        //                 texture.image = this.platformIMG[0];
-        //             } 
-        //             // last file on the right
-        //             else if (tile == TILE.TILE_RIGHT) {
-        //                 texture.image = this.platformIMG[2];
-        //             } 
-        //             // middle tile
-        //             else if (tile == TILE.TILE_MIDDLE) {
-        //                 texture.image = this.platformIMG[1];
-        //             }
-        //             break;
-        //         case TYPE.UNDERGROUND:
-        //             // first file on the left
-        //             if (tile == TILE.TILE_LEFT || tile == null) {
-        //                 texture.image = this.platformIMG[3];
-        //             } 
-        //             // last file on the right
-        //             else if (tile == TILE.TILE_RIGHT) {
-        //                 texture.image = this.platformIMG[5];
-        //             } 
-        //             // middle tile
-        //             else if (tile == TILE.TILE_MIDDLE) {
-        //                 texture.image = this.platformIMG[4];
-        //             }
-        //             break;
-        //         case TYPE.FLOATING:
-        //             // first file on the left
-        //             if (tile == TILE.TILE_LEFT || tile == null) {
-        //                 texture.image = this.platformIMG[6];
-        //             } 
-        //             // last file on the right
-        //             else if (tile == TILE.TILE_RIGHT) {
-        //                 texture.image = this.platformIMG[8];
-        //             } 
-        //             // middle tile
-        //             else if (tile == TILE.TILE_MIDDLE) {
-        //                 texture.image = this.platformIMG[7];
-        //             }  
-        //             break;
-        //         case TYPE.WATER:
-        //             texture.image = this.platformIMG[9];
-        //             break;
-        //         case TYPE.UNDERWATER:
-        //             texture.image = this.platformIMG[10];
-        //             break;
-                
-        //     }
-        //     return texture;
-        // }
+    
     }
 }
