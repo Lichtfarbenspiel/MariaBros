@@ -5,18 +5,20 @@ var Platformer;
     var fAid = FudgeAid;
     window.addEventListener("load", test);
     let player;
+    let objects;
     let cmpCamera;
     function test() {
         let canvas = document.querySelector("canvas");
-        let crc2 = canvas.getContext("2d");
         let playerImg = document.querySelector("img.player");
         let spritesheet = fAid.createSpriteSheet("Player", playerImg);
         Platformer.Player.generateSprites(spritesheet);
         Platformer.game = new f.Node("Game");
         player = new Platformer.Player("Player 1", 0.15, 0.15);
         Platformer.level = createPlatform();
-        Platformer.game.appendChild(Platformer.level);
+        objects = addObjects();
         Platformer.game.appendChild(player);
+        Platformer.game.appendChild(Platformer.level);
+        Platformer.game.appendChild(objects);
         createBackground();
         cmpCamera = new f.ComponentCamera();
         cmpCamera.pivot.translateZ(6);
@@ -34,8 +36,6 @@ var Platformer;
             processInput();
             camMovement();
             viewport.draw();
-            // crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
-            // crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
         }
     }
     function hndKeyboard(_event) {
@@ -114,6 +114,16 @@ var Platformer;
         level.appendChild(new Platformer.Platform(28, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(28, -3.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         return level;
+    }
+    function addObjects() {
+        let objects = new f.Node("Objects");
+        objects.appendChild(new Platformer.Object(-5, -1.1, -0.1, 1.5, 1.5, Platformer.TYPE.TREE_2));
+        objects.appendChild(new Platformer.Object(-5.5, -1.6, -0.1, 1, 0.5, Platformer.TYPE.BUSH_1));
+        objects.appendChild(new Platformer.Object(-1.5, -1.1, -0.1, 1.5, 1.5, Platformer.TYPE.TREE_1));
+        objects.appendChild(new Platformer.Object(-0.9, -1.6, -0.2, 1, 0.5, Platformer.TYPE.BUSH_3));
+        objects.appendChild(new Platformer.Object(-0.6, -1.6, -0.1, 0.5, 0.5, Platformer.TYPE.ARROW_SIGN));
+        objects.appendChild(new Platformer.Object(0.8, -1.6, 0, 0.4, 0.4, Platformer.TYPE.BOX));
+        return objects;
     }
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

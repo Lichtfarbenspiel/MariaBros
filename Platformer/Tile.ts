@@ -9,7 +9,7 @@ namespace Platformer {
 
     export class Tile extends f.Node {
         private static mesh: f.MeshSprite = new f.MeshSprite();
-        public platformIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.platform");
+        private platformIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.platform");
 
         public constructor(posX: number, type: TYPE, tile: TILE) {
             super("Tile");

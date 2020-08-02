@@ -6,12 +6,14 @@ namespace Platformer {
 
   export let game: f.Node;
   export let level: f.Node;
+
   let player: Player;
+  let objects: f.Node;
   let cmpCamera: f.ComponentCamera;
 
   function test(): void {
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
-    let crc2: CanvasRenderingContext2D = canvas.getContext("2d");
+
     let playerImg: HTMLImageElement = document.querySelector("img.player");
     let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
     Player.generateSprites(spritesheet);
@@ -19,11 +21,14 @@ namespace Platformer {
     game = new f.Node("Game");
     player = new Player("Player 1", 0.15, 0.15);
     level = createPlatform();
-    game.appendChild(level);
+    objects = addObjects();
+
     game.appendChild(player);
+    game.appendChild(level);
+    game.appendChild(objects);
 
     createBackground();
-
+    
 
     cmpCamera = new f.ComponentCamera();
     cmpCamera.pivot.translateZ(6);
@@ -45,10 +50,6 @@ namespace Platformer {
       processInput();
       camMovement();
       viewport.draw();
-
-      
-      // crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
-      // crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
     }
   }
   
@@ -150,4 +151,18 @@ namespace Platformer {
 
     return level;
   } 
+
+  function addObjects(): f.Node{
+    let objects: f.Node = new f.Node("Objects");
+
+    objects.appendChild(new Object(-5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_2));
+    objects.appendChild(new Object(-5.5, -1.6, -0.1, 1, 0.5, TYPE.BUSH_1));
+
+    objects.appendChild(new Object(-1.5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_1));
+    objects.appendChild(new Object(-0.9, -1.6, -0.2, 1, 0.5, TYPE.BUSH_3));
+    objects.appendChild(new Object(-0.6, -1.6, -0.1, 0.5, 0.5, TYPE.ARROW_SIGN));
+    objects.appendChild(new Object(0.8, -1.6, 0, 0.4, 0.4, TYPE.BOX));
+
+    return objects;
+  }
 }
