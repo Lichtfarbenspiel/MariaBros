@@ -14,25 +14,37 @@ namespace Platformer {
   function test(): void {
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
 
-    let playerImg: HTMLImageElement = document.querySelector("img.player");
-    let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
-    Player.generateSprites(spritesheet);
+    // let playerImg: HTMLImageElement = document.querySelector("img.player");
+    // let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
+    // Player.generateSprites(spritesheet);
+
+    // game = new f.Node("Game");
+    // player = new Player("Player 1", 0.15, 0.15);
+    // level = createPlatform();
+    // objects = addObjects();
+
+    // let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
+    // let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
+    // let enemy: Enemy = new Enemy("Frog", -1, -1, 1.5, 1.5, ENEMY.FROG, sprite);
+
+    // game.appendChild(player);
+    // game.appendChild(level);
+    // game.appendChild(objects);
+    // game.appendChild(enemy);
+
+    // createBackground();
 
     game = new f.Node("Game");
-    player = new Player("Player 1", 0.15, 0.15);
+
     level = createPlatform();
     objects = addObjects();
-
-    let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
-    let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
-    let enemy: Enemy = new Enemy("Frog", -1, -1, 1.5, 1.5, ENEMY.FROG, sprite);
-
-    game.appendChild(player);
     game.appendChild(level);
     game.appendChild(objects);
-    game.appendChild(enemy);
-
+    
     createBackground();
+    createPlayer();
+    createEnemies();
+   
     
 
     cmpCamera = new f.ComponentCamera();
@@ -88,7 +100,7 @@ namespace Platformer {
   }
 
 
-  // create Environment
+  // setup Game
 
   function createBackground(): void {
     let width: number = 6;
@@ -102,6 +114,23 @@ namespace Platformer {
       bg.cmpTransform.local.scaleX(3 * 2);
       game.appendChild(bg);
     }
+  }
+
+  function createPlayer(): void {
+
+    let playerImg: HTMLImageElement = document.querySelector("img.player");
+    let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
+    Player.generateSprites(spritesheet);
+    player = new Player("Player", 0.15, 0.15, new f.Vector2(5, 5));
+
+    game.appendChild(player);
+  }
+
+  function createEnemies(): void {
+    let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
+    let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
+    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), ENEMY.FROG, sprite);
+    game.appendChild(enemy);
   }
 
   function createPlatform(): f.Node {
@@ -160,13 +189,13 @@ namespace Platformer {
   function addObjects(): f.Node {
     let objects: f.Node = new f.Node("Objects");
 
-    objects.appendChild(new Object("Baum1", -5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_2));
-    objects.appendChild(new Object("Busch1", -5.5, -1.6, -0.1, 1, 0.5, TYPE.BUSH_1));
+    objects.appendChild(new Object("Baum1", -5, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_2));
+    objects.appendChild(new Object("Busch1", -5.5, -1.6, -0.1, 1, 0.5, OBJECT.BUSH_1));
 
-    objects.appendChild(new Object("Baum2", -1.5, -1.1, -0.1, 1.5, 1.5, TYPE.TREE_1));
-    objects.appendChild(new Object("Busch2", -0.9, -1.6, -0.2, 1, 0.5, TYPE.BUSH_3));
-    objects.appendChild(new Object("Schild1", -0.6, -1.6, -0.1, 0.5, 0.5, TYPE.ARROW_SIGN));
-    objects.appendChild(new Object("Box1", 0.8, -1.6, 0, 0.4, 0.4, TYPE.BOX));
+    objects.appendChild(new Object("Baum2", -1.5, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_1));
+    objects.appendChild(new Object("Busch2", -0.9, -1.6, -0.2, 1, 0.5, OBJECT.BUSH_3));
+    objects.appendChild(new Object("Schild1", -0.6, -1.6, -0.1, 0.5, 0.5, OBJECT.ARROW_SIGN));
+    objects.appendChild(new Object("Box1", 0.8, -1.6, 0, 0.4, 0.4, OBJECT.BOX));
 
     return objects;
   }

@@ -8,13 +8,13 @@ var Platformer;
     // }
     class Player extends Platformer.Character {
         // private static animations: fAid.SpriteSheetAnimations;
-        // private static maxSpeed: f.Vector2 = new f.Vector2(5, 5);
+        // private maxSpeed: f.Vector2 = new f.Vector2(5, 5);
         // private static gravity: f.Vector2 = f.Vector2.Y(-3.5);
         // public dir: DIRECTION = DIRECTION.RIGHT;
         // public speed: f.Vector3 = f.Vector3.ZERO();
         // public isDead: boolean = false;
         // public isIdle: boolean = true;
-        constructor(_name = "Player", scaleX, scaleY) {
+        constructor(_name = "Player", scaleX, scaleY, _maxSpeed) {
             super(_name);
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
@@ -22,10 +22,13 @@ var Platformer;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 super.checkPlatformCollision();
+                this.checkObjectCollision();
             };
+            this.maxSpeed = _maxSpeed;
             this.addComponent(new f.ComponentTransform());
             // this.mtxWorld.translation = new f.Vector3(posX, posY, 0);
             this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
+            this.cmpTransform.local.translateY(-1);
             this.show(Platformer.ACTION.IDLE);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
         }
@@ -74,7 +77,7 @@ var Platformer;
                 case Platformer.ACTION.WALK:
                     this.isIdle = false;
                     let direction = (_direction == Platformer.DIRECTION.RIGHT ? 1 : -1);
-                    this.speed.x = Player.maxSpeed.x;
+                    this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
                 case Platformer.ACTION.JUMP:
@@ -91,6 +94,22 @@ var Platformer;
                 return;
             this.action = _action;
             this.show(_action);
+        }
+        checkObjectCollision() {
+            for (let object of Platformer.objects.getChildren()) {
+                let rect = object.getRectWorld();
+                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                if (object.type != Platformer.OBJECT.BOX) {
+                    hit = false;
+                }
+                if (hit) {
+                    let translation = this.cmpTransform.local.translation;
+                    translation.y = rect.y;
+                    this.cmpTransform.local.translation = translation;
+                    this.isIdle = true;
+                    this.speed.y = 0;
+                }
+            }
         }
     }
     Platformer.Player = Player;

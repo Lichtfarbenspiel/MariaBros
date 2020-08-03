@@ -49,8 +49,7 @@ var Platformer;
             }
         }
     }
-    Character.maxSpeed = new f.Vector2(5, 5);
-    Character.gravity = f.Vector2.Y(-3.5);
+    Character.gravity = f.Vector2.Y(-4);
     Platformer.Character = Character;
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Character.js.map

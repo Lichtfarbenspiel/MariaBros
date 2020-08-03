@@ -1,7 +1,7 @@
 namespace Platformer {
     import f = FudgeCore;
 
-    export enum TYPE {
+    export enum OBJECT {
         BUSH_1 = "bush_1",
         BUSH_2 = "bush_2",
         BUSH_3 = "bush_3",
@@ -19,15 +19,15 @@ namespace Platformer {
 
     export class Object extends f.Node {
         private static mesh: f.MeshSprite = new f.MeshSprite();
-        private static readonly pivot: ƒ.Matrix4x4 = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
+        private static readonly pivot: ƒ.Matrix4x4 = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(0));
 
         public width: number;
         public height: number;
-        public type: TYPE;
+        public type: OBJECT;
 
         private objectIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.object");
 
-        public constructor(name: string, posX: number, posY: number, posZ: number = 0, scaleX: number = 1, scaleY: number = 1, type: TYPE) {
+        public constructor(name: string, posX: number, posY: number, posZ: number = 0, scaleX: number = 1, scaleY: number = 1, type: OBJECT) {
             
             super(name);
     
@@ -50,9 +50,13 @@ namespace Platformer {
         }
 
         public getRectWorld(): f.Rectangle {
-            let rect: f.Rectangle = f.Rectangle.GET(0, 0, this.width, this.height);
-            let topLeft: f.Vector3 = new f.Vector3(-this.width / 2, this.height / 2, 0);
-            let bottomRight: f.Vector3 = new f.Vector3(this.width / 2, -this.height / 2, 0);
+            // let rect: f.Rectangle = f.Rectangle.GET(0, 0, this.width, this.height);
+            // let topLeft: f.Vector3 = new f.Vector3(-this.width / 2, this.height / 2 , 0);
+            // let bottomRight: f.Vector3 = new f.Vector3(this.width / 2, -this.height / 2, 0);
+
+            let rect: ƒ.Rectangle = ƒ.Rectangle.GET(0, 0, 100, 100);
+            let topLeft: ƒ.Vector3 = new ƒ.Vector3(-0.5, 0.5, 0);
+            let bottomRight: ƒ.Vector3 = new ƒ.Vector3(0.5, -0.5, 0);
 
             let mtxResult: f.Matrix4x4 = f.Matrix4x4.MULTIPLICATION(this.mtxWorld, Object.pivot);
             topLeft.transform(mtxResult, true);
@@ -65,48 +69,48 @@ namespace Platformer {
             return rect;
         }
 
-        private getImageType(type: TYPE): f.TextureImage {
+        private getImageType(type: OBJECT): f.TextureImage {
             
             let texture: f.TextureImage = new f.TextureImage();
 
             switch (type) {
-                case TYPE.BUSH_1:
+                case OBJECT.BUSH_1:
                     texture.image = this.objectIMG[0];
                     break;
-                case TYPE.BUSH_2:
+                case OBJECT.BUSH_2:
                     texture.image = this.objectIMG[1];
                     break;
-                case TYPE.BUSH_3:
+                case OBJECT.BUSH_3:
                     texture.image = this.objectIMG[2];
                     break;
-                case TYPE.BUSH_4:
+                case OBJECT.BUSH_4:
                     texture.image = this.objectIMG[3];
                     break;
-                case TYPE.BOX:
+                case OBJECT.BOX:
                     texture.image = this.objectIMG[4];
                     break;
-                case TYPE.MUSHROOM_1:
+                case OBJECT.MUSHROOM_1:
                     texture.image = this.objectIMG[5];
                     break;
-                case TYPE.MUSHROOM_2:
+                case OBJECT.MUSHROOM_2:
                     texture.image = this.objectIMG[6];
                     break;
-                case TYPE.SIGN:
+                case OBJECT.SIGN:
                     texture.image = this.objectIMG[7];
                     break;
-                case TYPE.ARROW_SIGN:
+                case OBJECT.ARROW_SIGN:
                     texture.image = this.objectIMG[8];
                     break;
-                case TYPE.STONE:
+                case OBJECT.STONE:
                     texture.image = this.objectIMG[9];
                     break;
-                case TYPE.STUMP:
+                case OBJECT.STUMP:
                     texture.image = this.objectIMG[10];
                     break;
-                case TYPE.TREE_1:
+                case OBJECT.TREE_1:
                     texture.image = this.objectIMG[11];
                     break;
-                case TYPE.TREE_2:
+                case OBJECT.TREE_2:
                     texture.image = this.objectIMG[12];
                     break;
             }

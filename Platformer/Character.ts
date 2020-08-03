@@ -16,10 +16,9 @@ namespace Platformer {
     }
 
     export class Character extends fAid.NodeSprite {
-        
+
         protected static animations: fAid.SpriteSheetAnimations;
-        protected static maxSpeed: f.Vector2 = new f.Vector2(5, 5);
-        protected static gravity: f.Vector2 = f.Vector2.Y(-3.5);
+        protected static gravity: f.Vector2 = f.Vector2.Y(-4);
 
         public dir: DIRECTION = DIRECTION.RIGHT;
         public speed: f.Vector3 = f.Vector3.ZERO();
@@ -27,7 +26,7 @@ namespace Platformer {
         public isIdle: boolean = true;
 
         protected action: ACTION;
-
+        protected maxSpeed: f.Vector2;
         // private rect: f.Rectangle;
 
         constructor(_name: string = "Character") {

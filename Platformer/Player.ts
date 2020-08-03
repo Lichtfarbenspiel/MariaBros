@@ -10,7 +10,7 @@ namespace Platformer {
     export class Player extends Character {
         
         // private static animations: fAid.SpriteSheetAnimations;
-        // private static maxSpeed: f.Vector2 = new f.Vector2(5, 5);
+        // private maxSpeed: f.Vector2 = new f.Vector2(5, 5);
         // private static gravity: f.Vector2 = f.Vector2.Y(-3.5);
 
         // public dir: DIRECTION = DIRECTION.RIGHT;
@@ -18,13 +18,16 @@ namespace Platformer {
         // public isDead: boolean = false;
         // public isIdle: boolean = true;
 
-        constructor(_name: string = "Player", scaleX: number, scaleY: number) {
+        constructor(_name: string = "Player", scaleX: number, scaleY: number, _maxSpeed: f.Vector2) {
             super(_name);
-        
+            
+            this.maxSpeed = _maxSpeed;
 
             this.addComponent(new f.ComponentTransform());
             // this.mtxWorld.translation = new f.Vector3(posX, posY, 0);
             this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
+            this.cmpTransform.local.translateY(-1 );
+
 
             this.show(ACTION.IDLE);
             f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
@@ -83,7 +86,7 @@ namespace Platformer {
                 case ACTION.WALK:
                     this.isIdle = false;
                     let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
-                    this.speed.x = Player.maxSpeed.x;
+                    this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break; 
                 case ACTION.JUMP:
@@ -111,26 +114,27 @@ namespace Platformer {
             this.cmpTransform.local.translate(distance);
             
             super.checkPlatformCollision();
+            this.checkObjectCollision();
         }
 
-        // private checkPlatformCollision(): void {
-        //     for (let platform of level.getChildren()) { 
-        //         let rect: f.Rectangle = (<Platform> platform).getRectWorld();
-        //         let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+        private checkObjectCollision(): void {
+            for (let object of objects.getChildren()) { 
+                let rect: f.Rectangle = (<Object> object).getRectWorld();
+                let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
 
-        //         if ((<Platform> platform).type == TYPE.WATER || (<Platform> platform).type == TYPE.UNDERWATER || (<Platform> platform).type == TYPE.MIDDLEGROUND  || (<Platform> platform).type == TYPE.UNDERGROUND ) {
-        //             hit = false;
-        //         }
+                if ((<Object> object).type != OBJECT.BOX) {
+                    hit = false;
+                }
                 
-        //         if (hit) {
-        //             let translation: f.Vector3 = this.cmpTransform.local.translation;
-        //             translation.y = rect.y;
-        //             this.cmpTransform.local.translation = translation;
-        //             this.isIdle = true;
-        //             this.speed.y = 0;
-        //         }
-        //     }
-        // }
+                if (hit) {
+                    let translation: f.Vector3 = this.cmpTransform.local.translation;
+                    translation.y = rect.y;
+                    this.cmpTransform.local.translation = translation;
+                    this.isIdle = true;
+                    this.speed.y = 0;
+                }
+            }
+        }
 
     }
 }
