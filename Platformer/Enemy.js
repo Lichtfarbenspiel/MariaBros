@@ -16,13 +16,16 @@ var Platformer;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 this.checkPlatformCollision();
+                if (this.checkWalkingRange()) {
+                    this.changeDirection();
+                }
             };
             this.platform = _platform;
             this.maxSpeed = _maxSpeed;
             let pos = this.platform.cmpTransform.local.translation;
             this.addComponent(new f.ComponentTransform());
             this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
-            this.cmpTransform.local.translate(new f.Vector3(pos.x, pos.y, 0));
+            this.cmpTransform.local.translate(new f.Vector3(pos.x, 0, 0));
             this.generateSprites(_spritesheet, _type);
             this.act(Platformer.ACTION.WALK, this.dir);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
@@ -45,23 +48,33 @@ var Platformer;
             this.setAnimation(Enemy.animations[_action]);
         }
         act(_action, _direction) {
+            this.speed.x = this.maxSpeed.x;
             let direction = (_direction == Platformer.DIRECTION.RIGHT ? 1 : -1);
             switch (_direction) {
                 case Platformer.DIRECTION.LEFT:
                     this.dir = Platformer.DIRECTION.LEFT;
-                    this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
                 case Platformer.DIRECTION.RIGHT:
                     this.dir = Platformer.DIRECTION.RIGHT;
-                    this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
             }
-            if (_action == this.action)
-                return;
-            this.action = _action;
             this.show(_action);
+        }
+        changeDirection() {
+            if (this.dir == Platformer.DIRECTION.LEFT)
+                this.act(Platformer.ACTION.WALK, Platformer.DIRECTION.RIGHT);
+            else if (this.dir == Platformer.DIRECTION.RIGHT)
+                this.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
+        }
+        checkWalkingRange() {
+            let rect = (this.platform).getRectWorld();
+            let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+            if (hit) {
+                return false;
+            }
+            return true;
         }
     }
     Platformer.Enemy = Enemy;

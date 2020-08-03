@@ -22,7 +22,7 @@ namespace Platformer {
 
             this.addComponent(new f.ComponentTransform());
             this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
-            this.cmpTransform.local.translate(new f.Vector3(pos.x, pos.y, 0));
+            this.cmpTransform.local.translate(new f.Vector3(pos.x, 0, 0));
 
             this.generateSprites(_spritesheet, _type);
 
@@ -53,25 +53,20 @@ namespace Platformer {
         }
 
         public act(_action: ACTION, _direction?: DIRECTION): void {
-
+            this.speed.x = this.maxSpeed.x;
             let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
+            
             switch (_direction) {
                 case DIRECTION.LEFT:
                     this.dir = DIRECTION.LEFT;
-                    this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
                 case DIRECTION.RIGHT:
                     this.dir = DIRECTION.RIGHT;
-                    this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
             }
-
-            if (_action == this.action)
-            return;
-
-            this.action = _action;
+            
 
             this.show(_action);
         }
@@ -84,16 +79,26 @@ namespace Platformer {
             this.cmpTransform.local.translate(distance);
             
             this.checkPlatformCollision();
+            if (this.checkWalkingRange()) {
+                this.changeDirection();
+            }
         }
 
-        // private walk(): void {
-        //     while (!this.isDead) {
-        //         let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
-        //         this.speed.y += Enemy.gravity.y * timeFrame;
-        //         let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
-        //         this.cmpTransform.local.translate(distance);
+        private changeDirection(): void {
+            if (this.dir == DIRECTION.LEFT)
+                this.act(ACTION.WALK, DIRECTION.RIGHT);
+            else if (this.dir == DIRECTION.RIGHT)
+                this.act(ACTION.WALK, DIRECTION.LEFT);
+        }
 
-        //     }
-        // }
+        private checkWalkingRange(): boolean {
+            let rect: f.Rectangle = (this.platform).getRectWorld();
+            let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+            
+            if (hit) {
+                return false;
+            }
+            return true;
+        }
     }
 }
