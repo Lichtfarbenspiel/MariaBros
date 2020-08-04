@@ -27,9 +27,11 @@ var Platformer;
         Platformer.level = createPlatform();
         Platformer.objects = addObjects();
         Platformer.enemies = createEnemies();
+        Platformer.collectables = addCollectables();
         Platformer.game.appendChild(Platformer.level);
         Platformer.game.appendChild(Platformer.objects);
         Platformer.game.appendChild(Platformer.enemies);
+        Platformer.game.appendChild(Platformer.collectables);
         createBackground();
         createPlayer();
         cmpCamera = new f.ComponentCamera();
@@ -55,22 +57,24 @@ var Platformer;
             player.act(Platformer.ACTION.JUMP);
     }
     function processInput() {
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-            player.dir = Platformer.DIRECTION.LEFT;
-            player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
+        if (!player.isDead) {
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+                player.dir = Platformer.DIRECTION.LEFT;
+                player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
+            }
+            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+                player.dir = Platformer.DIRECTION.RIGHT;
+                player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.RIGHT);
+            }
+            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
+                player.act(Platformer.ACTION.JUMP, player.dir);
+            }
+            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+                player.act(Platformer.ACTION.ATTACK, player.dir);
+            }
+            else if (!player.isDead || player.isIdle)
+                player.act(Platformer.ACTION.IDLE);
         }
-        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-            player.dir = Platformer.DIRECTION.RIGHT;
-            player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.RIGHT);
-        }
-        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
-            player.act(Platformer.ACTION.JUMP, player.dir);
-        }
-        else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-            player.act(Platformer.ACTION.ATTACK, player.dir);
-        }
-        else if (!player.isDead || player.isIdle)
-            player.act(Platformer.ACTION.IDLE);
     }
     function camMovement() {
         let playerPos = player.cmpTransform.local.translation;
@@ -158,6 +162,11 @@ var Platformer;
         objects.appendChild(new Platformer.Object("Baum4", 6.5, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
         objects.appendChild(new Platformer.Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_1));
         return objects;
+    }
+    function addCollectables() {
+        let collectables = new f.Node("Collectables");
+        collectables.appendChild(new Platformer.Collectable("Coin1", 1.6, -2, 0.5, 0.5, Platformer.COLLECTABLE.COIN_GOLD));
+        return collectables;
     }
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

@@ -36,14 +36,24 @@ var Platformer;
         // }
         handleAttack(damage) {
             if (!this.isDead) {
-                if (this.healthPoints >= 0) {
-                    this.isDead = true;
+                if (this.healthPoints > 0)
                     this.healthPoints -= damage;
+                {
+                    this.isDead = true;
                 }
             }
-            else {
-                Platformer.game.removeChild(this);
-            }
+        }
+        getRectWorld() {
+            let rect = f.Rectangle.GET(0, 0, this.scaleX, this.scaleY);
+            let topLeft = new f.Vector3(-0.5, 0.5, 0);
+            let bottomRight = new f.Vector3(0.5, -0.5, 0);
+            let mtxResult = f.Matrix4x4.MULTIPLICATION(this.mtxWorld, Character.pivot);
+            topLeft.transform(mtxResult, true);
+            bottomRight.transform(mtxResult, true);
+            let size = new f.Vector2(bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+            rect.position = topLeft.toVector2();
+            rect.size = size;
+            return rect;
         }
         checkPlatformCollision() {
             for (let platform of Platformer.level.getChildren()) {
@@ -58,6 +68,27 @@ var Platformer;
                     this.cmpTransform.local.translation = translation;
                     this.isIdle = true;
                     this.speed.y = 0;
+                }
+            }
+        }
+        checkEnemyCollision() {
+            for (let enemy of Platformer.enemies.getChildren()) {
+                let rect = enemy.getRectWorld();
+                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                if (hit) {
+                    // let translation: f.Vector3 = this.cmpTransform.local.translation;    
+                    // translation.x = ;
+                    // this.cmpTransform.local.translation = translation;
+                    if (this.isAttacking) {
+                        enemy.speed.x = 0;
+                        let damage = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
+                        enemy.handleAttack(damage);
+                    }
+                    else {
+                        enemy.speed.x = 0;
+                        let damage = f.Random.default.getRange(0, 1) * (enemy.strength - 0.1) + 0.1;
+                        this.handleAttack(damage);
+                    }
                 }
             }
         }
@@ -81,6 +112,7 @@ var Platformer;
         }
     }
     Character.gravity = f.Vector2.Y(-4);
+    Character.pivot = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
     Platformer.Character = Character;
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Character.js.map

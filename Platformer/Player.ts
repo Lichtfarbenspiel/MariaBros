@@ -19,14 +19,16 @@ namespace Platformer {
         // public isDead: boolean = false;
         // public isIdle: boolean = true;
 
-        constructor(_name: string = "Player", scaleX: number, scaleY: number, _maxSpeed: f.Vector2) {
+        constructor(_name: string = "Player", _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2) {
             super(_name);
             
             this.maxSpeed = _maxSpeed;
+            this.scaleX = _scaleX;
+            this.scaleY = _scaleY;
 
             this.addComponent(new f.ComponentTransform());
             // this.mtxWorld.translation = new f.Vector3(posX, posY, 0);
-            this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
+            this.cmpTransform.local.scaling = new f.Vector3(this.scaleX, this.scaleY, 0);
             this.cmpTransform.local.translateY(-1 );
 
 
@@ -98,7 +100,7 @@ namespace Platformer {
                 case ACTION.ATTACK:
                     this.isIdle = false;
                     this.isAttacking = true;
-                    this.attack(this.enemy);
+                    // this.attack(this.enemy);
                     break;
                 case ACTION.DIE:
                     this.isIdle = false;
@@ -114,16 +116,16 @@ namespace Platformer {
             this.show(_action);
         }
 
-        public attack(_enemy: Character): void {
-            let distanceSquared: number = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
+        // public attack(_enemy: Character): void {
+        //     let distanceSquared: number = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
             
-            if (distanceSquared > (this.attackRange * this.attackRange))
-                return;
-            {
-                let damage: number = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
-                _enemy.handleAttack(damage);
-            }
-        }
+        //     if (distanceSquared > (this.attackRange * this.attackRange))
+        //         return;
+        //     {
+        //         let damage: number = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
+        //         _enemy.handleAttack(damage);
+        //     }
+        // }
 
         private update = (_event: f.Eventƒ): void => {
             let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
@@ -133,7 +135,17 @@ namespace Platformer {
             
             super.checkPlatformCollision();
             this.checkObjectCollision();
-            this.checkEnemiesInRange();
+            this.checkEnemyCollision();
+            this.checkDeath();
+            // this.checkEnemiesInRange();
+        }
+
+        private checkDeath(): void {
+            if (this.isDead) {
+                this. show(ACTION.DIE);
+                this.speed.x = 0;
+                //GAME OVER
+            }
         }
 
         private checkEnemiesInRange(): void {

@@ -13,16 +13,19 @@ namespace Platformer {
         private platform: Platform;
         private object: Object;
 
-        constructor(_name: string = "Enemy", _platform: Platform, scaleX: number, scaleY: number, _maxSpeed: f.Vector2, _type: ENEMY, _spritesheet: f.CoatTextured) {
+        constructor(_name: string = "Enemy", _platform: Platform, _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _type: ENEMY, _spritesheet: f.CoatTextured) {
             super(_name);
 
             this.platform = _platform;
             this.maxSpeed = _maxSpeed;
 
+            this.scaleX = _scaleX;
+            this.scaleY = _scaleY;
+
             let pos: f.Vector3 = this.platform.cmpTransform.local.translation;
 
             this.addComponent(new f.ComponentTransform());
-            this.cmpTransform.local.scaling = new f.Vector3(scaleX, scaleY, 0);
+            this.cmpTransform.local.scaling = new f.Vector3(_scaleX, _scaleY, 0);
             this.cmpTransform.local.translate(new f.Vector3(pos.x, 0, 0));
 
             this.generateSprites(_spritesheet, _type);
@@ -79,11 +82,22 @@ namespace Platformer {
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
             
+            this.object = this.checkObjectCollision();
+
             this.checkPlatformCollision();
-            this.checkObjectCollision();
+            // this.checkObjectCollision();
+
+            // this.checkDeath();
 
             if (this.checkWalkingRange()) {
                 this.changeDirection();
+            }
+        }
+
+        private checkDeath(): void {
+            if (this.isDead) {
+                this. show(ACTION.DIE);
+                //GAME OVER
             }
         }
 
@@ -97,10 +111,11 @@ namespace Platformer {
         private checkWalkingRange(): boolean {
             let rectPlatform: f.Rectangle = (this.platform).getRectWorld();
             let hitPlatform: boolean = rectPlatform.isInside(this.cmpTransform.local.translation.toVector2());
-            // let rectObject: f.Rectangle = (this.Object).getRectWorld();
+
+            // let rectObject: f.Rectangle = (this.object).getRectWorld();
             // let hitObject: boolean = rectObject.isInside(this.cmpTransform.local.translation.toVector2());
             
-            if (hitPlatform ) {
+            if (hitPlatform) {
                 return false;
             }
             return true;

@@ -8,6 +8,7 @@ namespace Platformer {
   export let level: f.Node;
   export let objects: f.Node;
   export let enemies: f.Node;
+  export let collectables: f.Node;
 
   let player: Player;
   let cmpCamera: f.ComponentCamera;
@@ -40,10 +41,12 @@ namespace Platformer {
     level = createPlatform();
     objects = addObjects();
     enemies = createEnemies();
+    collectables = addCollectables();
 
     game.appendChild(level);
     game.appendChild(objects);
     game.appendChild(enemies);
+    game.appendChild(collectables);
     
     createBackground();
     createPlayer();
@@ -78,22 +81,24 @@ namespace Platformer {
   }
 
   function processInput(): void {
-    if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-      player.dir = DIRECTION.LEFT;
-      player.act(ACTION.WALK, DIRECTION.LEFT);
+    if (!player.isDead) {
+      if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+        player.dir = DIRECTION.LEFT;
+        player.act(ACTION.WALK, DIRECTION.LEFT);
+      }
+      else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+        player.dir = DIRECTION.RIGHT;
+        player.act(ACTION.WALK, DIRECTION.RIGHT);
+      }
+      else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
+        player.act(ACTION.JUMP, player.dir);
+      }
+      else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+        player.act(ACTION.ATTACK, player.dir);
+      }
+      else if (!player.isDead || player.isIdle)
+        player.act(ACTION.IDLE);
     }
-    else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-      player.dir = DIRECTION.RIGHT;
-      player.act(ACTION.WALK, DIRECTION.RIGHT);
-    }
-    else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
-      player.act(ACTION.JUMP, player.dir);
-    }
-    else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-      player.act(ACTION.ATTACK, player.dir);
-    }
-    else if (!player.isDead || player.isIdle)
-      player.act(ACTION.IDLE);
   }
 
   function camMovement(): void {
@@ -214,5 +219,13 @@ namespace Platformer {
     objects.appendChild(new Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_1));
 
     return objects;
+  }
+
+  function addCollectables(): f.Node {
+    let collectables: f.Node = new f.Node("Collectables");
+
+    collectables.appendChild(new Collectable("Coin1", 1.6, -2, 0.5, 0.5, COLLECTABLE.COIN_GOLD));
+
+    return collectables;
   }
 }
