@@ -11,6 +11,7 @@ namespace Platformer {
 
         // private static animations: fAid.SpriteSheetAnimations;
         private platform: Platform;
+        private object: Object;
 
         constructor(_name: string = "Enemy", _platform: Platform, scaleX: number, scaleY: number, _maxSpeed: f.Vector2, _type: ENEMY, _spritesheet: f.CoatTextured) {
             super(_name);
@@ -79,6 +80,8 @@ namespace Platformer {
             this.cmpTransform.local.translate(distance);
             
             this.checkPlatformCollision();
+            this.checkObjectCollision();
+
             if (this.checkWalkingRange()) {
                 this.changeDirection();
             }
@@ -92,10 +95,12 @@ namespace Platformer {
         }
 
         private checkWalkingRange(): boolean {
-            let rect: f.Rectangle = (this.platform).getRectWorld();
-            let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+            let rectPlatform: f.Rectangle = (this.platform).getRectWorld();
+            let hitPlatform: boolean = rectPlatform.isInside(this.cmpTransform.local.translation.toVector2());
+            // let rectObject: f.Rectangle = (this.Object).getRectWorld();
+            // let hitObject: boolean = rectObject.isInside(this.cmpTransform.local.translation.toVector2());
             
-            if (hit) {
+            if (hitPlatform ) {
                 return false;
             }
             return true;

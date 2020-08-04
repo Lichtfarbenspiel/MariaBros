@@ -16,6 +16,7 @@ var Platformer;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 this.checkPlatformCollision();
+                this.checkObjectCollision();
                 if (this.checkWalkingRange()) {
                     this.changeDirection();
                 }
@@ -69,9 +70,11 @@ var Platformer;
                 this.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
         }
         checkWalkingRange() {
-            let rect = (this.platform).getRectWorld();
-            let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-            if (hit) {
+            let rectPlatform = (this.platform).getRectWorld();
+            let hitPlatform = rectPlatform.isInside(this.cmpTransform.local.translation.toVector2());
+            // let rectObject: f.Rectangle = (this.Object).getRectWorld();
+            // let hitObject: boolean = rectObject.isInside(this.cmpTransform.local.translation.toVector2());
+            if (hitPlatform) {
                 return false;
             }
             return true;

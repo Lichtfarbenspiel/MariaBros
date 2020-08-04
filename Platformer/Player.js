@@ -23,6 +23,7 @@ var Platformer;
                 this.cmpTransform.local.translate(distance);
                 super.checkPlatformCollision();
                 this.checkObjectCollision();
+                this.checkEnemiesInRange();
             };
             this.maxSpeed = _maxSpeed;
             this.addComponent(new f.ComponentTransform());
@@ -72,6 +73,7 @@ var Platformer;
         act(_action, _direction) {
             switch (_action) {
                 case Platformer.ACTION.IDLE:
+                    this.isIdle = true;
                     this.speed.x = 0;
                     break;
                 case Platformer.ACTION.WALK:
@@ -84,6 +86,11 @@ var Platformer;
                     this.isIdle = false;
                     this.speed.y = 2.5;
                     break;
+                case Platformer.ACTION.ATTACK:
+                    this.isIdle = false;
+                    this.isAttacking = true;
+                    this.attack(this.enemy);
+                    break;
                 case Platformer.ACTION.DIE:
                     this.isIdle = false;
                     this.isDead = true;
@@ -95,19 +102,20 @@ var Platformer;
             this.action = _action;
             this.show(_action);
         }
-        checkObjectCollision() {
-            for (let object of Platformer.objects.getChildren()) {
-                let rect = object.getRectWorld();
-                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (object.type != Platformer.OBJECT.BOX) {
-                    hit = false;
-                }
-                if (hit) {
-                    let translation = this.cmpTransform.local.translation;
-                    translation.y = rect.y;
-                    this.cmpTransform.local.translation = translation;
-                    this.isIdle = true;
-                    this.speed.y = 0;
+        attack(_enemy) {
+            let distanceSquared = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
+            if (distanceSquared > (this.attackRange * this.attackRange))
+                return;
+            {
+                let damage = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
+                _enemy.handleAttack(damage);
+            }
+        }
+        checkEnemiesInRange() {
+            let pos = this.mtxLocal.translation;
+            for (let _enemy of Platformer.enemies.getChildren()) {
+                if (pos.isInsideSphere(_enemy.mtxLocal.translation, 0.5)) {
+                    this.enemy = _enemy;
                 }
             }
         }

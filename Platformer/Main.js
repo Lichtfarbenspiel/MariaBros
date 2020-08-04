@@ -26,11 +26,12 @@ var Platformer;
         Platformer.game = new f.Node("Game");
         Platformer.level = createPlatform();
         Platformer.objects = addObjects();
+        Platformer.enemies = createEnemies();
         Platformer.game.appendChild(Platformer.level);
         Platformer.game.appendChild(Platformer.objects);
+        Platformer.game.appendChild(Platformer.enemies);
         createBackground();
         createPlayer();
-        createEnemies();
         cmpCamera = new f.ComponentCamera();
         cmpCamera.pivot.translateZ(6);
         cmpCamera.pivot.lookAt(f.Vector3.ZERO());
@@ -96,10 +97,12 @@ var Platformer;
         Platformer.game.appendChild(player);
     }
     function createEnemies() {
+        let enemies = new f.Node("Enemies");
         let enemyIMG = document.querySelector("img.enemy");
         let sprite = fAid.createSpriteSheet("Enemy", enemyIMG);
         let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), Platformer.ENEMY.FROG, sprite);
-        Platformer.game.appendChild(enemy);
+        enemies.appendChild(enemy);
+        return enemies;
     }
     function createPlatform() {
         let level = new f.Node("Level");
@@ -147,6 +150,13 @@ var Platformer;
         objects.appendChild(new Platformer.Object("Busch2", -0.9, -1.6, -0.2, 1, 0.5, Platformer.OBJECT.BUSH_3));
         objects.appendChild(new Platformer.Object("Schild1", -0.6, -1.6, -0.1, 0.5, 0.5, Platformer.OBJECT.ARROW_SIGN));
         objects.appendChild(new Platformer.Object("Box1", 0.8, -1.6, 0, 0.4, 0.4, Platformer.OBJECT.BOX));
+        objects.appendChild(new Platformer.Object("Stein2", 2.2, -0.5, -0.1, 1, 0.5, Platformer.OBJECT.STONE));
+        objects.appendChild(new Platformer.Object("Pilz1", 2.7, -0.6, -0.08, 0.23, 0.23, Platformer.OBJECT.MUSHROOM_1));
+        objects.appendChild(new Platformer.Object("Pilz1", 2.9, -0.57, -0.09, 0.3, 0.3, Platformer.OBJECT.MUSHROOM_2));
+        objects.appendChild(new Platformer.Object("Stumpf1", 4.7, -1.7, -0.1, 0.6, 0.3, Platformer.OBJECT.STUMP));
+        objects.appendChild(new Platformer.Object("Baum3", 5.8, -1.33, -0.1, 1, 1, Platformer.OBJECT.TREE_1));
+        objects.appendChild(new Platformer.Object("Baum4", 6.5, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
+        objects.appendChild(new Platformer.Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_1));
         return objects;
     }
 })(Platformer || (Platformer = {}));

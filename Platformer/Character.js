@@ -15,15 +15,17 @@ var Platformer;
         ACTION["JUMP"] = "jump";
         ACTION["ATTACK"] = "attack";
         ACTION["DIE"] = "die";
+        ACTION["FALL"] = "fall";
     })(ACTION = Platformer.ACTION || (Platformer.ACTION = {}));
     class Character extends fAid.NodeSprite {
-        // private rect: f.Rectangle;
         constructor(_name = "Character") {
             super(_name);
             this.dir = DIRECTION.RIGHT;
             this.speed = f.Vector3.ZERO();
             this.isDead = false;
             this.isIdle = true;
+            this.isAttacking = false;
+            this.attackRange = 0.5;
         }
         // protected update = (_event: f.Eventƒ): void => {
         //     let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
@@ -32,6 +34,17 @@ var Platformer;
         //     this.cmpTransform.local.translate(distance);
         //     this.checkPlatformCollision();
         // }
+        handleAttack(damage) {
+            if (!this.isDead) {
+                if (this.healthPoints >= 0) {
+                    this.isDead = true;
+                    this.healthPoints -= damage;
+                }
+            }
+            else {
+                Platformer.game.removeChild(this);
+            }
+        }
         checkPlatformCollision() {
             for (let platform of Platformer.level.getChildren()) {
                 let rect = platform.getRectWorld();
@@ -47,6 +60,24 @@ var Platformer;
                     this.speed.y = 0;
                 }
             }
+        }
+        checkObjectCollision() {
+            for (let object of Platformer.objects.getChildren()) {
+                let rect = object.getRectWorld();
+                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                if (object.type != Platformer.OBJECT.BOX) {
+                    hit = false;
+                }
+                if (hit) {
+                    let translation = this.cmpTransform.local.translation;
+                    translation.y = rect.y;
+                    this.cmpTransform.local.translation = translation;
+                    this.isIdle = true;
+                    this.speed.y = 0;
+                    return object;
+                }
+            }
+            return null;
         }
     }
     Character.gravity = f.Vector2.Y(-4);

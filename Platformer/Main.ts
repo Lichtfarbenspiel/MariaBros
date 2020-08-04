@@ -7,6 +7,7 @@ namespace Platformer {
   export let game: f.Node;
   export let level: f.Node;
   export let objects: f.Node;
+  export let enemies: f.Node;
 
   let player: Player;
   let cmpCamera: f.ComponentCamera;
@@ -38,14 +39,15 @@ namespace Platformer {
 
     level = createPlatform();
     objects = addObjects();
+    enemies = createEnemies();
+
     game.appendChild(level);
     game.appendChild(objects);
+    game.appendChild(enemies);
     
     createBackground();
     createPlayer();
-    createEnemies();
-   
-    
+       
 
     cmpCamera = new f.ComponentCamera();
     cmpCamera.pivot.translateZ(6);
@@ -126,11 +128,16 @@ namespace Platformer {
     game.appendChild(player);
   }
 
-  function createEnemies(): void {
+  function createEnemies(): f.Node {
+    let enemies: f.Node = new f.Node("Enemies");
+
     let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
     let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
     let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), ENEMY.FROG, sprite);
-    game.appendChild(enemy);
+    
+    enemies.appendChild(enemy);
+    
+    return enemies;
   }
 
   function createPlatform(): f.Node {
@@ -196,6 +203,15 @@ namespace Platformer {
     objects.appendChild(new Object("Busch2", -0.9, -1.6, -0.2, 1, 0.5, OBJECT.BUSH_3));
     objects.appendChild(new Object("Schild1", -0.6, -1.6, -0.1, 0.5, 0.5, OBJECT.ARROW_SIGN));
     objects.appendChild(new Object("Box1", 0.8, -1.6, 0, 0.4, 0.4, OBJECT.BOX));
+
+    objects.appendChild(new Object("Stein2", 2.2, -0.5, -0.1, 1, 0.5, OBJECT.STONE));
+    objects.appendChild(new Object("Pilz1", 2.7, -0.6, -0.08, 0.23, 0.23, OBJECT.MUSHROOM_1));
+    objects.appendChild(new Object("Pilz1", 2.9, -0.57, -0.09, 0.3, 0.3, OBJECT.MUSHROOM_2));
+
+    objects.appendChild(new Object("Stumpf1", 4.7, -1.7, -0.1, 0.6, 0.3, OBJECT.STUMP));
+    objects.appendChild(new Object("Baum3", 5.8, -1.33, -0.1, 1, 1, OBJECT.TREE_1));
+    objects.appendChild(new Object("Baum4", 6.5, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_2));
+    objects.appendChild(new Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_1));
 
     return objects;
   }

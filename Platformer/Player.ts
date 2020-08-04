@@ -9,6 +9,7 @@ namespace Platformer {
 
     export class Player extends Character {
         
+        private enemy: Enemy;
         // private static animations: fAid.SpriteSheetAnimations;
         // private maxSpeed: f.Vector2 = new f.Vector2(5, 5);
         // private static gravity: f.Vector2 = f.Vector2.Y(-3.5);
@@ -81,6 +82,7 @@ namespace Platformer {
         public act(_action: ACTION, _direction?: DIRECTION): void {
             switch (_action) {
                 case ACTION.IDLE:
+                    this.isIdle = true;
                     this.speed.x = 0;
                     break;
                 case ACTION.WALK:
@@ -92,6 +94,11 @@ namespace Platformer {
                 case ACTION.JUMP:
                     this.isIdle = false;
                     this.speed.y = 2.5;
+                    break;
+                case ACTION.ATTACK:
+                    this.isIdle = false;
+                    this.isAttacking = true;
+                    this.attack(this.enemy);
                     break;
                 case ACTION.DIE:
                     this.isIdle = false;
@@ -107,6 +114,17 @@ namespace Platformer {
             this.show(_action);
         }
 
+        public attack(_enemy: Character): void {
+            let distanceSquared: number = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
+            
+            if (distanceSquared > (this.attackRange * this.attackRange))
+                return;
+            {
+                let damage: number = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
+                _enemy.handleAttack(damage);
+            }
+        }
+
         private update = (_event: f.Eventƒ): void => {
             let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
             this.speed.y += Player.gravity.y * timeFrame;
@@ -115,26 +133,16 @@ namespace Platformer {
             
             super.checkPlatformCollision();
             this.checkObjectCollision();
+            this.checkEnemiesInRange();
         }
 
-        private checkObjectCollision(): void {
-            for (let object of objects.getChildren()) { 
-                let rect: f.Rectangle = (<Object> object).getRectWorld();
-                let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
-
-                if ((<Object> object).type != OBJECT.BOX) {
-                    hit = false;
-                }
-                
-                if (hit) {
-                    let translation: f.Vector3 = this.cmpTransform.local.translation;
-                    translation.y = rect.y;
-                    this.cmpTransform.local.translation = translation;
-                    this.isIdle = true;
-                    this.speed.y = 0;
+        private checkEnemiesInRange(): void {
+            let pos: f.Vector3 = this.mtxLocal.translation;
+            for (let _enemy of enemies.getChildren()) {
+                if (pos.isInsideSphere((<Enemy>_enemy).mtxLocal.translation, 0.5)) {
+                    this.enemy = (<Enemy>_enemy);
                 }
             }
         }
-
     }
 }
