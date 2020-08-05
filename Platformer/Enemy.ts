@@ -13,11 +13,12 @@ namespace Platformer {
         private platform: Platform;
         private object: Object;
 
-        constructor(_name: string = "Enemy", _platform: Platform, _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _type: ENEMY, _spritesheet: f.CoatTextured) {
+        constructor(_name: string = "Enemy", _platform: Platform, _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _strength: number, _type: ENEMY, _spritesheet: f.CoatTextured) {
             super(_name);
 
             this.platform = _platform;
             this.maxSpeed = _maxSpeed;
+            this.strength = _strength;
 
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
@@ -75,6 +76,13 @@ namespace Platformer {
             this.show(_action);
         }
 
+        public changeDirection(): void {
+            if (this.dir == DIRECTION.LEFT)
+                this.act(ACTION.WALK, DIRECTION.RIGHT);
+            else if (this.dir == DIRECTION.RIGHT)
+                this.act(ACTION.WALK, DIRECTION.LEFT);
+        }
+
         
         private update = (_event: f.Eventƒ): void => {
             let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
@@ -101,12 +109,6 @@ namespace Platformer {
             }
         }
 
-        private changeDirection(): void {
-            if (this.dir == DIRECTION.LEFT)
-                this.act(ACTION.WALK, DIRECTION.RIGHT);
-            else if (this.dir == DIRECTION.RIGHT)
-                this.act(ACTION.WALK, DIRECTION.LEFT);
-        }
 
         private checkWalkingRange(): boolean {
             let rectPlatform: f.Rectangle = (this.platform).getRectWorld();

@@ -24,7 +24,7 @@ var Platformer;
             this.height = 1;
             this.type = type;
             this.addComponent(new ƒ.ComponentTransform());
-            this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
+            this.cmpTransform.local.translate(new f.Vector3(posX, posY, posZ));
             this.addCollectables(_amountCollectables, _typeCollectables);
             let cmpMesh = new f.ComponentMesh(Platform.mesh);
             this.addComponent(cmpMesh);

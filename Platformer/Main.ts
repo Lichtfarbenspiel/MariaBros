@@ -101,7 +101,7 @@ namespace Platformer {
 
     for (let i: number = 0; i < width; i++) {
       texture.image = bgImg; 
-      let bg: Background = new Background(i, texture);
+      let bg: Background = new Background(i - 1, texture);
       bg.cmpTransform.local.scaleY(3 * 2);
       bg.cmpTransform.local.scaleX(3 * 2);
       game.appendChild(bg);
@@ -112,7 +112,7 @@ namespace Platformer {
     let playerImg: HTMLImageElement = document.querySelector("img.player");
     let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
     Player.generateSprites(spritesheet);
-    player = new Player("Player", 0.15, 0.15, new f.Vector2(8, 5));
+    player = new Player("Player", 0.15, 0.15, new f.Vector2(8, 5), 3);
 
     game.appendChild(player);
   }
@@ -122,7 +122,7 @@ namespace Platformer {
 
     let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
     let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
-    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), ENEMY.FROG, sprite);
+    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
     
     enemies.appendChild(enemy);
     
@@ -172,13 +172,13 @@ namespace Platformer {
     level.appendChild(new Platform(21, -3.9, -0.1, TYPE.UNDERWATER, 4));
 
 
-    level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
-    level.appendChild(new Platform(24.5, -3.4, 0, TYPE.MIDDLEGROUND, 4));
-    level.appendChild(new Platform(24.5, -4.4, 0, TYPE.MIDDLEGROUND, 4));
+    // level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
+    // level.appendChild(new Platform(24.5, -3.4, 0, TYPE.MIDDLEGROUND, 4));
+    // level.appendChild(new Platform(24.5, -4.4, 0, TYPE.MIDDLEGROUND, 4));
 
-    level.appendChild(new Platform(28, -1.8, 0, TYPE.GROUND, 4));
-    level.appendChild(new Platform(28, -2.8, 0, TYPE.MIDDLEGROUND, 4));
-    level.appendChild(new Platform(28, -3.8, 0, TYPE.MIDDLEGROUND, 4));
+    // level.appendChild(new Platform(28, -1.8, 0, TYPE.GROUND, 4));
+    // level.appendChild(new Platform(28, -2.8, 0, TYPE.MIDDLEGROUND, 4));
+    // level.appendChild(new Platform(28, -3.8, 0, TYPE.MIDDLEGROUND, 4));
 
     return level;
   } 

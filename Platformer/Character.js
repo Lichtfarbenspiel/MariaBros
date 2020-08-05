@@ -64,27 +64,6 @@ var Platformer;
                 }
             }
         }
-        checkEnemyCollision() {
-            for (let enemy of Platformer.enemies.getChildren()) {
-                let rect = enemy.getRectWorld();
-                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (hit) {
-                    // let translation: f.Vector3 = this.cmpTransform.local.translation;    
-                    // translation.x = ;
-                    // this.cmpTransform.local.translation = translation;
-                    if (this.isAttacking) {
-                        enemy.speed.x = 0;
-                        let damage = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
-                        enemy.handleAttack(damage);
-                    }
-                    else {
-                        enemy.speed.x = 0;
-                        let damage = f.Random.default.getRange(0, 1) * (enemy.strength - 0.1) + 0.1;
-                        this.handleAttack(damage);
-                    }
-                }
-            }
-        }
         checkObjectCollision() {
             for (let object of Platformer.objects.getChildren()) {
                 let rect = object.getRectWorld();

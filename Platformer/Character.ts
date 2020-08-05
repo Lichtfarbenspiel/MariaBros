@@ -91,29 +91,6 @@ namespace Platformer {
             }
         }
 
-        protected checkEnemyCollision(): void {
-            for (let enemy of enemies.getChildren()) { 
-                let rect: f.Rectangle = (<Enemy> enemy).getRectWorld();
-                let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
-
-                if (hit) {
-                    // let translation: f.Vector3 = this.cmpTransform.local.translation;    
-                    // translation.x = ;
-                    // this.cmpTransform.local.translation = translation;
-                    if (this.isAttacking) {
-                        (<Character> enemy).speed.x = 0;
-                        let damage: number = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
-                        (<Character> enemy).handleAttack(damage);
-                    }
-                    else {
-                        (<Character> enemy).speed.x = 0;
-                        let damage: number = f.Random.default.getRange(0, 1) * ((<Character> enemy).strength - 0.1) + 0.1;
-                        this.handleAttack(damage);
-                    }
-                }
-            }
-        }
-
         protected checkObjectCollision(): Object {
             for (let object of objects.getChildren()) { 
                 let rect: f.Rectangle = (<Object> object).getRectWorld();

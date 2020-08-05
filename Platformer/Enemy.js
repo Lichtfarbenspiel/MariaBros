@@ -8,7 +8,7 @@ var Platformer;
         ENEMY["FROG"] = "frog";
     })(ENEMY = Platformer.ENEMY || (Platformer.ENEMY = {}));
     class Enemy extends Platformer.Character {
-        constructor(_name = "Enemy", _platform, _scaleX, _scaleY, _maxSpeed, _type, _spritesheet) {
+        constructor(_name = "Enemy", _platform, _scaleX, _scaleY, _maxSpeed, _strength, _type, _spritesheet) {
             super(_name);
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
@@ -25,6 +25,7 @@ var Platformer;
             };
             this.platform = _platform;
             this.maxSpeed = _maxSpeed;
+            this.strength = _strength;
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
             let pos = this.platform.cmpTransform.local.translation;
@@ -67,17 +68,17 @@ var Platformer;
             }
             this.show(_action);
         }
-        checkDeath() {
-            if (this.isDead) {
-                this.show(Platformer.ACTION.DIE);
-                //GAME OVER
-            }
-        }
         changeDirection() {
             if (this.dir == Platformer.DIRECTION.LEFT)
                 this.act(Platformer.ACTION.WALK, Platformer.DIRECTION.RIGHT);
             else if (this.dir == Platformer.DIRECTION.RIGHT)
                 this.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
+        }
+        checkDeath() {
+            if (this.isDead) {
+                this.show(Platformer.ACTION.DIE);
+                //GAME OVER
+            }
         }
         checkWalkingRange() {
             let rectPlatform = (this.platform).getRectWorld();

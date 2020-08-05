@@ -44,7 +44,6 @@ namespace Platformer {
             this.generateSprites(spritesheet, _type);
 
             this.show(ACTION.SPINNING);
-            // f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
         }
 
         public generateSprites(_spritesheet: f.CoatTextured, type: COLLECTABLE): void {
@@ -64,10 +63,6 @@ namespace Platformer {
         }
 
         public getRectWorld(): f.Rectangle {
-            // let rect: f.Rectangle = f.Rectangle.GET(0, 0, this.width, this.height);
-            // let topLeft: f.Vector3 = new f.Vector3(-this.width / 2, this.height / 2 , 0);
-            // let bottomRight: f.Vector3 = new f.Vector3(this.width / 2, -this.height / 2, 0);
-
             let rect: ƒ.Rectangle = ƒ.Rectangle.GET(0, 0, 100, 100);
             let topLeft: ƒ.Vector3 = new ƒ.Vector3(-0.5, 0.5, 0);
             let bottomRight: ƒ.Vector3 = new ƒ.Vector3(0.5, -0.5, 0);

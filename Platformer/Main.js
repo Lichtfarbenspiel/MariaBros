@@ -75,7 +75,7 @@ var Platformer;
         let bgImg = document.querySelector("img.background");
         for (let i = 0; i < width; i++) {
             texture.image = bgImg;
-            let bg = new Platformer.Background(i, texture);
+            let bg = new Platformer.Background(i - 1, texture);
             bg.cmpTransform.local.scaleY(3 * 2);
             bg.cmpTransform.local.scaleX(3 * 2);
             Platformer.game.appendChild(bg);
@@ -85,14 +85,14 @@ var Platformer;
         let playerImg = document.querySelector("img.player");
         let spritesheet = fAid.createSpriteSheet("Player", playerImg);
         Platformer.Player.generateSprites(spritesheet);
-        player = new Platformer.Player("Player", 0.15, 0.15, new f.Vector2(8, 5));
+        player = new Platformer.Player("Player", 0.15, 0.15, new f.Vector2(8, 5), 3);
         Platformer.game.appendChild(player);
     }
     function createEnemies() {
         let enemies = new f.Node("Enemies");
         let enemyIMG = document.querySelector("img.enemy");
         let sprite = fAid.createSpriteSheet("Enemy", enemyIMG);
-        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), Platformer.ENEMY.FROG, sprite);
+        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
         enemies.appendChild(enemy);
         return enemies;
     }
@@ -127,12 +127,12 @@ var Platformer;
         level.appendChild(new Platformer.Platform(21, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(21, -3.8, 0, Platformer.TYPE.UNDERGROUND, 4));
         level.appendChild(new Platformer.Platform(21, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 4));
-        level.appendChild(new Platformer.Platform(24.5, -2.4, 0, Platformer.TYPE.GROUND, 4));
-        level.appendChild(new Platformer.Platform(24.5, -3.4, 0, Platformer.TYPE.MIDDLEGROUND, 4));
-        level.appendChild(new Platformer.Platform(24.5, -4.4, 0, Platformer.TYPE.MIDDLEGROUND, 4));
-        level.appendChild(new Platformer.Platform(28, -1.8, 0, Platformer.TYPE.GROUND, 4));
-        level.appendChild(new Platformer.Platform(28, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
-        level.appendChild(new Platformer.Platform(28, -3.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
+        // level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
+        // level.appendChild(new Platform(24.5, -3.4, 0, TYPE.MIDDLEGROUND, 4));
+        // level.appendChild(new Platform(24.5, -4.4, 0, TYPE.MIDDLEGROUND, 4));
+        // level.appendChild(new Platform(28, -1.8, 0, TYPE.GROUND, 4));
+        // level.appendChild(new Platform(28, -2.8, 0, TYPE.MIDDLEGROUND, 4));
+        // level.appendChild(new Platform(28, -3.8, 0, TYPE.MIDDLEGROUND, 4));
         return level;
     }
     function addObjects() {

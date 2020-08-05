@@ -28,7 +28,6 @@ var Platformer;
             let spritesheet = this.getSprite(_type);
             this.generateSprites(spritesheet, _type);
             this.show(ACTION.SPINNING);
-            // f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
         }
         generateSprites(_spritesheet, type) {
             Collectable.animations = {};
@@ -45,9 +44,6 @@ var Platformer;
             }
         }
         getRectWorld() {
-            // let rect: f.Rectangle = f.Rectangle.GET(0, 0, this.width, this.height);
-            // let topLeft: f.Vector3 = new f.Vector3(-this.width / 2, this.height / 2 , 0);
-            // let bottomRight: f.Vector3 = new f.Vector3(this.width / 2, -this.height / 2, 0);
             let rect = ƒ.Rectangle.GET(0, 0, 100, 100);
             let topLeft = new ƒ.Vector3(-0.5, 0.5, 0);
             let bottomRight = new ƒ.Vector3(0.5, -0.5, 0);

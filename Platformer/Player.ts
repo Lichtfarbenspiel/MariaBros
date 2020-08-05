@@ -4,18 +4,17 @@ namespace Platformer {
 
     export class Player extends Character {
         
-        private enemy: Enemy;
         private wealth: number = 0;
 
-        constructor(_name: string = "Player", _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2) {
+        constructor(_name: string = "Player", _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _hp: number) {
             super(_name);
             
             this.maxSpeed = _maxSpeed;
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
+            this.healthPoints = _hp;
 
             this.addComponent(new f.ComponentTransform());
-            // this.mtxWorld.translation = new f.Vector3(posX, posY, 0);
             this.cmpTransform.local.scaling = new f.Vector3(this.scaleX, this.scaleY, 0);
             this.cmpTransform.local.translateY(-1);
 
@@ -120,18 +119,18 @@ namespace Platformer {
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
 
-            this.checkCollision(collectables);
+            this.checkCollectable();
             console.log(this.wealth);
             
             super.checkPlatformCollision();
             this.checkObjectCollision();
-            // this.checkEnemyCollision();
+            this.checkEnemyCollision();
             this.checkDeath();
             // this.checkEnemiesInRange();
         }
 
-        private checkCollision(_collectable: f.Node): void {
-            for (let collectable of _collectable.getChildren()) { 
+        private checkCollectable(): void {
+            for (let collectable of collectables.getChildren()) { 
                 let collectPos: f.Vector3 = collectable.cmpTransform.local.translation;
                 let characterPos: f.Vector3 = this.cmpTransform.local.translation;
                 characterPos.y += 0.5;
@@ -146,20 +145,44 @@ namespace Platformer {
             }
         }
 
-        private checkDeath(): void {
-            if (this.isDead) {
-                this. show(ACTION.DIE);
-                this.speed.x = 0;
-                //GAME OVER
+        private checkEnemyCollision(): void {
+            for (let enemy of enemies.getChildren()) { 
+                let enemyPos: f.Vector3 = enemy.cmpTransform.local.translation;
+                let characterPos: f.Vector3 = this.cmpTransform.local.translation;
+                // characterPos.y -= 0.5;
+
+                let difference: f.Vector3 = f.Vector3.DIFFERENCE(enemyPos, characterPos);
+                let distance: number = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
+
+                if (distance <= 0.16) {
+                    this.handleEnemyCollision((<Enemy>enemy));
+                }
             }
         }
 
-        private checkEnemiesInRange(): void {
-            let pos: f.Vector3 = this.mtxLocal.translation;
-            for (let _enemy of enemies.getChildren()) {
-                if (pos.isInsideSphere((<Enemy>_enemy).mtxLocal.translation, 0.5)) {
-                    this.enemy = (<Enemy>_enemy);
+        private handleEnemyCollision(_enemy: Enemy): void {
+            
+            if (this.isAttacking) {
+                _enemy.isDead = true;
+                enemies.removeChild(_enemy);
+            }
+            else {
+                this.healthPoints -= _enemy.strength;
+                console.log("HP: " + this.healthPoints);
+                _enemy.changeDirection();
+    
+                if (this.healthPoints <= 0) {
+                    this.speed.x = 0;
+                    this.isDead = true;
+                    this. show(ACTION.DIE);
                 }
+            }
+        }
+
+        private checkDeath(): void {
+            if (this.isDead) {
+                
+                //GAME OVER
             }
         }
     }

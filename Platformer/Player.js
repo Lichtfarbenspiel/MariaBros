@@ -4,7 +4,7 @@ var Platformer;
     var f = FudgeCore;
     var fAid = FudgeAid;
     class Player extends Platformer.Character {
-        constructor(_name = "Player", _scaleX, _scaleY, _maxSpeed) {
+        constructor(_name = "Player", _scaleX, _scaleY, _maxSpeed, _hp) {
             super(_name);
             this.wealth = 0;
             // public attack(_enemy: Character): void {
@@ -21,19 +21,19 @@ var Platformer;
                 this.speed.y += Player.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
-                this.checkCollision(Platformer.collectables);
+                this.checkCollectable();
                 console.log(this.wealth);
                 super.checkPlatformCollision();
                 this.checkObjectCollision();
-                // this.checkEnemyCollision();
+                this.checkEnemyCollision();
                 this.checkDeath();
                 // this.checkEnemiesInRange();
             };
             this.maxSpeed = _maxSpeed;
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
+            this.healthPoints = _hp;
             this.addComponent(new f.ComponentTransform());
-            // this.mtxWorld.translation = new f.Vector3(posX, posY, 0);
             this.cmpTransform.local.scaling = new f.Vector3(this.scaleX, this.scaleY, 0);
             this.cmpTransform.local.translateY(-1);
             this.show(Platformer.ACTION.IDLE);
@@ -107,8 +107,8 @@ var Platformer;
             this.action = _action;
             this.show(_action);
         }
-        checkCollision(_collectable) {
-            for (let collectable of _collectable.getChildren()) {
+        checkCollectable() {
+            for (let collectable of Platformer.collectables.getChildren()) {
                 let collectPos = collectable.cmpTransform.local.translation;
                 let characterPos = this.cmpTransform.local.translation;
                 characterPos.y += 0.5;
@@ -120,19 +120,37 @@ var Platformer;
                 }
             }
         }
-        checkDeath() {
-            if (this.isDead) {
-                this.show(Platformer.ACTION.DIE);
-                this.speed.x = 0;
-                //GAME OVER
+        checkEnemyCollision() {
+            for (let enemy of Platformer.enemies.getChildren()) {
+                let enemyPos = enemy.cmpTransform.local.translation;
+                let characterPos = this.cmpTransform.local.translation;
+                // characterPos.y -= 0.5;
+                let difference = f.Vector3.DIFFERENCE(enemyPos, characterPos);
+                let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
+                if (distance <= 0.16) {
+                    this.handleEnemyCollision(enemy);
+                }
             }
         }
-        checkEnemiesInRange() {
-            let pos = this.mtxLocal.translation;
-            for (let _enemy of Platformer.enemies.getChildren()) {
-                if (pos.isInsideSphere(_enemy.mtxLocal.translation, 0.5)) {
-                    this.enemy = _enemy;
+        handleEnemyCollision(_enemy) {
+            if (this.isAttacking) {
+                _enemy.isDead = true;
+                Platformer.enemies.removeChild(_enemy);
+            }
+            else {
+                this.healthPoints -= _enemy.strength;
+                console.log("HP: " + this.healthPoints);
+                _enemy.changeDirection();
+                if (this.healthPoints <= 0) {
+                    this.speed.x = 0;
+                    this.isDead = true;
+                    this.show(Platformer.ACTION.DIE);
                 }
+            }
+        }
+        checkDeath() {
+            if (this.isDead) {
+                //GAME OVER
             }
         }
     }
