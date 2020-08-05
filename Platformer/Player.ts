@@ -4,6 +4,7 @@ namespace Platformer {
 
     export class Player extends Character {
         
+        public isJumping: boolean = true;
         private wealth: number = 0;
 
         constructor(_name: string = "Player", _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _hp: number) {
@@ -102,17 +103,6 @@ namespace Platformer {
             this.show(_action);
         }
 
-        // public attack(_enemy: Character): void {
-        //     let distanceSquared: number = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
-            
-        //     if (distanceSquared > (this.attackRange * this.attackRange))
-        //         return;
-        //     {
-        //         let damage: number = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
-        //         _enemy.handleAttack(damage);
-        //     }
-        // }
-
         private update = (_event: f.Eventƒ): void => {
             let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
             this.speed.y += Player.gravity.y * timeFrame;
@@ -165,6 +155,7 @@ namespace Platformer {
             if (this.isAttacking) {
                 _enemy.isDead = true;
                 enemies.removeChild(_enemy);
+                this.wealth += 10;
             }
             else {
                 this.healthPoints -= _enemy.strength;

@@ -58,7 +58,9 @@ namespace Platformer {
   
   function hndKeyboard(_event: f.EventKeyboard): void {
     if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
-    player.act(ACTION.JUMP);
+      player.act(ACTION.JUMP);
+    if (_event.code == ƒ.KEYBOARD_CODE.F)
+      player.act(ACTION.ATTACK, player.dir);
   }
 
   function processInput(): void {
@@ -74,9 +76,9 @@ namespace Platformer {
       else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
         player.act(ACTION.JUMP, player.dir);
       }
-      else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-        player.act(ACTION.ATTACK, player.dir);
-      }
+      // else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+      //   player.act(ACTION.ATTACK, player.dir);
+      // }
       else if (!player.isDead || player.isIdle)
         player.act(ACTION.IDLE);
     }
