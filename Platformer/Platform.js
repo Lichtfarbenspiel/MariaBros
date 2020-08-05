@@ -18,13 +18,14 @@ var Platformer;
         TYPE["UNDERWATER"] = "underwater";
     })(TYPE = Platformer.TYPE || (Platformer.TYPE = {}));
     class Platform extends f.Node {
-        constructor(posX, posY, posZ = 0, type, tiles, height = 1) {
+        constructor(posX, posY, posZ = 0, type, tiles, _amountCollectables, _typeCollectables) {
             super("Platform");
             this.width = tiles;
-            this.height = height;
+            this.height = 1;
             this.type = type;
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
+            this.addCollectables(_amountCollectables, _typeCollectables);
             let cmpMesh = new f.ComponentMesh(Platform.mesh);
             this.addComponent(cmpMesh);
             let tile;
@@ -68,6 +69,13 @@ var Platformer;
             rect.position = topLeft.toVector2();
             rect.size = size;
             return rect;
+        }
+        addCollectables(_amount, _type) {
+            for (let i = 0; i < _amount; i++) {
+                let randPos = new f.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
+                let platformPos = this.cmpTransform.local.translation;
+                Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y, 0.5, 0.5, _type));
+            }
         }
     }
     Platform.mesh = new f.MeshSprite();

@@ -14,14 +14,15 @@ namespace Platformer {
   let cmpCamera: f.ComponentCamera;
 
   function test(): void {
-    let canvas: HTMLCanvasElement = document.querySelector("canvas");
+    let canvas: HTMLCanvasElement = document.querySelector("canvas.game");
+    let stats: HTMLCanvasElement = document.querySelector("canvas.stats");
 
     game = new f.Node("Game");
+    collectables = new f.Node("Collectables");
 
     level = createPlatform();
     objects = addObjects();
     enemies = createEnemies();
-    collectables = addCollectables();
 
     game.appendChild(level);
     game.appendChild(objects);
@@ -86,6 +87,10 @@ namespace Platformer {
     cmpCamera.pivot.translation = new f.Vector3(playerPos.x, playerPos.y + 0.5, cmpCamera.pivot.translation.z);
   }
 
+  function displayStats(): void {
+
+  }
+
 
   // setup Game
 
@@ -127,7 +132,7 @@ namespace Platformer {
   function createPlatform(): f.Node {
     let level: f.Node = new f.Node("Level");
 
-    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2));
+    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 2, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(-5, -2.8, 0, TYPE.MIDDLEGROUND, 2));
     level.appendChild(new Platform(-5, -3.8, 0, TYPE.UNDERGROUND, 2));
 
@@ -135,7 +140,7 @@ namespace Platformer {
     level.appendChild(new Platform(-3.5, -2.85, -0.1, TYPE.UNDERWATER, 2));
     level.appendChild(new Platform(-3.5, -3.85, -0.1, TYPE.UNDERWATER, 2));
 
-    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4));
+    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4, 4, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(-1, -2.8, 0, TYPE.MIDDLEGROUND, 4));
     level.appendChild(new Platform(-1, -3.8, 0, TYPE.UNDERGROUND, 4));
 
@@ -198,13 +203,5 @@ namespace Platformer {
     objects.appendChild(new Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_1));
 
     return objects;
-  }
-
-  function addCollectables(): f.Node {
-    let collectables: f.Node = new f.Node("Collectables");
-
-    collectables.appendChild(new Collectable("Coin1", 1.6, -2, 0.5, 0.5, COLLECTABLE.COIN_GOLD));
-
-    return collectables;
   }
 }

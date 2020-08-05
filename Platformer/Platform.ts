@@ -24,16 +24,17 @@ namespace Platformer {
         public height: number;
         public type: TYPE;
 
-        public constructor(posX: number, posY: number, posZ: number = 0, type: TYPE, tiles: number, height: number = 1) {
+        public constructor(posX: number, posY: number, posZ: number = 0, type: TYPE, tiles: number, _amountCollectables?: number, _typeCollectables?: COLLECTABLE) {
             super("Platform");
            
             this.width = tiles;
-            this.height = height;
+            this.height = 1;
             this.type = type;
 
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translate(new f.Vector3(posX, posY, posZ));
 
+            this.addCollectables(_amountCollectables, _typeCollectables);
             
             let cmpMesh: f.ComponentMesh = new f.ComponentMesh(Platform.mesh);
             this.addComponent(cmpMesh);
@@ -72,7 +73,6 @@ namespace Platformer {
             }
         }
 
-
         public getRectWorld(): f.Rectangle {
             let rect: f.Rectangle = f.Rectangle.GET(0, 0, this.width, this.height);
             let topLeft: f.Vector3 = new f.Vector3(-this.width / 2, this.height / 2, 0);
@@ -87,6 +87,15 @@ namespace Platformer {
             rect.size = size;
 
             return rect;
+        }
+
+        private addCollectables(_amount: number, _type: COLLECTABLE): void {    
+            for (let i: number = 0; i < _amount; i++) {
+                let randPos: f.Vector3 = new f.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
+                let platformPos: f.Vector3 = this.cmpTransform.local.translation;
+                
+                collectables.appendChild(new Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y, 0.5, 0.5, _type));
+            }
         }
     }
 }

@@ -7,12 +7,13 @@ var Platformer;
     let player;
     let cmpCamera;
     function test() {
-        let canvas = document.querySelector("canvas");
+        let canvas = document.querySelector("canvas.game");
+        let stats = document.querySelector("canvas.stats");
         Platformer.game = new f.Node("Game");
+        Platformer.collectables = new f.Node("Collectables");
         Platformer.level = createPlatform();
         Platformer.objects = addObjects();
         Platformer.enemies = createEnemies();
-        Platformer.collectables = addCollectables();
         Platformer.game.appendChild(Platformer.level);
         Platformer.game.appendChild(Platformer.objects);
         Platformer.game.appendChild(Platformer.enemies);
@@ -65,6 +66,8 @@ var Platformer;
         let playerPos = player.cmpTransform.local.translation;
         cmpCamera.pivot.translation = new f.Vector3(playerPos.x, playerPos.y + 0.5, cmpCamera.pivot.translation.z);
     }
+    function displayStats() {
+    }
     // setup Game
     function createBackground() {
         let width = 6;
@@ -95,13 +98,13 @@ var Platformer;
     }
     function createPlatform() {
         let level = new f.Node("Level");
-        level.appendChild(new Platformer.Platform(-5, -1.8, 0, Platformer.TYPE.GROUND, 2));
+        level.appendChild(new Platformer.Platform(-5, -1.8, 0, Platformer.TYPE.GROUND, 2, 2, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(-5, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 2));
         level.appendChild(new Platformer.Platform(-5, -3.8, 0, Platformer.TYPE.UNDERGROUND, 2));
         level.appendChild(new Platformer.Platform(-3.5, -1.85, -0.1, Platformer.TYPE.WATER, 2));
         level.appendChild(new Platformer.Platform(-3.5, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
         level.appendChild(new Platformer.Platform(-3.5, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
-        level.appendChild(new Platformer.Platform(-1, -1.8, 0, Platformer.TYPE.GROUND, 4));
+        level.appendChild(new Platformer.Platform(-1, -1.8, 0, Platformer.TYPE.GROUND, 4, 4, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(-1, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(-1, -3.8, 0, Platformer.TYPE.UNDERGROUND, 4));
         level.appendChild(new Platformer.Platform(2.6, -0.7, 0, Platformer.TYPE.FLOATING, 2));
@@ -147,11 +150,6 @@ var Platformer;
         objects.appendChild(new Platformer.Object("Baum4", 6.5, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
         objects.appendChild(new Platformer.Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_1));
         return objects;
-    }
-    function addCollectables() {
-        let collectables = new f.Node("Collectables");
-        collectables.appendChild(new Platformer.Collectable("Coin1", 1.6, -2, 0.5, 0.5, Platformer.COLLECTABLE.COIN_GOLD));
-        return collectables;
     }
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map
