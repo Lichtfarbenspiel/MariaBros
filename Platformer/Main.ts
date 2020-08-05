@@ -34,7 +34,7 @@ namespace Platformer {
        
 
     cmpCamera = new f.ComponentCamera();
-    cmpCamera.pivot.translateZ(6);
+    cmpCamera.pivot.translateZ(10);
     cmpCamera.pivot.lookAt(f.Vector3.ZERO());
     cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
 
@@ -84,7 +84,7 @@ namespace Platformer {
 
   function camMovement(): void {
     let playerPos: f.Vector3 = player.cmpTransform.local.translation;
-    cmpCamera.pivot.translation = new f.Vector3(playerPos.x, playerPos.y + 0.5, cmpCamera.pivot.translation.z);
+    cmpCamera.pivot.translation = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
   }
 
   function displayStats(): void {
@@ -145,18 +145,18 @@ namespace Platformer {
     level.appendChild(new Platform(-1, -3.8, 0, TYPE.UNDERGROUND, 4));
 
 
-    level.appendChild(new Platform(2.6, -0.7, 0, TYPE.FLOATING, 2));
+    level.appendChild(new Platform(2.6, -0.7, 0, TYPE.FLOATING, 2, 1, COLLECTABLE.COIN_GOLD));
 
     level.appendChild(new Platform(2, -1.85, -0.1, TYPE.WATER, 3.5));
     level.appendChild(new Platform(2, -2.85, -0.1, TYPE.UNDERWATER, 3.5));
     level.appendChild(new Platform(2, -3.85, -0.1, TYPE.UNDERWATER, 3.5));
 
-    level.appendChild(new Platform(6.5, -1.8, 0, TYPE.GROUND, 6));
+    level.appendChild(new Platform(6.5, -1.8, 0, TYPE.GROUND, 6, 5, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(6.5, -2.8, 0, TYPE.UNDERGROUND, 6));
     level.appendChild(new Platform(6.5, -2.9, -0.1, TYPE.UNDERWATER, 6));
     level.appendChild(new Platform(6.5, -3.9, -0.1, TYPE.UNDERWATER, 6));
 
-    level.appendChild(new Platform(12, -1, 0, TYPE.GROUND, 6));
+    level.appendChild(new Platform(12, -1, 0, TYPE.GROUND, 6, 4, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(12, -2, 0, TYPE.UNDERGROUND, 6));
     level.appendChild(new Platform(12, -2.9 , -0.1, TYPE.UNDERWATER, 6));
     level.appendChild(new Platform(12, -3.9 , -0.1, TYPE.UNDERWATER, 6));
@@ -166,7 +166,7 @@ namespace Platformer {
     level.appendChild(new Platform(17, -2.9, -0.1, TYPE.UNDERWATER, 5));
     level.appendChild(new Platform(17, -3.9, -0.1, TYPE.UNDERWATER, 5));
     
-    level.appendChild(new Platform(21, -1.8, 0, TYPE.GROUND, 4));
+    level.appendChild(new Platform(21, -1.8, 0, TYPE.GROUND, 4, 3, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(21, -2.8, 0, TYPE.MIDDLEGROUND, 4));
     level.appendChild(new Platform(21, -3.8, 0, TYPE.UNDERGROUND, 4));
     level.appendChild(new Platform(21, -3.9, -0.1, TYPE.UNDERWATER, 4));
@@ -174,6 +174,7 @@ namespace Platformer {
 
     level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
     level.appendChild(new Platform(24.5, -3.4, 0, TYPE.MIDDLEGROUND, 4));
+    level.appendChild(new Platform(24.5, -4.4, 0, TYPE.MIDDLEGROUND, 4));
 
     level.appendChild(new Platform(28, -1.8, 0, TYPE.GROUND, 4));
     level.appendChild(new Platform(28, -2.8, 0, TYPE.MIDDLEGROUND, 4));
@@ -201,6 +202,18 @@ namespace Platformer {
     objects.appendChild(new Object("Baum3", 5.8, -1.33, -0.1, 1, 1, OBJECT.TREE_1));
     objects.appendChild(new Object("Baum4", 6.5, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_2));
     objects.appendChild(new Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_1));
+
+    objects.appendChild(new Object("Stumpf2", 10, -0.9, -0.1, 0.6, 0.3, OBJECT.STUMP));
+    objects.appendChild(new Object("Busch3", 10.7, -0.75, -0.1, 1, 0.5, OBJECT.BUSH_3));
+    objects.appendChild(new Object("Pilz3", 11.5, -0.85, -0.08, 0.3, 0.3, OBJECT.MUSHROOM_1));
+    objects.appendChild(new Object("Baum6", 12, -0.4, -0.1, 1.5, 1.5, OBJECT.TREE_2));
+    objects.appendChild(new Object("Busch4", 12.7, -0.75, -0.1, 1, 0.5, OBJECT.BUSH_1));
+    objects.appendChild(new Object("Stein2", 13.5, -0.5, -0.1, 1.6, 1, OBJECT.STONE));
+
+    objects.appendChild(new Object("Box1", 17.5, -1, 0, 0.4, 0.4, OBJECT.BOX));
+
+    objects.appendChild(new Object("Baum7", 20, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_2));
+    objects.appendChild(new Object("Baum7", 21, -1.33, -0.1, 1, 1, OBJECT.TREE_1));
 
     return objects;
   }

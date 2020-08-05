@@ -21,7 +21,7 @@ var Platformer;
         createBackground();
         createPlayer();
         cmpCamera = new f.ComponentCamera();
-        cmpCamera.pivot.translateZ(6);
+        cmpCamera.pivot.translateZ(10);
         cmpCamera.pivot.lookAt(f.Vector3.ZERO());
         cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
         let viewport = new f.Viewport();
@@ -64,7 +64,7 @@ var Platformer;
     }
     function camMovement() {
         let playerPos = player.cmpTransform.local.translation;
-        cmpCamera.pivot.translation = new f.Vector3(playerPos.x, playerPos.y + 0.5, cmpCamera.pivot.translation.z);
+        cmpCamera.pivot.translation = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
     }
     function displayStats() {
     }
@@ -107,15 +107,15 @@ var Platformer;
         level.appendChild(new Platformer.Platform(-1, -1.8, 0, Platformer.TYPE.GROUND, 4, 4, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(-1, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(-1, -3.8, 0, Platformer.TYPE.UNDERGROUND, 4));
-        level.appendChild(new Platformer.Platform(2.6, -0.7, 0, Platformer.TYPE.FLOATING, 2));
+        level.appendChild(new Platformer.Platform(2.6, -0.7, 0, Platformer.TYPE.FLOATING, 2, 1, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(2, -1.85, -0.1, Platformer.TYPE.WATER, 3.5));
         level.appendChild(new Platformer.Platform(2, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 3.5));
         level.appendChild(new Platformer.Platform(2, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 3.5));
-        level.appendChild(new Platformer.Platform(6.5, -1.8, 0, Platformer.TYPE.GROUND, 6));
+        level.appendChild(new Platformer.Platform(6.5, -1.8, 0, Platformer.TYPE.GROUND, 6, 5, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(6.5, -2.8, 0, Platformer.TYPE.UNDERGROUND, 6));
         level.appendChild(new Platformer.Platform(6.5, -2.9, -0.1, Platformer.TYPE.UNDERWATER, 6));
         level.appendChild(new Platformer.Platform(6.5, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 6));
-        level.appendChild(new Platformer.Platform(12, -1, 0, Platformer.TYPE.GROUND, 6));
+        level.appendChild(new Platformer.Platform(12, -1, 0, Platformer.TYPE.GROUND, 6, 4, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(12, -2, 0, Platformer.TYPE.UNDERGROUND, 6));
         level.appendChild(new Platformer.Platform(12, -2.9, -0.1, Platformer.TYPE.UNDERWATER, 6));
         level.appendChild(new Platformer.Platform(12, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 6));
@@ -123,12 +123,13 @@ var Platformer;
         level.appendChild(new Platformer.Platform(17, -1.9, -0.1, Platformer.TYPE.WATER, 5));
         level.appendChild(new Platformer.Platform(17, -2.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
         level.appendChild(new Platformer.Platform(17, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
-        level.appendChild(new Platformer.Platform(21, -1.8, 0, Platformer.TYPE.GROUND, 4));
+        level.appendChild(new Platformer.Platform(21, -1.8, 0, Platformer.TYPE.GROUND, 4, 3, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(21, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(21, -3.8, 0, Platformer.TYPE.UNDERGROUND, 4));
         level.appendChild(new Platformer.Platform(21, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 4));
         level.appendChild(new Platformer.Platform(24.5, -2.4, 0, Platformer.TYPE.GROUND, 4));
         level.appendChild(new Platformer.Platform(24.5, -3.4, 0, Platformer.TYPE.MIDDLEGROUND, 4));
+        level.appendChild(new Platformer.Platform(24.5, -4.4, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(28, -1.8, 0, Platformer.TYPE.GROUND, 4));
         level.appendChild(new Platformer.Platform(28, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(28, -3.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
@@ -149,6 +150,15 @@ var Platformer;
         objects.appendChild(new Platformer.Object("Baum3", 5.8, -1.33, -0.1, 1, 1, Platformer.OBJECT.TREE_1));
         objects.appendChild(new Platformer.Object("Baum4", 6.5, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
         objects.appendChild(new Platformer.Object("Baum5", 8, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_1));
+        objects.appendChild(new Platformer.Object("Stumpf2", 10, -0.9, -0.1, 0.6, 0.3, Platformer.OBJECT.STUMP));
+        objects.appendChild(new Platformer.Object("Busch3", 10.7, -0.75, -0.1, 1, 0.5, Platformer.OBJECT.BUSH_3));
+        objects.appendChild(new Platformer.Object("Pilz3", 11.5, -0.85, -0.08, 0.3, 0.3, Platformer.OBJECT.MUSHROOM_1));
+        objects.appendChild(new Platformer.Object("Baum6", 12, -0.4, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
+        objects.appendChild(new Platformer.Object("Busch4", 12.7, -0.75, -0.1, 1, 0.5, Platformer.OBJECT.BUSH_1));
+        objects.appendChild(new Platformer.Object("Stein2", 13.5, -0.5, -0.1, 1.6, 1, Platformer.OBJECT.STONE));
+        objects.appendChild(new Platformer.Object("Box1", 17.5, -1, 0, 0.4, 0.4, Platformer.OBJECT.BOX));
+        objects.appendChild(new Platformer.Object("Baum7", 20, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
+        objects.appendChild(new Platformer.Object("Baum7", 21, -1.33, -0.1, 1, 1, Platformer.OBJECT.TREE_1));
         return objects;
     }
 })(Platformer || (Platformer = {}));

@@ -71,8 +71,9 @@ var Platformer;
             return rect;
         }
         addCollectables(_amount, _type) {
+            let range = this.width / 2;
             for (let i = 0; i < _amount; i++) {
-                let randPos = new f.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
+                let randPos = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-1, 0));
                 let platformPos = this.cmpTransform.local.translation;
                 Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y, 0.5, 0.5, _type));
             }

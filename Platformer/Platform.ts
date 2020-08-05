@@ -90,8 +90,9 @@ namespace Platformer {
         }
 
         private addCollectables(_amount: number, _type: COLLECTABLE): void {    
+            let range: number = this.width / 2;
             for (let i: number = 0; i < _amount; i++) {
-                let randPos: f.Vector3 = new f.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
+                let randPos: f.Vector3 = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-1, 0));
                 let platformPos: f.Vector3 = this.cmpTransform.local.translation;
                 
                 collectables.appendChild(new Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y, 0.5, 0.5, _type));
