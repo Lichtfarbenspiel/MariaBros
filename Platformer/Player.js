@@ -3,19 +3,10 @@ var Platformer;
 (function (Platformer) {
     var f = FudgeCore;
     var fAid = FudgeAid;
-    // export enum DIRECTION {
-    //     LEFT, RIGHT
-    // }
     class Player extends Platformer.Character {
-        // private static animations: fAid.SpriteSheetAnimations;
-        // private maxSpeed: f.Vector2 = new f.Vector2(5, 5);
-        // private static gravity: f.Vector2 = f.Vector2.Y(-3.5);
-        // public dir: DIRECTION = DIRECTION.RIGHT;
-        // public speed: f.Vector3 = f.Vector3.ZERO();
-        // public isDead: boolean = false;
-        // public isIdle: boolean = true;
         constructor(_name = "Player", _scaleX, _scaleY, _maxSpeed) {
             super(_name);
+            this.wealth = 0;
             // public attack(_enemy: Character): void {
             //     let distanceSquared: number = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
             //     if (distanceSquared > (this.attackRange * this.attackRange))
@@ -30,9 +21,11 @@ var Platformer;
                 this.speed.y += Player.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
+                this.checkCollision(Platformer.collectables);
+                console.log(this.wealth);
                 super.checkPlatformCollision();
                 this.checkObjectCollision();
-                this.checkEnemyCollision();
+                // this.checkEnemyCollision();
                 this.checkDeath();
                 // this.checkEnemiesInRange();
             };
@@ -49,7 +42,6 @@ var Platformer;
         static generateSprites(_spritesheet) {
             Player.animations = {};
             let sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.IDLE, _spritesheet);
-            // sprite.generateByGrid(f.Rectangle.GET(85, 70, 198, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             sprite.generateByGrid(f.Rectangle.GET(85, 70, 300, 283), 8, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
             Player.animations[Platformer.ACTION.IDLE] = sprite;
             for (let i = 0; i < 8; i++) {
@@ -97,7 +89,7 @@ var Platformer;
                     break;
                 case Platformer.ACTION.JUMP:
                     this.isIdle = false;
-                    this.speed.y = 2.5;
+                    this.speed.y = 8;
                     break;
                 case Platformer.ACTION.ATTACK:
                     this.isIdle = false;
@@ -114,6 +106,19 @@ var Platformer;
                 return;
             this.action = _action;
             this.show(_action);
+        }
+        checkCollision(_collectable) {
+            for (let collectable of _collectable.getChildren()) {
+                let collectPos = collectable.cmpTransform.local.translation;
+                let characterPos = this.cmpTransform.local.translation;
+                characterPos.y += 0.5;
+                let difference = f.Vector3.DIFFERENCE(collectPos, characterPos);
+                let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
+                if (distance <= 0.16) {
+                    this.wealth += collectable.value;
+                    Platformer.collectables.removeChild(collectable);
+                }
+            }
         }
         checkDeath() {
             if (this.isDead) {

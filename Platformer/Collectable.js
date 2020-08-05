@@ -17,22 +17,6 @@ var Platformer;
         constructor(_name, _posX, _posY, _scaleX, _scaleY, _type) {
             super(_name);
             this.objectIMG = document.querySelectorAll("img.collectable");
-            // public act(_action: ACTION, _direction?: DIRECTION): void {
-            //     let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
-            //     switch (_direction) {
-            //         case DIRECTION.LEFT:
-            //             this.dir = DIRECTION.LEFT;
-            //             this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
-            //             break;
-            //         case DIRECTION.RIGHT:
-            //             this.dir = DIRECTION.RIGHT;
-            //             this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
-            //             break;
-            //     }
-            //     this.show(_action);
-            // }
-            this.update = (_event) => {
-            };
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
             this.type = _type;
@@ -44,7 +28,7 @@ var Platformer;
             let spritesheet = this.getSprite(_type);
             this.generateSprites(spritesheet, _type);
             this.show(ACTION.SPINNING);
-            f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
+            // f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
         }
         generateSprites(_spritesheet, type) {
             Collectable.animations = {};
@@ -56,6 +40,7 @@ var Platformer;
                     for (let i = 0; i < 5; i++) {
                         sprite.frames[i].timeScale = 2;
                     }
+                    this.value = 10;
                     break;
             }
         }

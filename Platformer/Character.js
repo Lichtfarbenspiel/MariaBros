@@ -27,13 +27,6 @@ var Platformer;
             this.isAttacking = false;
             this.attackRange = 0.5;
         }
-        // protected update = (_event: f.Eventƒ): void => {
-        //     let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
-        //     this.speed.y += Character.gravity.y * timeFrame;
-        //     let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
-        //     this.cmpTransform.local.translate(distance);
-        //     this.checkPlatformCollision();
-        // }
         handleAttack(damage) {
             if (!this.isDead) {
                 if (this.healthPoints > 0)
@@ -111,7 +104,7 @@ var Platformer;
             return null;
         }
     }
-    Character.gravity = f.Vector2.Y(-4);
+    Character.gravity = f.Vector2.Y(-8);
     Character.pivot = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
     Platformer.Character = Character;
 })(Platformer || (Platformer = {}));

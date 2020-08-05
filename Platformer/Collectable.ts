@@ -19,6 +19,7 @@ namespace Platformer {
         public scaleX: number;
         public scaleY: number;
         public type: COLLECTABLE;
+        public value: number;
 
         private objectIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.collectable");
 
@@ -43,7 +44,7 @@ namespace Platformer {
             this.generateSprites(spritesheet, _type);
 
             this.show(ACTION.SPINNING);
-            f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
+            // f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
         }
 
         public generateSprites(_spritesheet: f.CoatTextured, type: COLLECTABLE): void {
@@ -57,6 +58,7 @@ namespace Platformer {
                     for (let i: number = 0; i < 5; i++) {
                         sprite.frames[i].timeScale = 2;
                     }
+                    this.value = 10;
                     break;
             }
         }
@@ -85,28 +87,7 @@ namespace Platformer {
             // show only the animation defined for the action
             this.setAnimation(<fAid.SpriteSheetAnimation>Collectable.animations[_action]);
         }
-
-        // public act(_action: ACTION, _direction?: DIRECTION): void {
-        //     let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
-            
-        //     switch (_direction) {
-        //         case DIRECTION.LEFT:
-        //             this.dir = DIRECTION.LEFT;
-        //             this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
-        //             break;
-        //         case DIRECTION.RIGHT:
-        //             this.dir = DIRECTION.RIGHT;
-        //             this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
-        //             break;
-        //     }
-            
-
-        //     this.show(_action);
-        // }
-        
-        private update = (_event: f.Eventƒ): void => {
-        
-        }
+ 
 
         private getSprite(type: COLLECTABLE): f.CoatTextured {
             

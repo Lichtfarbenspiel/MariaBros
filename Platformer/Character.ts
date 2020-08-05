@@ -19,7 +19,7 @@ namespace Platformer {
     export class Character extends fAid.NodeSprite {
         
         protected static animations: fAid.SpriteSheetAnimations;
-        protected static gravity: f.Vector2 = f.Vector2.Y(-4);
+        protected static gravity: f.Vector2 = f.Vector2.Y(-8);
         private static readonly pivot: ƒ.Matrix4x4 = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
 
         public dir: DIRECTION = DIRECTION.RIGHT;
@@ -43,14 +43,6 @@ namespace Platformer {
             super(_name);
         }
 
-        // protected update = (_event: f.Eventƒ): void => {
-        //     let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
-        //     this.speed.y += Character.gravity.y * timeFrame;
-        //     let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
-        //     this.cmpTransform.local.translate(distance);
-            
-        //     this.checkPlatformCollision();
-        // }
 
         public handleAttack(damage: number): void {
             if (!this.isDead) {

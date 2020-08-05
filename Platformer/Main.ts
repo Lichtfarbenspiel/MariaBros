@@ -16,26 +16,6 @@ namespace Platformer {
   function test(): void {
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
 
-    // let playerImg: HTMLImageElement = document.querySelector("img.player");
-    // let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
-    // Player.generateSprites(spritesheet);
-
-    // game = new f.Node("Game");
-    // player = new Player("Player 1", 0.15, 0.15);
-    // level = createPlatform();
-    // objects = addObjects();
-
-    // let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
-    // let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
-    // let enemy: Enemy = new Enemy("Frog", -1, -1, 1.5, 1.5, ENEMY.FROG, sprite);
-
-    // game.appendChild(player);
-    // game.appendChild(level);
-    // game.appendChild(objects);
-    // game.appendChild(enemy);
-
-    // createBackground();
-
     game = new f.Node("Game");
 
     level = createPlatform();
@@ -124,11 +104,10 @@ namespace Platformer {
   }
 
   function createPlayer(): void {
-
     let playerImg: HTMLImageElement = document.querySelector("img.player");
     let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
     Player.generateSprites(spritesheet);
-    player = new Player("Player", 0.15, 0.15, new f.Vector2(5, 5));
+    player = new Player("Player", 0.15, 0.15, new f.Vector2(8, 5));
 
     game.appendChild(player);
   }

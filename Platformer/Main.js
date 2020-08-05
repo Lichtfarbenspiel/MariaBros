@@ -8,21 +8,6 @@ var Platformer;
     let cmpCamera;
     function test() {
         let canvas = document.querySelector("canvas");
-        // let playerImg: HTMLImageElement = document.querySelector("img.player");
-        // let spritesheet: f.CoatTextured = fAid.createSpriteSheet("Player", playerImg);
-        // Player.generateSprites(spritesheet);
-        // game = new f.Node("Game");
-        // player = new Player("Player 1", 0.15, 0.15);
-        // level = createPlatform();
-        // objects = addObjects();
-        // let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
-        // let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
-        // let enemy: Enemy = new Enemy("Frog", -1, -1, 1.5, 1.5, ENEMY.FROG, sprite);
-        // game.appendChild(player);
-        // game.appendChild(level);
-        // game.appendChild(objects);
-        // game.appendChild(enemy);
-        // createBackground();
         Platformer.game = new f.Node("Game");
         Platformer.level = createPlatform();
         Platformer.objects = addObjects();
@@ -97,7 +82,7 @@ var Platformer;
         let playerImg = document.querySelector("img.player");
         let spritesheet = fAid.createSpriteSheet("Player", playerImg);
         Platformer.Player.generateSprites(spritesheet);
-        player = new Platformer.Player("Player", 0.15, 0.15, new f.Vector2(5, 5));
+        player = new Platformer.Player("Player", 0.15, 0.15, new f.Vector2(8, 5));
         Platformer.game.appendChild(player);
     }
     function createEnemies() {
