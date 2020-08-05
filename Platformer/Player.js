@@ -6,16 +6,8 @@ var Platformer;
     class Player extends Platformer.Character {
         constructor(_name = "Player", _scaleX, _scaleY, _maxSpeed, _hp) {
             super(_name);
+            this.isJumping = true;
             this.wealth = 0;
-            // public attack(_enemy: Character): void {
-            //     let distanceSquared: number = f.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
-            //     if (distanceSquared > (this.attackRange * this.attackRange))
-            //         return;
-            //     {
-            //         let damage: number = f.Random.default.getRange(0, 1) * (this.strength - 0.1) + 0.1;
-            //         _enemy.handleAttack(damage);
-            //     }
-            // }
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
                 this.speed.y += Player.gravity.y * timeFrame;
@@ -26,8 +18,6 @@ var Platformer;
                 super.checkPlatformCollision();
                 this.checkObjectCollision();
                 this.checkEnemyCollision();
-                this.checkDeath();
-                // this.checkEnemiesInRange();
             };
             this.maxSpeed = _maxSpeed;
             this.scaleX = _scaleX;
@@ -96,11 +86,11 @@ var Platformer;
                     this.isAttacking = true;
                     // this.attack(this.enemy);
                     break;
-                case Platformer.ACTION.DIE:
-                    this.isIdle = false;
-                    this.isDead = true;
-                    this.speed.x = 0;
-                    break;
+                // case ACTION.DIE:
+                //     this.isIdle = false;
+                //     this.isDead = true;
+                //     this.speed.x = 0;
+                //     break;
             }
             if (_action == this.action)
                 return;
@@ -133,24 +123,27 @@ var Platformer;
             }
         }
         handleEnemyCollision(_enemy) {
-            if (this.isAttacking) {
-                _enemy.isDead = true;
-                Platformer.enemies.removeChild(_enemy);
-            }
-            else {
-                this.healthPoints -= _enemy.strength;
-                console.log("HP: " + this.healthPoints);
-                _enemy.changeDirection();
-                if (this.healthPoints <= 0) {
-                    this.speed.x = 0;
-                    this.isDead = true;
-                    this.show(Platformer.ACTION.DIE);
+            if (!this.isDead) {
+                if (this.isAttacking) {
+                    _enemy.isDead = true;
+                    Platformer.enemies.removeChild(_enemy);
+                    this.wealth += 10;
                 }
-            }
-        }
-        checkDeath() {
-            if (this.isDead) {
-                //GAME OVER
+                else {
+                    this.healthPoints -= _enemy.strength;
+                    console.log("HP: " + this.healthPoints);
+                    _enemy.changeDirection();
+                    if (this.healthPoints <= 0) {
+                        this.speed.x = 0;
+                        this.isDead = true;
+                        _enemy.speed.x = 0;
+                        this.show(Platformer.ACTION.DIE);
+                        Platformer.gameOver();
+                        console.log("Game Over");
+                        // ƒ.Time.game.setTimer(5, 1, () => {
+                        // });
+                    }
+                }
             }
         }
     }

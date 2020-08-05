@@ -2,7 +2,7 @@ namespace Platformer {
   import f = FudgeCore;
   import fAid = FudgeAid;
   
-  window.addEventListener("load", test);
+  window.addEventListener("load", initialize);
 
   export let game: f.Node;
   export let level: f.Node;
@@ -10,13 +10,25 @@ namespace Platformer {
   export let enemies: f.Node;
   export let collectables: f.Node;
 
+  export let muteSound = false;
+  export let muteSoundBG = false;
+
   let player: Player;
   let cmpCamera: f.ComponentCamera;
+  let canvas: HTMLCanvasElement;
+  let viewport: f.Viewport;
 
-  function test(): void {
-    let canvas: HTMLCanvasElement = document.querySelector("canvas.game");
-    let stats: HTMLCanvasElement = document.querySelector("canvas.stats");
+  function initialize(_event: Event): void {
+    document.getElementById("startBtn").addEventListener("click", start);
+    // document.getElementById("soundBtn").addEventListener("click", toggleSound);
+  }
 
+  function start(): void {
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("game").style.display = "initial";
+    canvas = document.querySelector("canvas.game");
+    // Sound.initialize();
+    
     game = new f.Node("Game");
     collectables = new f.Node("Collectables");
 
@@ -38,7 +50,7 @@ namespace Platformer {
     cmpCamera.pivot.lookAt(f.Vector3.ZERO());
     cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
 
-    let viewport: f.Viewport = new f.Viewport();
+    viewport = new f.Viewport();
     viewport.initialize("Viewport", game, cmpCamera, canvas);
     viewport.draw();
 
@@ -48,19 +60,22 @@ namespace Platformer {
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start(f.LOOP_MODE.TIME_GAME, 60);
+  }
 
-    function update(_event: ƒ.Eventƒ): void {
-      processInput();
-      camMovement();
-      viewport.draw();
-    }
+  function update(_event: ƒ.Eventƒ): void {
+    processInput();
+    camMovement();
+    viewport.draw();  
+    displayStats();    
   }
   
   function hndKeyboard(_event: f.EventKeyboard): void {
-    if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
-      player.act(ACTION.JUMP);
-    if (_event.code == ƒ.KEYBOARD_CODE.F)
-      player.act(ACTION.ATTACK, player.dir);
+    if (!player.isDead) {
+      if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
+        player.act(ACTION.JUMP);
+      if (_event.code == ƒ.KEYBOARD_CODE.F)
+        player.act(ACTION.ATTACK, player.dir);
+    }
   }
 
   function processInput(): void {
@@ -90,7 +105,7 @@ namespace Platformer {
   }
 
   function displayStats(): void {
-
+    // document.getElementById("score").innerText = "POINTS: " + Number(player.wealth).toString() + "<br>" + "HP: " + Number(player.healthPoints).toString();
   }
 
 
@@ -218,5 +233,12 @@ namespace Platformer {
     objects.appendChild(new Object("Baum7", 21, -1.33, -0.1, 1, 1, OBJECT.TREE_1));
 
     return objects;
+  }
+
+  export function gameOver(): void {
+    let gameOver: HTMLImageElement = document.querySelector("div.gameOver");
+    gameOver.style.visibility = "visible";
+    let canvas: HTMLImageElement = document.querySelector("canvas.game");
+    canvas.style.visibility = "0.5";
   }
 }

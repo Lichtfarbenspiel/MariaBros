@@ -5,7 +5,7 @@ namespace Platformer {
     export class Player extends Character {
         
         public isJumping: boolean = true;
-        private wealth: number = 0;
+        public wealth: number = 0;
 
         constructor(_name: string = "Player", _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _hp: number) {
             super(_name);
@@ -89,11 +89,11 @@ namespace Platformer {
                     this.isAttacking = true;
                     // this.attack(this.enemy);
                     break;
-                case ACTION.DIE:
-                    this.isIdle = false;
-                    this.isDead = true;
-                    this.speed.x = 0;
-                    break;
+                // case ACTION.DIE:
+                //     this.isIdle = false;
+                //     this.isDead = true;
+                //     this.speed.x = 0;
+                //     break;
             }
 
             if (_action == this.action)
@@ -115,8 +115,6 @@ namespace Platformer {
             super.checkPlatformCollision();
             this.checkObjectCollision();
             this.checkEnemyCollision();
-            this.checkDeath();
-            // this.checkEnemiesInRange();
         }
 
         private checkCollectable(): void {
@@ -151,29 +149,31 @@ namespace Platformer {
         }
 
         private handleEnemyCollision(_enemy: Enemy): void {
-            
-            if (this.isAttacking) {
-                _enemy.isDead = true;
-                enemies.removeChild(_enemy);
-                this.wealth += 10;
-            }
-            else {
-                this.healthPoints -= _enemy.strength;
-                console.log("HP: " + this.healthPoints);
-                _enemy.changeDirection();
-    
-                if (this.healthPoints <= 0) {
-                    this.speed.x = 0;
-                    this.isDead = true;
-                    this. show(ACTION.DIE);
+            if (!this.isDead) {
+                if (this.isAttacking) {
+                    _enemy.isDead = true;
+                    enemies.removeChild(_enemy);
+                    this.wealth += 10;
                 }
-            }
-        }
-
-        private checkDeath(): void {
-            if (this.isDead) {
-                
-                //GAME OVER
+                else {
+                    this.healthPoints -= _enemy.strength;
+                    console.log("HP: " + this.healthPoints);
+                    _enemy.changeDirection();
+        
+                    if (this.healthPoints <= 0) {
+                        this.speed.x = 0;
+                        this.isDead = true;
+                        _enemy.speed.x = 0;
+                        
+                        this.show(ACTION.DIE);
+                        gameOver();
+                        console.log("Game Over");
+                        
+                        // ƒ.Time.game.setTimer(5, 1, () => {
+                          
+                        // });
+                    }
+                }
             }
         }
     }

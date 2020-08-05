@@ -3,12 +3,22 @@ var Platformer;
 (function (Platformer) {
     var f = FudgeCore;
     var fAid = FudgeAid;
-    window.addEventListener("load", test);
+    window.addEventListener("load", initialize);
+    Platformer.muteSound = false;
+    Platformer.muteSoundBG = false;
     let player;
     let cmpCamera;
-    function test() {
-        let canvas = document.querySelector("canvas.game");
-        let stats = document.querySelector("canvas.stats");
+    let canvas;
+    let viewport;
+    function initialize(_event) {
+        document.getElementById("startBtn").addEventListener("click", start);
+        // document.getElementById("soundBtn").addEventListener("click", toggleSound);
+    }
+    function start() {
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("game").style.display = "initial";
+        canvas = document.querySelector("canvas.game");
+        // Sound.initialize();
         Platformer.game = new f.Node("Game");
         Platformer.collectables = new f.Node("Collectables");
         Platformer.level = createPlatform();
@@ -24,7 +34,7 @@ var Platformer;
         cmpCamera.pivot.translateZ(10);
         cmpCamera.pivot.lookAt(f.Vector3.ZERO());
         cmpCamera.backgroundColor = f.Color.CSS("aliceblue");
-        let viewport = new f.Viewport();
+        viewport = new f.Viewport();
         viewport.initialize("Viewport", Platformer.game, cmpCamera, canvas);
         viewport.draw();
         viewport.addEventListener("\u0192keydown" /* DOWN */, hndKeyboard);
@@ -32,15 +42,20 @@ var Platformer;
         viewport.setFocus(true);
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start(f.LOOP_MODE.TIME_GAME, 60);
-        function update(_event) {
-            processInput();
-            camMovement();
-            viewport.draw();
-        }
+    }
+    function update(_event) {
+        processInput();
+        camMovement();
+        viewport.draw();
+        displayStats();
     }
     function hndKeyboard(_event) {
-        if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
-            player.act(Platformer.ACTION.JUMP);
+        if (!player.isDead) {
+            if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
+                player.act(Platformer.ACTION.JUMP);
+            if (_event.code == ƒ.KEYBOARD_CODE.F)
+                player.act(Platformer.ACTION.ATTACK, player.dir);
+        }
     }
     function processInput() {
         if (!player.isDead) {
@@ -55,9 +70,9 @@ var Platformer;
             else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
                 player.act(Platformer.ACTION.JUMP, player.dir);
             }
-            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-                player.act(Platformer.ACTION.ATTACK, player.dir);
-            }
+            // else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+            //   player.act(ACTION.ATTACK, player.dir);
+            // }
             else if (!player.isDead || player.isIdle)
                 player.act(Platformer.ACTION.IDLE);
         }
@@ -67,6 +82,7 @@ var Platformer;
         cmpCamera.pivot.translation = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
     }
     function displayStats() {
+        // document.getElementById("score").innerText = "POINTS: " + Number(player.wealth).toString() + "<br>" + "HP: " + Number(player.healthPoints).toString();
     }
     // setup Game
     function createBackground() {
@@ -161,5 +177,12 @@ var Platformer;
         objects.appendChild(new Platformer.Object("Baum7", 21, -1.33, -0.1, 1, 1, Platformer.OBJECT.TREE_1));
         return objects;
     }
+    function gameOver() {
+        let gameOver = document.querySelector("div.gameOver");
+        gameOver.style.visibility = "visible";
+        let canvas = document.querySelector("canvas.game");
+        canvas.style.visibility = "0.5";
+    }
+    Platformer.gameOver = gameOver;
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

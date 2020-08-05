@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tower Defence</title>
+    <title>Super Maria Sis</title>
     <script src="../FudgeCore/FudgeCore.js"></script>
     <script src="../FudgeAid/FudgeAid.js"></script>
 
@@ -25,24 +25,97 @@
    
  
     <style>
+
+        * {
+          font-family: fantasy;
+        }
+
         body,
         html {
           height: 100%;
           margin: 0px;
           overflow: hidden;
         }
-    
-        /* body {
-          display: flex;
-          flex-direction: column;
-        } */
-    
-        canvas {
-          /* flex-grow: 1; */
+
+        .background {
+          filter: blur(4px);
+          -webkit-filter: blur(4px);
           width: 100%;
           height: 100%;
+
+          background-image: url(Assets/World/BG.png);
+          background-repeat: no-repeat;
+          background-size: cover;
+          position: fixed;
+          z-index: -100;
+        }
+    
+        #overlay {
+          background-color: #fff;
+          opacity: 50%;
+          width: 50em;
+          height: 25em;
+          margin: auto;
+          text-align: center;
+          display: block;
+          margin-top: 5%;
+          padding-top: 5%;
+        }
+
+        img {
+          display: none;
+        }
+
+        .menu {
+          margin: auto;
+          text-align: center;
+          width: 100%;
+          height: 100%;
+        }
+
+        .menuBtns {
+          width: auto; 
+          height: auto;
+          margin: 5% auto;
+          text-align: center;
+          display: block;
+        }
+
+        h1 {
+          color: #000;
+          font-size: 2em;
+        }
+
+        button {
+          margin-top: 5%;
+          text-align: center;
+          color: #000;
+          font-size: 1.5em;
+          border: none;
+          background: none;
+          margin: 0 auto;
           display: inline-block;
-          /* background-color: lightgreen; */
+        }
+
+        button:hover {
+         color: darkgreen;
+         cursor: pointer;
+        }
+
+        button:active {
+          color: darkgreen;
+          cursor: pointer;
+          border: none;
+          background: none;
+        }
+
+        canvas {
+          width: 100%;
+          height: 100%;
+          display: block;
+          -webkit-box-shadow: 1px 1px 3px 3px #7b7b7b4d;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+          -moz-box-shadow:    1px 1px 3px 3px #7b7b7b4d;  /* Firefox 3.5 - 3.6 */
+          box-shadow:         1px 1px 3px 3px #7b7b7b4d;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
         }
 
         .canv {
@@ -52,6 +125,10 @@
           height: 80%;
         }
 
+        #game {
+          display: none;
+        }
+
         .game {
           z-index: 0;
         }
@@ -59,70 +136,99 @@
         .stats {
           width: 20%;
           height: 8%;
-          /* background-color: blue; */
           margin-top: 1%;
           margin-left: 1%;
           z-index: 100;
           position: absolute;
+          color: #000;
+          font-family: fantasy;
+          font-size: 1.5em;
         }
 
       </style>
     </head>
 </head>
-<body>
-    <h1>Maria Bros</h1>
-    <div class="canv">
-      <canvas class="stats"></canvas>
-      <canvas class= "game"></canvas>
-      
-    </div>
 
-    <img class="background" src="Assets/World/BG.png" style="display: none;"/>
+<body>
+    <div class="background"></div>
+    <div id="menu">
+
+      <div id="overlay">
+
+        <h1>Super Maria Sis</h1>
+
+        <div class="menuBtns">
+          <button id="startBtn">START</button><br>
+          <button id="soundBtn">SOUNDS</button><br>
+          <button id="musicBtn">MUSIK</button><br>
+          <button id="instructionsBtn">STORY</button><br>
+        </div>
+      </div>
+
+    </div>
+   
+
+    <div id="game">
+   
+      <h1 style="margin-left: 3%;">Super Maria Sis</h1>
+
+      <div class="canv">
+        <p class="stats" id="stats"></p>
+        <canvas class="game"></canvas>
+      </div>
+
+    </div>
+    
+
+  
+
+    <img class="background" src="Assets/World/BG.png"/>
 
     <!-- Character Textures -->
-    <img class="player" src="Assets/Character/Sprites.png" style="display: none;"/>
-    <img class="enemy" src="Assets/Character/frog.png" style="display: none;"/>
+    <img class="player" src="Assets/Character/Sprites.png"/>
+    <img class="enemy" src="Assets/Character/frog.png"/>
 
    
 
     <!-- Platform Textures -->
-    <img class="platform" src="Assets/World/Tiles/ground_left.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/ground_middle.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/ground_right.png" style="display: none;"/>
+    <img class="platform" src="Assets/World/Tiles/ground_left.png"/>
+    <img class="platform" src="Assets/World/Tiles/ground_middle.png"/>
+    <img class="platform" src="Assets/World/Tiles/ground_right.png"/>
 
-    <img class="platform" src="Assets/World/Tiles/middle_left.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/middle_middle.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/middle_right.png" style="display: none;"/>
+    <img class="platform" src="Assets/World/Tiles/middle_left.png"/>
+    <img class="platform" src="Assets/World/Tiles/middle_middle.png"/>
+    <img class="platform" src="Assets/World/Tiles/middle_right.png"/>
 
-    <img class="platform" src="Assets/World/Tiles/bottom_left.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/bottom_middle.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/bottom_right.png" style="display: none;"/>
+    <img class="platform" src="Assets/World/Tiles/bottom_left.png"/>
+    <img class="platform" src="Assets/World/Tiles/bottom_middle.png"/>
+    <img class="platform" src="Assets/World/Tiles/bottom_right.png"/>
 
-    <img class="platform" src="Assets/World/Tiles/float_left.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/float_middle.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/float_right.png" style="display: none;"/>
+    <img class="platform" src="Assets/World/Tiles/float_left.png"/>
+    <img class="platform" src="Assets/World/Tiles/float_middle.png"/>
+    <img class="platform" src="Assets/World/Tiles/float_right.png"/>
 
-    <img class="platform" src="Assets/World/Tiles/water_top.png" style="display: none;"/>
-    <img class="platform" src="Assets/World/Tiles/water_bottom.png" style="display: none;"/>
+    <img class="platform" src="Assets/World/Tiles/water_top.png"/>
+    <img class="platform" src="Assets/World/Tiles/water_bottom.png"/>
 
     <!-- Object Textures -->
-    <img class="object" src="Assets/World/Object/Bush (1).png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Bush (2).png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Bush (3).png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Bush (4).png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Crate.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Mushroom_1.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Mushroom_2.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Sign_1.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Sign_2.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Stone.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Tree_1.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Tree_2.png" style="display: none;"/>
-    <img class="object" src="Assets/World/Object/Tree_3.png" style="display: none;"/>
+    <img class="object" src="Assets/World/Object/Bush (1).png"/>
+    <img class="object" src="Assets/World/Object/Bush (2).png"/>
+    <img class="object" src="Assets/World/Object/Bush (3).png"/>
+    <img class="object" src="Assets/World/Object/Bush (4).png"/>
+    <img class="object" src="Assets/World/Object/Crate.png"/>
+    <img class="object" src="Assets/World/Object/Mushroom_1.png"/>
+    <img class="object" src="Assets/World/Object/Mushroom_2.png"/>
+    <img class="object" src="Assets/World/Object/Sign_1.png"/>
+    <img class="object" src="Assets/World/Object/Sign_2.png"/>
+    <img class="object" src="Assets/World/Object/Stone.png"/>
+    <img class="object" src="Assets/World/Object/Tree_1.png"/>
+    <img class="object" src="Assets/World/Object/Tree_2.png"/>
+    <img class="object" src="Assets/World/Object/Tree_3.png"/>
 
-     <!-- Collectable Textures -->
-     <img class="collectable" src="Assets/Collectables/MonedaD.png" style="display: none;"/>
-     <img class="collectable" src="Assets/Collectables/MonedaP.png" style="display: none;"/>
-     <img class="collectable" src="Assets/Collectables/MonedaR.png" style="display: none;"/>
+    <!-- Collectable Textures -->
+    <img class="collectable" src="Assets/Collectables/MonedaD.png"/>
+    <img class="collectable" src="Assets/Collectables/MonedaP.png"/>
+    <img class="collectable" src="Assets/Collectables/MonedaR.png"/>
+
 </body>
 </html>
