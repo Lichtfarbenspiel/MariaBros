@@ -127,7 +127,12 @@ namespace Platformer {
 
                 if (distance <= 0.16) {
                     Sound.play("collect");
-                    this.wealth += (<Collectable>collectable).value;
+                    if (this.healthPoints <= 4 && <Collectable>collectable.isHealing) {
+                        this.healthPoints += 1;
+                    }
+                    else {
+                        this.wealth += (<Collectable>collectable).value;
+                    }
                     collectables.removeChild(<Collectable>collectable);
                 }
             }

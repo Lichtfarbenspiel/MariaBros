@@ -159,7 +159,7 @@ namespace Platformer {
   function createPlatform(): f.Node {
     let level: f.Node = new f.Node("Level");
 
-    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 2, COLLECTABLE.COIN_GOLD));
+    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 1, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(-5, -2.8, 0, TYPE.MIDDLEGROUND, 2));
     level.appendChild(new Platform(-5, -3.8, 0, TYPE.UNDERGROUND, 2));
 
@@ -167,12 +167,12 @@ namespace Platformer {
     level.appendChild(new Platform(-3.5, -2.85, -0.1, TYPE.UNDERWATER, 2));
     level.appendChild(new Platform(-3.5, -3.85, -0.1, TYPE.UNDERWATER, 2));
 
-    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4, 4, COLLECTABLE.COIN_GOLD));
+    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4, 4, COLLECTABLE.COIN_GREEN));
     level.appendChild(new Platform(-1, -2.8, 0, TYPE.MIDDLEGROUND, 4));
     level.appendChild(new Platform(-1, -3.8, 0, TYPE.UNDERGROUND, 4));
 
 
-    level.appendChild(new Platform(2.6, -0.7, 0, TYPE.FLOATING, 2, 1, COLLECTABLE.COIN_GOLD));
+    level.appendChild(new Platform(2.6, -0.7, 0, TYPE.FLOATING, 2, 2, COLLECTABLE.COIN_RED));
 
     level.appendChild(new Platform(2, -1.85, -0.1, TYPE.WATER, 3.5));
     level.appendChild(new Platform(2, -2.85, -0.1, TYPE.UNDERWATER, 3.5));

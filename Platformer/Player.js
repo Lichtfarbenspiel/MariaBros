@@ -105,7 +105,12 @@ var Platformer;
                 let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
                 if (distance <= 0.16) {
                     Platformer.Sound.play("collect");
-                    this.wealth += collectable.value;
+                    if (this.healthPoints <= 4 && collectable.isHealing) {
+                        this.healthPoints += 1;
+                    }
+                    else {
+                        this.wealth += collectable.value;
+                    }
                     Platformer.collectables.removeChild(collectable);
                 }
             }

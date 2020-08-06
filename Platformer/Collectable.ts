@@ -4,7 +4,7 @@ namespace Platformer {
 
     export enum COLLECTABLE {
         COIN_GOLD = "coin_gold",
-        COIN_SILVER = "coin_silver", 
+        COIN_GREEN = "coin_green", 
         COIN_RED = "coin_red"
     }
 
@@ -20,6 +20,7 @@ namespace Platformer {
         public scaleY: number;
         public type: COLLECTABLE;
         public value: number;
+        public isHealing: boolean = false;
 
         private objectIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.collectable");
 
@@ -59,6 +60,24 @@ namespace Platformer {
                     }
                     this.value = 10;
                     break;
+                case COLLECTABLE.COIN_RED:
+                    sprite.generateByGrid(f.Rectangle.GET(2.5, 2, 16, 16), 5, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+                    Collectable.animations[ACTION.SPINNING] = sprite;
+                    for (let i: number = 0; i < 5; i++) {
+                        sprite.frames[i].timeScale = 2;
+                    }
+                    this.value = -8;
+                    break;
+                case COLLECTABLE.COIN_GREEN:
+                    this.cmpTransform.local.scale(new f.Vector3(1.5, 1.5, 0));
+                    sprite.generateByGrid(f.Rectangle.GET(3.5, 3, 17, 15), 4, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+                    Collectable.animations[ACTION.SPINNING] = sprite;
+                    for (let i: number = 0; i < 4; i++) {
+                        sprite.frames[i].timeScale = 3;
+                    }
+                    this.isHealing = true;
+                    this.value = 15;
+                    break;
             }
         }
 
@@ -92,7 +111,7 @@ namespace Platformer {
                 case COLLECTABLE.COIN_GOLD:
                     sprite = fAid.createSpriteSheet("Enemy", collectableIMG[0]);
                     break;
-                case COLLECTABLE.COIN_SILVER:
+                case COLLECTABLE.COIN_GREEN:
                     sprite = fAid.createSpriteSheet("Enemy", collectableIMG[1]);
                     break;
                 case COLLECTABLE.COIN_RED:
