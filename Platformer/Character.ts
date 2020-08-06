@@ -101,6 +101,13 @@ namespace Platformer {
                 }
                 
                 if (hit) {
+
+                    // if ((<Object> object).type == OBJECT.SIGN) {
+                    //     this.speed.x = 0;
+    
+    
+                    // }
+
                     let translation: f.Vector3 = this.cmpTransform.local.translation;
                     translation.y = rect.y;
                     this.cmpTransform.local.translation = translation;

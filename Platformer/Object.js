@@ -17,6 +17,7 @@ var Platformer;
         OBJECT["STUMP"] = "STUMP";
         OBJECT["TREE_1"] = "tree_1";
         OBJECT["TREE_2"] = "tree_2";
+        OBJECT["FINISH"] = "finish";
     })(OBJECT = Platformer.OBJECT || (Platformer.OBJECT = {}));
     class Object extends f.Node {
         constructor(name, posX, posY, posZ = 0, scaleX = 1, scaleY = 1, type) {
@@ -92,6 +93,8 @@ var Platformer;
                 case OBJECT.TREE_2:
                     texture.image = this.objectIMG[12];
                     break;
+                case OBJECT.FINISH:
+                    return null;
             }
             return texture;
         }

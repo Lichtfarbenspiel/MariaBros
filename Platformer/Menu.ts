@@ -6,6 +6,10 @@ namespace Platformer {
         document.getElementById("settingsMenu").style.display = "none";
         document.getElementById("instructionsMenu").style.display = "none";
 
+        document.getElementById("endScreen").style.display = "none";
+        document.getElementById("win").style.display = "none";
+        document.getElementById("gameover").style.display = "none";
+
         document.getElementById("backBtn").style.display = "none";
 
         document.getElementById("game").style.display = "none";
@@ -18,6 +22,10 @@ namespace Platformer {
         document.getElementById("settingsMenu").style.display = "initial";
         document.getElementById("instructionsMenu").style.display = "none";
         document.getElementById("backBtn").style.display = "initial";
+
+        document.getElementById("endScreen").style.display = "none";
+        document.getElementById("win").style.display = "none";
+        document.getElementById("gameover").style.display = "none";
         
         document.getElementById("game").style.display = "none";
     }
@@ -29,13 +37,20 @@ namespace Platformer {
         document.getElementById("instructionsMenu").style.display = "initial";
         document.getElementById("backBtn").style.display = "initial";
 
+        document.getElementById("endScreen").style.display = "none";
+        document.getElementById("win").style.display = "none";
+        document.getElementById("gameover").style.display = "none";
+
         document.getElementById("game").style.display = "none";
     }
 
     export function displayGame(): void {
         document.getElementById("menu").style.display = "none";
         document.getElementById("game").style.display = "initial";
-        // Sound.playMusic();
+
+        document.getElementById("endScreen").style.display = "none";
+        document.getElementById("win").style.display = "none";
+        document.getElementById("gameover").style.display = "none";
     }
 
     export function toggleMusic(): void {

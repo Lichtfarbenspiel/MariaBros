@@ -18,6 +18,8 @@ var Platformer;
         document.getElementById("toggleSound").addEventListener("click", Platformer.toggleSound);
         document.getElementById("instructionsBtn").addEventListener("click", Platformer.displayInstructions);
         document.getElementById("backBtn").addEventListener("click", Platformer.displayMenu);
+        document.getElementById("restartBtn").addEventListener("click", start);
+        document.getElementById("backMenuBtn").addEventListener("click", Platformer.displayMenu);
         document.addEventListener(ƒ.KEYBOARD_CODE.ESC, Platformer.displayMenu);
         // document.getElementById("soundBtn").addEventListener("click", toggleSound);
     }
@@ -149,10 +151,10 @@ var Platformer;
         level.appendChild(new Platformer.Platform(17, -1.9, -0.1, Platformer.TYPE.WATER, 5));
         level.appendChild(new Platformer.Platform(17, -2.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
         level.appendChild(new Platformer.Platform(17, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
-        level.appendChild(new Platformer.Platform(21, -1.8, 0, Platformer.TYPE.GROUND, 4, 3, Platformer.COLLECTABLE.COIN_GOLD));
-        level.appendChild(new Platformer.Platform(21, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
-        level.appendChild(new Platformer.Platform(21, -3.8, 0, Platformer.TYPE.UNDERGROUND, 4));
-        level.appendChild(new Platformer.Platform(21, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 4));
+        level.appendChild(new Platformer.Platform(21, -1.8, 0, Platformer.TYPE.GROUND, 5, 1, Platformer.COLLECTABLE.GEM_GOLD));
+        level.appendChild(new Platformer.Platform(21, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 5));
+        level.appendChild(new Platformer.Platform(21, -3.8, 0, Platformer.TYPE.UNDERGROUND, 5));
+        level.appendChild(new Platformer.Platform(21, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
         // level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
         // level.appendChild(new Platform(24.5, -3.4, 0, TYPE.MIDDLEGROUND, 4));
         // level.appendChild(new Platform(24.5, -4.4, 0, TYPE.MIDDLEGROUND, 4));
@@ -181,19 +183,35 @@ var Platformer;
         objects.appendChild(new Platformer.Object("Pilz3", 11.5, -0.85, -0.08, 0.3, 0.3, Platformer.OBJECT.MUSHROOM_1));
         objects.appendChild(new Platformer.Object("Baum6", 12, -0.4, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
         objects.appendChild(new Platformer.Object("Busch4", 12.7, -0.75, -0.1, 1, 0.5, Platformer.OBJECT.BUSH_1));
-        objects.appendChild(new Platformer.Object("Stein2", 13.5, -0.5, -0.1, 1.6, 1, Platformer.OBJECT.STONE));
+        objects.appendChild(new Platformer.Object("Stein2", 13.5, -0.6, -0.1, 1.6, 1, Platformer.OBJECT.STONE));
         objects.appendChild(new Platformer.Object("Box1", 17.5, -1, 0, 0.4, 0.4, Platformer.OBJECT.BOX));
         objects.appendChild(new Platformer.Object("Baum7", 20, -1.1, -0.1, 1.5, 1.5, Platformer.OBJECT.TREE_2));
-        objects.appendChild(new Platformer.Object("Baum7", 21, -1.33, -0.1, 1, 1, Platformer.OBJECT.TREE_1));
+        objects.appendChild(new Platformer.Object("Baum8", 21, -1.33, -0.1, 1, 1, Platformer.OBJECT.TREE_1));
+        objects.appendChild(new Platformer.Object("Busch5", 22, -1.6, -0.1, 1, 0.5, Platformer.OBJECT.BUSH_2));
+        objects.appendChild(new Platformer.Object("Ziel", 22.5, -1.4, -0.1, 1, 1, Platformer.OBJECT.SIGN));
         return objects;
     }
     function gameOver() {
-        Platformer.Sound.play("die");
-        let gameOver = document.querySelector("div.gameOver");
-        gameOver.style.display = "initial";
-        let canvas = document.querySelector("canvas.game");
+        f.Loop.stop();
+        document.getElementById("game").style.display = "none";
+        document.getElementById("endScreen").style.display = "initial";
+        document.getElementById("win").style.display = "none";
+        document.getElementById("gameover").style.display = "initial";
+        document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
+        document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
         canvas.style.visibility = "0.5";
     }
     Platformer.gameOver = gameOver;
+    function gameFinished() {
+        f.Loop.stop();
+        document.getElementById("game").style.display = "none";
+        document.getElementById("endScreen").style.display = "initial";
+        document.getElementById("win").style.display = "initial";
+        document.getElementById("gameover").style.display = "none";
+        document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
+        document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
+        canvas.style.visibility = "0.5";
+    }
+    Platformer.gameFinished = gameFinished;
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

@@ -14,7 +14,8 @@ namespace Platformer {
         STONE = "stone",
         STUMP = "STUMP",
         TREE_1 = "tree_1",
-        TREE_2 = "tree_2"
+        TREE_2 = "tree_2",
+        FINISH = "finish"
     }
 
     export class Object extends f.Node {
@@ -113,6 +114,9 @@ namespace Platformer {
                 case OBJECT.TREE_2:
                     texture.image = this.objectIMG[12];
                     break;
+                case OBJECT.FINISH:
+                   return null;
+                    
             }
             return texture;
         }

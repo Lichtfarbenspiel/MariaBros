@@ -10,8 +10,8 @@ namespace Platformer {
   export let enemies: f.Node;
   export let collectables: f.Node;
 
-  export let muteSound = false;
-  export let muteSoundBG = false;
+  export let muteSound: boolean = false;
+  export let muteSoundBG: boolean = false;
 
   let player: Player;
   let cmpCamera: f.ComponentCamera;
@@ -25,9 +25,11 @@ namespace Platformer {
     document.getElementById("toggleMusic").addEventListener("click", toggleMusic);
     document.getElementById("toggleSound").addEventListener("click", toggleSound);
 
-
     document.getElementById("instructionsBtn").addEventListener("click", displayInstructions);
     document.getElementById("backBtn").addEventListener("click", displayMenu);
+
+    document.getElementById("restartBtn").addEventListener("click", start);
+    document.getElementById("backMenuBtn").addEventListener("click", displayMenu);
 
 
     document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
@@ -203,10 +205,10 @@ namespace Platformer {
     level.appendChild(new Platform(17, -2.9, -0.1, TYPE.UNDERWATER, 5));
     level.appendChild(new Platform(17, -3.9, -0.1, TYPE.UNDERWATER, 5));
     
-    level.appendChild(new Platform(21, -1.8, 0, TYPE.GROUND, 4, 3, COLLECTABLE.COIN_GOLD));
-    level.appendChild(new Platform(21, -2.8, 0, TYPE.MIDDLEGROUND, 4));
-    level.appendChild(new Platform(21, -3.8, 0, TYPE.UNDERGROUND, 4));
-    level.appendChild(new Platform(21, -3.9, -0.1, TYPE.UNDERWATER, 4));
+    level.appendChild(new Platform(21, -1.8, 0, TYPE.GROUND, 5, 1, COLLECTABLE.GEM_GOLD));
+    level.appendChild(new Platform(21, -2.8, 0, TYPE.MIDDLEGROUND, 5));
+    level.appendChild(new Platform(21, -3.8, 0, TYPE.UNDERGROUND, 5));
+    level.appendChild(new Platform(21, -3.9, -0.1, TYPE.UNDERWATER, 5));
 
 
     // level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
@@ -245,21 +247,39 @@ namespace Platformer {
     objects.appendChild(new Object("Pilz3", 11.5, -0.85, -0.08, 0.3, 0.3, OBJECT.MUSHROOM_1));
     objects.appendChild(new Object("Baum6", 12, -0.4, -0.1, 1.5, 1.5, OBJECT.TREE_2));
     objects.appendChild(new Object("Busch4", 12.7, -0.75, -0.1, 1, 0.5, OBJECT.BUSH_1));
-    objects.appendChild(new Object("Stein2", 13.5, -0.5, -0.1, 1.6, 1, OBJECT.STONE));
+    objects.appendChild(new Object("Stein2", 13.5, -0.6, -0.1, 1.6, 1, OBJECT.STONE));
 
     objects.appendChild(new Object("Box1", 17.5, -1, 0, 0.4, 0.4, OBJECT.BOX));
 
     objects.appendChild(new Object("Baum7", 20, -1.1, -0.1, 1.5, 1.5, OBJECT.TREE_2));
-    objects.appendChild(new Object("Baum7", 21, -1.33, -0.1, 1, 1, OBJECT.TREE_1));
+    objects.appendChild(new Object("Baum8", 21, -1.33, -0.1, 1, 1, OBJECT.TREE_1));
+    objects.appendChild(new Object("Busch5", 22, -1.6, -0.1, 1, 0.5, OBJECT.BUSH_2));
+    objects.appendChild(new Object("Ziel", 22.5, -1.4, -0.1, 1, 1, OBJECT.SIGN));
 
     return objects;
   }
 
   export function gameOver(): void {
-    Sound.play("die");
-    let gameOver: HTMLImageElement = document.querySelector("div.gameOver");
-    gameOver.style.display = "initial";
-    let canvas: HTMLImageElement = document.querySelector("canvas.game");
+    f.Loop.stop();
+    document.getElementById("game").style.display = "none";
+    
+    document.getElementById("endScreen").style.display = "initial";
+    document.getElementById("win").style.display = "none";
+    document.getElementById("gameover").style.display = "initial";
+    document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
+    document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
+    canvas.style.visibility = "0.5";
+}
+
+  export function gameFinished(): void {
+    f.Loop.stop();
+    document.getElementById("game").style.display = "none";
+    
+    document.getElementById("endScreen").style.display = "initial";
+    document.getElementById("win").style.display = "initial";
+    document.getElementById("gameover").style.display = "none";
+    document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
+    document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
     canvas.style.visibility = "0.5";
   }
 }

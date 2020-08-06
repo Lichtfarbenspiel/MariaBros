@@ -8,6 +8,7 @@ var Platformer;
         COLLECTABLE["COIN_GOLD"] = "coin_gold";
         COLLECTABLE["COIN_GREEN"] = "coin_green";
         COLLECTABLE["COIN_RED"] = "coin_red";
+        COLLECTABLE["GEM_GOLD"] = "gem_gold";
     })(COLLECTABLE = Platformer.COLLECTABLE || (Platformer.COLLECTABLE = {}));
     let ACTION;
     (function (ACTION) {
@@ -17,7 +18,6 @@ var Platformer;
         constructor(_name, _posX, _posY, _scaleX, _scaleY, _type) {
             super(_name);
             this.isHealing = false;
-            this.objectIMG = document.querySelectorAll("img.collectable");
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
             this.type = _type;
@@ -60,6 +60,16 @@ var Platformer;
                     this.isHealing = true;
                     this.value = 15;
                     break;
+                case COLLECTABLE.GEM_GOLD:
+                    this.cmpTransform.local.scale(new f.Vector3(2, 2, 0));
+                    sprite.generateByGrid(f.Rectangle.GET(3.5, 3, 17, 15), 4, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+                    Collectable.animations[ACTION.SPINNING] = sprite;
+                    for (let i = 0; i < 4; i++) {
+                        sprite.frames[i].timeScale = 3;
+                    }
+                    this.isHealing = true;
+                    this.value = 50;
+                    break;
             }
         }
         getRectWorld() {
@@ -83,13 +93,16 @@ var Platformer;
             let sprite;
             switch (type) {
                 case COLLECTABLE.COIN_GOLD:
-                    sprite = fAid.createSpriteSheet("Enemy", collectableIMG[0]);
+                    sprite = fAid.createSpriteSheet("Coin_Gold", collectableIMG[0]);
                     break;
                 case COLLECTABLE.COIN_GREEN:
-                    sprite = fAid.createSpriteSheet("Enemy", collectableIMG[1]);
+                    sprite = fAid.createSpriteSheet("Coin_Green", collectableIMG[1]);
                     break;
                 case COLLECTABLE.COIN_RED:
-                    sprite = fAid.createSpriteSheet("Enemy", collectableIMG[2]);
+                    sprite = fAid.createSpriteSheet("Coin_Red", collectableIMG[2]);
+                    break;
+                case COLLECTABLE.GEM_GOLD:
+                    sprite = fAid.createSpriteSheet("Gem_Gold", collectableIMG[3]);
                     break;
             }
             return sprite;

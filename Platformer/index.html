@@ -30,7 +30,7 @@
     <div class="background"></div>
     <div id="menu">
 
-      <div id="overlay">
+      <div class="overlay">
 
         <h1>Super Maria Sis</h1>
 
@@ -60,10 +60,30 @@
 
         </div>
 
+        <div class="menuBtns" id="instructionsMenu">
+          <br>
+          <br>
+
+        </div>
+
         <button id="backBtn">ZURÜCK</button><br>
       </div>
-
     </div>
+
+    <div id="endScreen">
+      <div class="overlay">
+          <h1 id="win">LEVEL COMPLETE</h1> 
+          <h1 id="gameover" style="display: none;">GAME OVER</h1>
+          <div class="playerStats">
+            <p id="health">HP: 1</p>
+            <p id="score">SCORE: 100</p>
+          </div>
+          <br>
+          <button id="restartBtn">PLAY AGAIN</button><br><br>
+          <button id="backMenuBtn">BACK TO MENU</button><br>
+      </div>
+    </div>
+
    
 
     <div id="game">
@@ -74,7 +94,6 @@
         <p class="stats" id="stats"></p>
         <canvas class="game"></canvas>
       </div>
-
     </div>
     
 
@@ -127,6 +146,7 @@
     <img class="collectable" src="Assets/Collectables/MonedaD.png"/>
     <img class="collectable" src="Assets/Collectables/spr_coin_strip4.png"/>
     <img class="collectable" src="Assets/Collectables/MonedaR.png"/>
+    <img class="collectable" src="Assets/Collectables/spr_coin_ama.png"/>
 
 
     <audio id="music" src="Assets/Sounds/8_bit_cactu_sama_2_lofi.mp3" type="audio/mpeg"></audio>

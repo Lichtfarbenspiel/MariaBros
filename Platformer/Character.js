@@ -72,6 +72,9 @@ var Platformer;
                     hit = false;
                 }
                 if (hit) {
+                    // if ((<Object> object).type == OBJECT.SIGN) {
+                    //     this.speed.x = 0;
+                    // }
                     let translation = this.cmpTransform.local.translation;
                     translation.y = rect.y;
                     this.cmpTransform.local.translation = translation;

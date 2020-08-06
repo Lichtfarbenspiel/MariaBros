@@ -88,7 +88,6 @@ var Platformer;
                     this.isIdle = false;
                     this.isAttacking = true;
                     Platformer.Sound.play("attack");
-                    // this.attack(this.enemy);
                     break;
             }
             if (_action == this.action)
@@ -112,6 +111,12 @@ var Platformer;
                         this.wealth += collectable.value;
                     }
                     Platformer.collectables.removeChild(collectable);
+                    if (collectable.type == Platformer.COLLECTABLE.GEM_GOLD) {
+                        ƒ.Time.game.setTimer(1500, 1, () => {
+                            Platformer.gameFinished();
+                            console.log("Game Finished!");
+                        });
+                    }
                 }
             }
         }
@@ -119,7 +124,6 @@ var Platformer;
             for (let enemy of Platformer.enemies.getChildren()) {
                 let enemyPos = enemy.cmpTransform.local.translation;
                 let characterPos = this.cmpTransform.local.translation;
-                // characterPos.y -= 0.5;
                 let difference = f.Vector3.DIFFERENCE(enemyPos, characterPos);
                 let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
                 if (distance <= 0.16) {
@@ -143,10 +147,11 @@ var Platformer;
                         this.isDead = true;
                         _enemy.speed.x = 0;
                         this.show(Platformer.ACTION.DIE);
-                        Platformer.gameOver();
-                        console.log("Game Over");
-                        // ƒ.Time.game.setTimer(5, 1, () => {
-                        // });
+                        Platformer.Sound.play("die");
+                        ƒ.Time.game.setTimer(2500, 1, () => {
+                            Platformer.gameOver();
+                            console.log("Game Over");
+                        });
                     }
                 }
             }

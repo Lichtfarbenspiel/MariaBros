@@ -76,7 +76,10 @@ var Platformer;
             for (let i = 0; i < _amount; i++) {
                 let randPos = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-0.5, 0));
                 let platformPos = this.cmpTransform.local.translation.copy;
-                Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y + 1, 0.5, 0.5, _type));
+                if (_type != Platformer.COLLECTABLE.GEM_GOLD)
+                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y + 1, 0.5, 0.5, _type));
+                else
+                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), platformPos.x + 1.5, platformPos.y + 1, 0.5, 0.5, _type));
             }
         }
     }

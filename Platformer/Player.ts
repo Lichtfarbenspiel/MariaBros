@@ -91,7 +91,6 @@ namespace Platformer {
                     this.isIdle = false;
                     this.isAttacking = true;
                     Sound.play("attack");
-                    // this.attack(this.enemy);
                     break;
             }
 
@@ -127,13 +126,20 @@ namespace Platformer {
 
                 if (distance <= 0.16) {
                     Sound.play("collect");
-                    if (this.healthPoints <= 4 && <Collectable>collectable.isHealing) {
+                    if (this.healthPoints <= 4 && (<Collectable>collectable).isHealing) {
                         this.healthPoints += 1;
                     }
                     else {
                         this.wealth += (<Collectable>collectable).value;
                     }
                     collectables.removeChild(<Collectable>collectable);
+
+                    if ((<Collectable>collectable).type == COLLECTABLE.GEM_GOLD) {
+                        ƒ.Time.game.setTimer(1500, 1, () => {
+                            gameFinished();
+                            console.log("Game Finished!");
+                        });
+                    }
                 }
             }
         }
@@ -142,7 +148,6 @@ namespace Platformer {
             for (let enemy of enemies.getChildren()) { 
                 let enemyPos: f.Vector3 = enemy.cmpTransform.local.translation;
                 let characterPos: f.Vector3 = this.cmpTransform.local.translation;
-                // characterPos.y -= 0.5;
 
                 let difference: f.Vector3 = f.Vector3.DIFFERENCE(enemyPos, characterPos);
                 let distance: number = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
@@ -171,12 +176,11 @@ namespace Platformer {
                         _enemy.speed.x = 0;
                         
                         this.show(ACTION.DIE);
-                        gameOver();
-                        console.log("Game Over");
-                        
-                        // ƒ.Time.game.setTimer(5, 1, () => {
-                          
-                        // });
+                        Sound.play("die");
+                        ƒ.Time.game.setTimer(2500, 1, () => {
+                            gameOver();
+                            console.log("Game Over");
+                        });
                     }
                 }
             }
