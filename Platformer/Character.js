@@ -25,6 +25,7 @@ var Platformer;
             this.isDead = false;
             this.isIdle = true;
             this.isAttacking = false;
+            this.isDrowning = false;
             this.attackRange = 0.5;
         }
         handleAttack(damage) {
@@ -61,6 +62,9 @@ var Platformer;
                     this.cmpTransform.local.translation = translation;
                     this.isIdle = true;
                     this.speed.y = 0;
+                    if (platform == Platformer.level.getChild(0)) {
+                        this.isDrowning = true;
+                    }
                 }
             }
         }
@@ -72,9 +76,6 @@ var Platformer;
                     hit = false;
                 }
                 if (hit) {
-                    // if ((<Object> object).type == OBJECT.SIGN) {
-                    //     this.speed.x = 0;
-                    // }
                     let translation = this.cmpTransform.local.translation;
                     translation.y = rect.y;
                     this.cmpTransform.local.translation = translation;

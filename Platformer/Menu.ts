@@ -51,6 +51,8 @@ namespace Platformer {
         document.getElementById("endScreen").style.display = "none";
         document.getElementById("win").style.display = "none";
         document.getElementById("gameover").style.display = "none";
+
+        Sound.playMusic();
     }
 
     export function toggleMusic(): void {

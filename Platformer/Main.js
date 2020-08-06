@@ -6,8 +6,8 @@ var Platformer;
     window.addEventListener("load", initialize);
     Platformer.muteSound = false;
     Platformer.muteSoundBG = false;
-    let player;
     let cmpCamera;
+    let camRestrictionX = [-1.5, 19];
     let canvas;
     let viewport;
     function initialize(_event) {
@@ -18,10 +18,9 @@ var Platformer;
         document.getElementById("toggleSound").addEventListener("click", Platformer.toggleSound);
         document.getElementById("instructionsBtn").addEventListener("click", Platformer.displayInstructions);
         document.getElementById("backBtn").addEventListener("click", Platformer.displayMenu);
-        document.getElementById("restartBtn").addEventListener("click", start);
+        document.getElementById("restartBtn").addEventListener("click", restart);
         document.getElementById("backMenuBtn").addEventListener("click", Platformer.displayMenu);
         document.addEventListener(ƒ.KEYBOARD_CODE.ESC, Platformer.displayMenu);
-        // document.getElementById("soundBtn").addEventListener("click", toggleSound);
     }
     function start() {
         Platformer.Sound.initialize();
@@ -55,44 +54,44 @@ var Platformer;
         processInput();
         camMovement();
         viewport.draw();
-        displayStats();
     }
     function hndKeyboard(_event) {
-        if (!player.isDead) {
+        if (!Platformer.player.isDead) {
             if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
-                player.act(Platformer.ACTION.JUMP);
+                Platformer.player.act(Platformer.ACTION.JUMP);
         }
     }
     function processInput() {
-        if (!player.isDead) {
+        if (!Platformer.player.isDead) {
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-                player.dir = Platformer.DIRECTION.LEFT;
-                player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
+                Platformer.player.dir = Platformer.DIRECTION.LEFT;
+                Platformer.player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
             }
             else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-                player.dir = Platformer.DIRECTION.RIGHT;
-                player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.RIGHT);
+                Platformer.player.dir = Platformer.DIRECTION.RIGHT;
+                Platformer.player.act(Platformer.ACTION.WALK, Platformer.DIRECTION.RIGHT);
             }
             else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
-                player.act(Platformer.ACTION.JUMP, player.dir);
+                Platformer.player.act(Platformer.ACTION.JUMP, Platformer.player.dir);
             }
             else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-                player.act(Platformer.ACTION.ATTACK, player.dir);
+                Platformer.player.act(Platformer.ACTION.ATTACK, Platformer.player.dir);
             }
-            else if (!player.isDead || player.isIdle)
-                player.act(Platformer.ACTION.IDLE);
+            else if (!Platformer.player.isDead || Platformer.player.isIdle)
+                Platformer.player.act(Platformer.ACTION.IDLE);
         }
     }
     function camMovement() {
-        let playerPos = player.cmpTransform.local.translation;
-        cmpCamera.pivot.translation = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
-    }
-    function displayStats() {
-        // document.getElementById("score").innerText = "POINTS: " + Number(player.wealth).toString() + "<br>" + "HP: " + Number(player.healthPoints).toString();
+        let playerPos = Platformer.player.cmpTransform.local.translation;
+        let camPos = cmpCamera.pivot.translation;
+        if (playerPos.x > camRestrictionX[0] && playerPos.x < camRestrictionX[1]) {
+            camPos = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
+        }
+        cmpCamera.pivot.translation = camPos;
     }
     // setup Game
     function createBackground() {
-        let width = 6;
+        let width = 7;
         let texture = new f.TextureImage();
         let bgImg = document.querySelector("img.background");
         for (let i = 0; i < width; i++) {
@@ -107,32 +106,36 @@ var Platformer;
         let playerImg = document.querySelector("img.player");
         let spritesheet = fAid.createSpriteSheet("Player", playerImg);
         Platformer.Player.generateSprites(spritesheet);
-        player = new Platformer.Player("Player", 0.15, 0.15, new f.Vector2(8, 5), 3);
-        Platformer.game.appendChild(player);
+        Platformer.player = new Platformer.Player("Player", 0.15, 0.15, new f.Vector2(8, 5), 3);
+        Platformer.game.appendChild(Platformer.player);
     }
     function createEnemies() {
         let enemies = new f.Node("Enemies");
         let enemyIMG = document.querySelector("img.enemy");
         let sprite = fAid.createSpriteSheet("Enemy", enemyIMG);
-        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(0), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(4), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
         enemies.appendChild(enemy);
-        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(9), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(13), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
         enemies.appendChild(enemy);
-        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(17), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(21), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
         enemies.appendChild(enemy);
-        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(25), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(29), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
         enemies.appendChild(enemy);
         return enemies;
     }
     function createPlatform() {
         let level = new f.Node("Level");
-        level.appendChild(new Platformer.Platform(-5, -1.8, 0, Platformer.TYPE.GROUND, 2, 1, Platformer.COLLECTABLE.COIN_GOLD));
+        level.appendChild(new Platformer.Platform(8, -6.5, 0, Platformer.TYPE.GROUND, 40));
+        level.appendChild(new Platformer.Platform(-6, -1.85, -0.1, Platformer.TYPE.WATER, 2));
+        level.appendChild(new Platformer.Platform(-6, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
+        level.appendChild(new Platformer.Platform(-6, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
+        level.appendChild(new Platformer.Platform(-5, -1.8, 0, Platformer.TYPE.GROUND, 2, 1, Platformer.COLLECTABLE.COIN_GREEN));
         level.appendChild(new Platformer.Platform(-5, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 2));
         level.appendChild(new Platformer.Platform(-5, -3.8, 0, Platformer.TYPE.UNDERGROUND, 2));
         level.appendChild(new Platformer.Platform(-3.5, -1.85, -0.1, Platformer.TYPE.WATER, 2));
         level.appendChild(new Platformer.Platform(-3.5, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
         level.appendChild(new Platformer.Platform(-3.5, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
-        level.appendChild(new Platformer.Platform(-1, -1.8, 0, Platformer.TYPE.GROUND, 4, 4, Platformer.COLLECTABLE.COIN_GREEN));
+        level.appendChild(new Platformer.Platform(-1, -1.8, 0, Platformer.TYPE.GROUND, 4, 4, Platformer.COLLECTABLE.COIN_GOLD));
         level.appendChild(new Platformer.Platform(-1, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 4));
         level.appendChild(new Platformer.Platform(-1, -3.8, 0, Platformer.TYPE.UNDERGROUND, 4));
         level.appendChild(new Platformer.Platform(2.6, -0.7, 0, Platformer.TYPE.FLOATING, 2, 2, Platformer.COLLECTABLE.COIN_RED));
@@ -147,7 +150,7 @@ var Platformer;
         level.appendChild(new Platformer.Platform(12, -2, 0, Platformer.TYPE.UNDERGROUND, 6));
         level.appendChild(new Platformer.Platform(12, -2.9, -0.1, Platformer.TYPE.UNDERWATER, 6));
         level.appendChild(new Platformer.Platform(12, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 6));
-        level.appendChild(new Platformer.Platform(17.5, -1.2, -0.1, Platformer.TYPE.FLOATING, 2));
+        level.appendChild(new Platformer.Platform(17.5, -1.2, -0.1, Platformer.TYPE.FLOATING, 2, 1, Platformer.COLLECTABLE.COIN_GREEN));
         level.appendChild(new Platformer.Platform(17, -1.9, -0.1, Platformer.TYPE.WATER, 5));
         level.appendChild(new Platformer.Platform(17, -2.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
         level.appendChild(new Platformer.Platform(17, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
@@ -155,6 +158,9 @@ var Platformer;
         level.appendChild(new Platformer.Platform(21, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 5));
         level.appendChild(new Platformer.Platform(21, -3.8, 0, Platformer.TYPE.UNDERGROUND, 5));
         level.appendChild(new Platformer.Platform(21, -3.9, -0.1, Platformer.TYPE.UNDERWATER, 5));
+        level.appendChild(new Platformer.Platform(24.5, -1.85, -0.1, Platformer.TYPE.WATER, 2));
+        level.appendChild(new Platformer.Platform(24.5, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
+        level.appendChild(new Platformer.Platform(24.5, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
         // level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
         // level.appendChild(new Platform(24.5, -3.4, 0, TYPE.MIDDLEGROUND, 4));
         // level.appendChild(new Platform(24.5, -4.4, 0, TYPE.MIDDLEGROUND, 4));
@@ -197,8 +203,8 @@ var Platformer;
         document.getElementById("endScreen").style.display = "initial";
         document.getElementById("win").style.display = "none";
         document.getElementById("gameover").style.display = "initial";
-        document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
-        document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
+        document.getElementById("health").innerHTML = "HP: " + Platformer.player.healthPoints;
+        document.getElementById("score").innerHTML = "SCORE: " + Platformer.player.wealth;
         canvas.style.visibility = "0.5";
     }
     Platformer.gameOver = gameOver;
@@ -208,10 +214,13 @@ var Platformer;
         document.getElementById("endScreen").style.display = "initial";
         document.getElementById("win").style.display = "initial";
         document.getElementById("gameover").style.display = "none";
-        document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
-        document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
+        document.getElementById("health").innerHTML = "HP: " + Platformer.player.healthPoints;
+        document.getElementById("score").innerHTML = "SCORE: " + Platformer.player.wealth;
         canvas.style.visibility = "0.5";
     }
     Platformer.gameFinished = gameFinished;
+    function restart() {
+        location.reload();
+    }
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

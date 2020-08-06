@@ -8,6 +8,7 @@ var Platformer;
         ENEMY["FROG"] = "frog";
     })(ENEMY = Platformer.ENEMY || (Platformer.ENEMY = {}));
     class Enemy extends Platformer.Character {
+        // private object: Object;
         constructor(_name = "Enemy", _platform, _scaleX, _scaleY, _maxSpeed, _strength, _type, _spritesheet) {
             super(_name);
             this.update = (_event) => {
@@ -15,13 +16,13 @@ var Platformer;
                 this.speed.y += Enemy.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
-                this.object = this.checkObjectCollision();
+                // this.object = this.checkObjectCollision();
                 this.checkPlatformCollision();
-                // this.checkObjectCollision();
-                // this.checkDeath();
-                if (this.checkWalkingRange()) {
-                    this.changeDirection();
-                }
+                this.checkDrowning();
+                this.checkWalkingRange();
+                // if (this.checkWalkingRange()) {
+                //     this.changeDirection();
+                // }
             };
             this.platform = _platform;
             this.maxSpeed = _maxSpeed;
@@ -74,21 +75,23 @@ var Platformer;
             else if (this.dir == Platformer.DIRECTION.RIGHT)
                 this.act(Platformer.ACTION.WALK, Platformer.DIRECTION.LEFT);
         }
-        checkDeath() {
-            if (this.isDead) {
-                this.show(Platformer.ACTION.DIE);
-                //GAME OVER
-            }
-        }
         checkWalkingRange() {
             let rectPlatform = (this.platform).getRectWorld();
             let hitPlatform = rectPlatform.isInside(this.cmpTransform.local.translation.toVector2());
             // let rectObject: f.Rectangle = (this.object).getRectWorld();
             // let hitObject: boolean = rectObject.isInside(this.cmpTransform.local.translation.toVector2());
-            if (hitPlatform) {
-                return false;
+            if (!hitPlatform) {
+                this.changeDirection();
             }
-            return true;
+            // if (hitPlatform) {
+            //     return false;
+            // }
+            // return true;
+        }
+        checkDrowning() {
+            if (this.isDrowning) {
+                Platformer.enemies.removeChild(this);
+            }
         }
     }
     Platformer.Enemy = Enemy;

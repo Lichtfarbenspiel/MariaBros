@@ -42,6 +42,7 @@ var Platformer;
         document.getElementById("endScreen").style.display = "none";
         document.getElementById("win").style.display = "none";
         document.getElementById("gameover").style.display = "none";
+        Platformer.Sound.playMusic();
     }
     Platformer.displayGame = displayGame;
     function toggleMusic() {

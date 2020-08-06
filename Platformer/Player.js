@@ -13,11 +13,13 @@ var Platformer;
                 this.speed.y += Player.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
+                console.log("is Drowning: " + this.isDrowning);
                 this.checkCollectable();
-                console.log(this.wealth);
                 super.checkPlatformCollision();
                 this.checkObjectCollision();
                 this.checkEnemyCollision();
+                this.checkDrowning();
+                this.displayStats();
             };
             this.maxSpeed = _maxSpeed;
             this.scaleX = _scaleX;
@@ -128,6 +130,7 @@ var Platformer;
                 let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
                 if (distance <= 0.16) {
                     this.handleEnemyCollision(enemy);
+                    Platformer.Sound.play("frog");
                 }
             }
         }
@@ -155,6 +158,33 @@ var Platformer;
                     }
                 }
             }
+        }
+        checkDrowning() {
+            if (this.isDrowning) {
+                this.isDead = true;
+                this.healthPoints = 0;
+                Platformer.Sound.play("die");
+                ƒ.Time.game.setTimer(250, 1, () => {
+                    Platformer.gameOver();
+                    console.log("Game Over");
+                });
+                // if (this.healthPoints >= 1) {
+                //     this.cmpTransform.local.translation.y = 7;
+                // }
+                // else {
+                //     this.isDead = true;
+                //     this.healthPoints = 0;
+                //     Sound.play("die");
+                //     ƒ.Time.game.setTimer(2500, 1, () => {
+                //         gameOver();
+                //         console.log("Game Over");
+                //     });
+                // }
+            }
+        }
+        displayStats() {
+            document.getElementById("healthStats").innerHTML = "HP: " + this.healthPoints;
+            document.getElementById("scoreStats").innerHTML = "SCORE: " + this.wealth;
         }
     }
     Platformer.Player = Player;

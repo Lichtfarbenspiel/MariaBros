@@ -27,6 +27,7 @@ namespace Platformer {
         public isDead: boolean = false;
         public isIdle: boolean = true;
         public isAttacking: boolean = false;
+        public isDrowning: boolean = false;
 
         public healthPoints: number;
         public strength: number;
@@ -87,6 +88,10 @@ namespace Platformer {
                     this.cmpTransform.local.translation = translation;
                     this.isIdle = true;
                     this.speed.y = 0;
+
+                    if ((<Platform> platform) == level.getChild(0)) {
+                        this.isDrowning = true;
+                    }
                 }
             }
         }
@@ -101,13 +106,6 @@ namespace Platformer {
                 }
                 
                 if (hit) {
-
-                    // if ((<Object> object).type == OBJECT.SIGN) {
-                    //     this.speed.x = 0;
-    
-    
-                    // }
-
                     let translation: f.Vector3 = this.cmpTransform.local.translation;
                     translation.y = rect.y;
                     this.cmpTransform.local.translation = translation;

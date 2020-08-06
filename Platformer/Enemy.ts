@@ -9,9 +9,8 @@ namespace Platformer {
     
     export class Enemy extends Character {
 
-        // private static animations: fAid.SpriteSheetAnimations;
         private platform: Platform;
-        private object: Object;
+        // private object: Object;
 
         constructor(_name: string = "Enemy", _platform: Platform, _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _strength: number, _type: ENEMY, _spritesheet: f.CoatTextured) {
             super(_name);
@@ -91,37 +90,38 @@ namespace Platformer {
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
             
-            this.object = this.checkObjectCollision();
+            // this.object = this.checkObjectCollision();
 
             this.checkPlatformCollision();
-            // this.checkObjectCollision();
 
-            // this.checkDeath();
+            this.checkDrowning();
+            this.checkWalkingRange();
 
-            if (this.checkWalkingRange()) {
-                this.changeDirection();
-            }
+            // if (this.checkWalkingRange()) {
+            //     this.changeDirection();
+            // }
         }
 
-        private checkDeath(): void {
-            if (this.isDead) {
-                this. show(ACTION.DIE);
-                //GAME OVER
-            }
-        }
-
-
-        private checkWalkingRange(): boolean {
+        private checkWalkingRange(): void {
             let rectPlatform: f.Rectangle = (this.platform).getRectWorld();
             let hitPlatform: boolean = rectPlatform.isInside(this.cmpTransform.local.translation.toVector2());
 
             // let rectObject: f.Rectangle = (this.object).getRectWorld();
             // let hitObject: boolean = rectObject.isInside(this.cmpTransform.local.translation.toVector2());
             
-            if (hitPlatform) {
-                return false;
+            if (!hitPlatform) {
+                this.changeDirection();
             }
-            return true;
+            // if (hitPlatform) {
+            //     return false;
+            // }
+            // return true;
+        }
+
+        private checkDrowning(): void {
+            if (this.isDrowning) {
+                enemies.removeChild(this);
+            }
         }
     }
 }

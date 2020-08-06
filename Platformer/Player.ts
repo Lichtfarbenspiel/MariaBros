@@ -107,12 +107,16 @@ namespace Platformer {
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
 
+            console.log("is Drowning: " + this.isDrowning);
+
             this.checkCollectable();
-            console.log(this.wealth);
             
             super.checkPlatformCollision();
             this.checkObjectCollision();
             this.checkEnemyCollision();
+            this.checkDrowning();
+
+            this.displayStats();
         }
 
         private checkCollectable(): void {
@@ -154,6 +158,7 @@ namespace Platformer {
 
                 if (distance <= 0.16) {
                     this.handleEnemyCollision((<Enemy>enemy));
+                    Sound.play("frog");
                 }
             }
         }
@@ -184,6 +189,36 @@ namespace Platformer {
                     }
                 }
             }
+        }
+
+        private checkDrowning(): void {
+            if (this.isDrowning) {
+                this.isDead = true;
+                this.healthPoints = 0;
+                Sound.play("die");
+                ƒ.Time.game.setTimer(250, 1, () => {
+                    gameOver();
+                    console.log("Game Over");
+                });
+                
+                // if (this.healthPoints >= 1) {
+                //     this.cmpTransform.local.translation.y = 7;
+                // }
+                // else {
+                //     this.isDead = true;
+                //     this.healthPoints = 0;
+                //     Sound.play("die");
+                //     ƒ.Time.game.setTimer(2500, 1, () => {
+                //         gameOver();
+                //         console.log("Game Over");
+                //     });
+                // }
+            }
+        }
+
+        private displayStats(): void {
+            document.getElementById("healthStats").innerHTML = "HP: " + this.healthPoints;
+            document.getElementById("scoreStats").innerHTML = "SCORE: " + this.wealth;
         }
     }
 }

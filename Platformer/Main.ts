@@ -9,12 +9,15 @@ namespace Platformer {
   export let objects: f.Node;
   export let enemies: f.Node;
   export let collectables: f.Node;
+  export let drowningCollider: Platform;
 
   export let muteSound: boolean = false;
   export let muteSoundBG: boolean = false;
 
-  let player: Player;
+  export let player: Player;
+
   let cmpCamera: f.ComponentCamera;
+  let camRestrictionX: number[] = [-1.5, 19];
   let canvas: HTMLCanvasElement;
   let viewport: f.Viewport;
 
@@ -28,13 +31,11 @@ namespace Platformer {
     document.getElementById("instructionsBtn").addEventListener("click", displayInstructions);
     document.getElementById("backBtn").addEventListener("click", displayMenu);
 
-    document.getElementById("restartBtn").addEventListener("click", start);
+    document.getElementById("restartBtn").addEventListener("click", restart);
     document.getElementById("backMenuBtn").addEventListener("click", displayMenu);
 
 
     document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
-
-    // document.getElementById("soundBtn").addEventListener("click", toggleSound);
   }
   
   function start(): void {
@@ -79,8 +80,7 @@ namespace Platformer {
   function update(_event: ƒ.Eventƒ): void {
     processInput();
     camMovement();
-    viewport.draw();  
-    displayStats();    
+    viewport.draw();     
   }
   
   function hndKeyboard(_event: f.EventKeyboard): void {
@@ -113,18 +113,17 @@ namespace Platformer {
 
   function camMovement(): void {
     let playerPos: f.Vector3 = player.cmpTransform.local.translation;
-    cmpCamera.pivot.translation = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
+    let camPos: f.Vector3 = cmpCamera.pivot.translation;
+    if (playerPos.x > camRestrictionX[0] && playerPos.x < camRestrictionX[1]) {
+      camPos = new f.Vector3(playerPos.x, -1, cmpCamera.pivot.translation.z);
+    }
+    cmpCamera.pivot.translation = camPos;
   }
-
-  function displayStats(): void {
-    // document.getElementById("score").innerText = "POINTS: " + Number(player.wealth).toString() + "<br>" + "HP: " + Number(player.healthPoints).toString();
-  }
-
 
   // setup Game
 
   function createBackground(): void {
-    let width: number = 6;
+    let width: number = 7;
     let texture: f.TextureImage = new f.TextureImage();
     let bgImg: HTMLImageElement = document.querySelector("img.background");
 
@@ -152,16 +151,16 @@ namespace Platformer {
     let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
     let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
 
-    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(0), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(4), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
     enemies.appendChild(enemy);
 
-    enemy = new Enemy("Frog", <Platform>level.getChild(9), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    enemy = new Enemy("Frog", <Platform>level.getChild(13), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
     enemies.appendChild(enemy);
 
-    enemy = new Enemy("Frog", <Platform>level.getChild(17), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    enemy = new Enemy("Frog", <Platform>level.getChild(21), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
     enemies.appendChild(enemy);
 
-    enemy = new Enemy("Frog", <Platform>level.getChild(25), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    enemy = new Enemy("Frog", <Platform>level.getChild(29), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
     enemies.appendChild(enemy);
     
     return enemies;
@@ -170,7 +169,13 @@ namespace Platformer {
   function createPlatform(): f.Node {
     let level: f.Node = new f.Node("Level");
 
-    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 1, COLLECTABLE.COIN_GOLD));
+    level.appendChild(new Platform(8, -6.5, 0, TYPE.GROUND, 40));
+
+    level.appendChild(new Platform(-6, -1.85, -0.1, TYPE.WATER, 2));
+    level.appendChild(new Platform(-6, -2.85, -0.1, TYPE.UNDERWATER, 2));
+    level.appendChild(new Platform(-6, -3.85, -0.1, TYPE.UNDERWATER, 2));
+
+    level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 1, COLLECTABLE.COIN_GREEN));
     
     level.appendChild(new Platform(-5, -2.8, 0, TYPE.MIDDLEGROUND, 2));
     level.appendChild(new Platform(-5, -3.8, 0, TYPE.UNDERGROUND, 2));
@@ -179,7 +184,7 @@ namespace Platformer {
     level.appendChild(new Platform(-3.5, -2.85, -0.1, TYPE.UNDERWATER, 2));
     level.appendChild(new Platform(-3.5, -3.85, -0.1, TYPE.UNDERWATER, 2));
 
-    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4, 4, COLLECTABLE.COIN_GREEN));
+    level.appendChild(new Platform(-1, -1.8, 0, TYPE.GROUND, 4, 4, COLLECTABLE.COIN_GOLD));
     level.appendChild(new Platform(-1, -2.8, 0, TYPE.MIDDLEGROUND, 4));
     level.appendChild(new Platform(-1, -3.8, 0, TYPE.UNDERGROUND, 4));
 
@@ -200,7 +205,7 @@ namespace Platformer {
     level.appendChild(new Platform(12, -2.9 , -0.1, TYPE.UNDERWATER, 6));
     level.appendChild(new Platform(12, -3.9 , -0.1, TYPE.UNDERWATER, 6));
 
-    level.appendChild(new Platform(17.5, -1.2, -0.1, TYPE.FLOATING, 2)); 
+    level.appendChild(new Platform(17.5, -1.2, -0.1, TYPE.FLOATING, 2, 1, COLLECTABLE.COIN_GREEN)); 
     level.appendChild(new Platform(17, -1.9, -0.1, TYPE.WATER, 5));
     level.appendChild(new Platform(17, -2.9, -0.1, TYPE.UNDERWATER, 5));
     level.appendChild(new Platform(17, -3.9, -0.1, TYPE.UNDERWATER, 5));
@@ -208,7 +213,11 @@ namespace Platformer {
     level.appendChild(new Platform(21, -1.8, 0, TYPE.GROUND, 5, 1, COLLECTABLE.GEM_GOLD));
     level.appendChild(new Platform(21, -2.8, 0, TYPE.MIDDLEGROUND, 5));
     level.appendChild(new Platform(21, -3.8, 0, TYPE.UNDERGROUND, 5));
-    level.appendChild(new Platform(21, -3.9, -0.1, TYPE.UNDERWATER, 5));
+    level.appendChild(new Platform(21, -3.9, -0.1, TYPE.UNDERWATER, 5)); 
+
+    level.appendChild(new Platform(24.5, -1.85, -0.1, TYPE.WATER, 2));
+    level.appendChild(new Platform(24.5, -2.85, -0.1, TYPE.UNDERWATER, 2));
+    level.appendChild(new Platform(24.5, -3.85, -0.1, TYPE.UNDERWATER, 2));
 
 
     // level.appendChild(new Platform(24.5, -2.4, 0, TYPE.GROUND, 4));
@@ -281,5 +290,9 @@ namespace Platformer {
     document.getElementById("health").innerHTML = "HP: " + player.healthPoints;
     document.getElementById("score").innerHTML = "SCORE: " + player.wealth;
     canvas.style.visibility = "0.5";
+  }
+
+  function restart(): void {
+    location.reload();
   }
 }
