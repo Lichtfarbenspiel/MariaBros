@@ -42,9 +42,9 @@ var Platformer;
     function createPlatform() {
         let level = new f.Node("Level");
         level.appendChild(new Platformer.Platform(8, -6.5, 0, Platformer.TYPE.GROUND, 40));
-        level.appendChild(new Platformer.Platform(-6, -1.85, -0.1, Platformer.TYPE.WATER, 2));
-        level.appendChild(new Platformer.Platform(-6, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
-        level.appendChild(new Platformer.Platform(-6, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
+        level.appendChild(new Platformer.Platform(-6.5, -1.85, -0.1, Platformer.TYPE.WATER, 2));
+        level.appendChild(new Platformer.Platform(-6.5, -2.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
+        level.appendChild(new Platformer.Platform(-6.5, -3.85, -0.1, Platformer.TYPE.UNDERWATER, 2));
         level.appendChild(new Platformer.Platform(-5, -1.8, 0, Platformer.TYPE.GROUND, 2, 1, Platformer.COLLECTABLE.COIN_GREEN));
         level.appendChild(new Platformer.Platform(-5, -2.8, 0, Platformer.TYPE.MIDDLEGROUND, 2));
         level.appendChild(new Platformer.Platform(-5, -3.8, 0, Platformer.TYPE.UNDERGROUND, 2));
@@ -116,4 +116,4 @@ var Platformer;
     }
     Platformer.addObjects = addObjects;
 })(Platformer || (Platformer = {}));
-//# sourceMappingURL=setupGame.js.map
+//# sourceMappingURL=SetupGame.js.map

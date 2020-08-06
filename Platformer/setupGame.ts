@@ -51,9 +51,9 @@ namespace Platformer {
     
         level.appendChild(new Platform(8, -6.5, 0, TYPE.GROUND, 40));
     
-        level.appendChild(new Platform(-6, -1.85, -0.1, TYPE.WATER, 2));
-        level.appendChild(new Platform(-6, -2.85, -0.1, TYPE.UNDERWATER, 2));
-        level.appendChild(new Platform(-6, -3.85, -0.1, TYPE.UNDERWATER, 2));
+        level.appendChild(new Platform(-6.5, -1.85, -0.1, TYPE.WATER, 2));
+        level.appendChild(new Platform(-6.5, -2.85, -0.1, TYPE.UNDERWATER, 2));
+        level.appendChild(new Platform(-6.5, -3.85, -0.1, TYPE.UNDERWATER, 2));
     
         level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 1, COLLECTABLE.COIN_GREEN));
         
