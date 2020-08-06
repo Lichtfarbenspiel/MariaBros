@@ -23,11 +23,12 @@ namespace Platformer {
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
 
-            let pos: f.Vector3 = this.platform.cmpTransform.local.translation;
+            let pos: f.Vector3 = this.platform.cmpTransform.local.translation.copy;
 
-            this.addComponent(new f.ComponentTransform());
+            // let position: f.Vector3 = 
+
+            this.addComponent(new f.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(pos.x, pos.y, 0))));
             this.cmpTransform.local.scaling = new f.Vector3(_scaleX, _scaleY, 0);
-            this.cmpTransform.local.translate(new f.Vector3(pos.x, 0, 0));
 
             this.generateSprites(_spritesheet, _type);
 

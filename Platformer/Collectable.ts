@@ -36,9 +36,9 @@ namespace Platformer {
             this.scaleY = _scaleY;
 
 
-            this.addComponent(new f.ComponentTransform());
+            this.addComponent(new f.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(_posX, _posY, 0))));
             this.cmpTransform.local.scaling = new f.Vector3(_scaleX, _scaleY, 0);
-            this.mtxLocal.translate(new f.Vector3(_posX, _posY, 0));
+            // this.mtxLocal.translate(new f.Vector3(_posX, _posY, 0));
 
             let spritesheet: f.CoatTextured = this.getSprite(_type);
 

@@ -35,7 +35,7 @@ namespace Platformer {
     export function displayGame(): void {
         document.getElementById("menu").style.display = "none";
         document.getElementById("game").style.display = "initial";
-        Sound.playMusic();
+        // Sound.playMusic();
     }
 
     export function toggleMusic(): void {

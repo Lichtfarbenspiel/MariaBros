@@ -23,6 +23,7 @@ namespace Platformer {
         public width: number;
         public height: number;
         public type: TYPE;
+        public center: FudgeAid.Node;
 
         public constructor(posX: number, posY: number, posZ: number = 0, type: TYPE, tiles: number, _amountCollectables?: number, _typeCollectables?: COLLECTABLE) {
             super("Platform");
@@ -31,8 +32,10 @@ namespace Platformer {
             this.height = 1;
             this.type = type;
 
-            this.addComponent(new ƒ.ComponentTransform());
-            this.cmpTransform.local.translate(new f.Vector3(posX, posY, posZ));
+            // this.center = new ƒAid.Node("Center", ƒ.Matrix4x4.TRANSLATION(new ƒ.Vector3(0, 0.5, 0)));
+
+            this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(posX, posY, posZ))));
+            // this.cmpTransform.local.translate(new f.Vector3(posX, posY, posZ));
 
             this.addCollectables(_amountCollectables, _typeCollectables);
             
@@ -92,10 +95,10 @@ namespace Platformer {
         private addCollectables(_amount: number, _type: COLLECTABLE): void {    
             let range: number = this.width / 2;
             for (let i: number = 0; i < _amount; i++) {
-                let randPos: f.Vector3 = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-1, 0));
-                let platformPos: f.Vector3 = this.cmpTransform.local.translation;
+                let randPos: f.Vector3 = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-0.5, 0));
+                let platformPos: f.Vector3 = this.cmpTransform.local.translation.copy;
                 
-                collectables.appendChild(new Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y, 0.5, 0.5, _type));
+                collectables.appendChild(new Collectable(_type.toString(), platformPos.x + randPos.x, platformPos.y + randPos.y + 1, 0.5, 0.5, _type));
             }
         }
     }

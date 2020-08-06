@@ -149,8 +149,17 @@ namespace Platformer {
 
     let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
     let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
-    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
-    
+
+    let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(0), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    enemies.appendChild(enemy);
+
+    enemy = new Enemy("Frog", <Platform>level.getChild(9), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    enemies.appendChild(enemy);
+
+    enemy = new Enemy("Frog", <Platform>level.getChild(17), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
+    enemies.appendChild(enemy);
+
+    enemy = new Enemy("Frog", <Platform>level.getChild(25), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
     enemies.appendChild(enemy);
     
     return enemies;
@@ -160,6 +169,7 @@ namespace Platformer {
     let level: f.Node = new f.Node("Level");
 
     level.appendChild(new Platform(-5, -1.8, 0, TYPE.GROUND, 2, 1, COLLECTABLE.COIN_GOLD));
+    
     level.appendChild(new Platform(-5, -2.8, 0, TYPE.MIDDLEGROUND, 2));
     level.appendChild(new Platform(-5, -3.8, 0, TYPE.UNDERGROUND, 2));
 

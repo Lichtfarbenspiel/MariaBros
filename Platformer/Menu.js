@@ -30,7 +30,7 @@ var Platformer;
     function displayGame() {
         document.getElementById("menu").style.display = "none";
         document.getElementById("game").style.display = "initial";
-        Platformer.Sound.playMusic();
+        // Sound.playMusic();
     }
     Platformer.displayGame = displayGame;
     function toggleMusic() {

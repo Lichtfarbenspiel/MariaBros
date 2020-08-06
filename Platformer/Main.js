@@ -112,7 +112,13 @@ var Platformer;
         let enemies = new f.Node("Enemies");
         let enemyIMG = document.querySelector("img.enemy");
         let sprite = fAid.createSpriteSheet("Enemy", enemyIMG);
-        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(6), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(0), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        enemies.appendChild(enemy);
+        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(9), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        enemies.appendChild(enemy);
+        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(17), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
+        enemies.appendChild(enemy);
+        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(25), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
         enemies.appendChild(enemy);
         return enemies;
     }

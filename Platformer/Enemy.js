@@ -28,10 +28,10 @@ var Platformer;
             this.strength = _strength;
             this.scaleX = _scaleX;
             this.scaleY = _scaleY;
-            let pos = this.platform.cmpTransform.local.translation;
-            this.addComponent(new f.ComponentTransform());
+            let pos = this.platform.cmpTransform.local.translation.copy;
+            // let position: f.Vector3 = 
+            this.addComponent(new f.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(pos.x, pos.y, 0))));
             this.cmpTransform.local.scaling = new f.Vector3(_scaleX, _scaleY, 0);
-            this.cmpTransform.local.translate(new f.Vector3(pos.x, 0, 0));
             this.generateSprites(_spritesheet, _type);
             this.act(Platformer.ACTION.WALK, this.dir);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
