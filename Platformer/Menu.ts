@@ -58,12 +58,12 @@ namespace Platformer {
     export function toggleMusic(): void {
         if (!muteSoundBG) {
             muteSoundBG = true;
-            document.getElementById("toggleMusic").innerHTML = "MUSIK AUS";
+            document.getElementById("toggleMusic").innerHTML = "MUSIC OFF";
             Sound.stopMusic();
         }
         else {
             muteSoundBG = false;
-            document.getElementById("toggleMusic").innerHTML = "MUSIK AN";
+            document.getElementById("toggleMusic").innerHTML = "MUSIC ON";
             Sound.playMusic();
         }
     }
@@ -71,11 +71,11 @@ namespace Platformer {
     export function toggleSound(): void {
         if (!muteSound) {
             muteSound = true;
-            document.getElementById("toggleSound").innerHTML = "SOUNDS AUS";
+            document.getElementById("toggleSound").innerHTML = "SOUNDS OFF";
         }
         else {
             muteSound = false;
-            document.getElementById("toggleSound").innerHTML = "SOUNDS AN";
+            document.getElementById("toggleSound").innerHTML = "SOUNDS ON";
         }
     }
 }

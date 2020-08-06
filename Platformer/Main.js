@@ -73,7 +73,7 @@ var Platformer;
             else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
                 Platformer.player.act(Platformer.ACTION.JUMP, Platformer.player.dir);
             }
-            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])) {
                 Platformer.player.act(Platformer.ACTION.ATTACK, Platformer.player.dir);
             }
             else if (!Platformer.player.isDead || Platformer.player.isIdle)

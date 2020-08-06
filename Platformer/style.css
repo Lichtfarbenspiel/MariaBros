@@ -38,6 +38,9 @@
     display: none;
   }
 
+  #startMenu {
+    display: initial;
+  }
 
   .menu {
     margin: auto;
@@ -127,6 +130,18 @@
     color: #000;
     font-family: fantasy;
     font-size: 1.5em;
+  }
+
+  .instructions {
+    text-align: center;
+    padding-left: 15%;
+    padding-right: 15%;
+    line-height: 1.5em;
+  }
+
+  .instructions strong, p {
+    font-size: 1em;
+    font-family: Arial;
   }
 
   #endScreen {

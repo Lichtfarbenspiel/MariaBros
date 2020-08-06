@@ -48,12 +48,12 @@ var Platformer;
     function toggleMusic() {
         if (!Platformer.muteSoundBG) {
             Platformer.muteSoundBG = true;
-            document.getElementById("toggleMusic").innerHTML = "MUSIK AUS";
+            document.getElementById("toggleMusic").innerHTML = "MUSIC OFF";
             Platformer.Sound.stopMusic();
         }
         else {
             Platformer.muteSoundBG = false;
-            document.getElementById("toggleMusic").innerHTML = "MUSIK AN";
+            document.getElementById("toggleMusic").innerHTML = "MUSIC ON";
             Platformer.Sound.playMusic();
         }
     }
@@ -61,11 +61,11 @@ var Platformer;
     function toggleSound() {
         if (!Platformer.muteSound) {
             Platformer.muteSound = true;
-            document.getElementById("toggleSound").innerHTML = "SOUNDS AUS";
+            document.getElementById("toggleSound").innerHTML = "SOUNDS OFF";
         }
         else {
             Platformer.muteSound = false;
-            document.getElementById("toggleSound").innerHTML = "SOUNDS AN";
+            document.getElementById("toggleSound").innerHTML = "SOUNDS ON";
         }
     }
     Platformer.toggleSound = toggleSound;
