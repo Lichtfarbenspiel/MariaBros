@@ -9,6 +9,8 @@
     <script src="../FudgeAid/FudgeAid.js"></script>
 
     <script src="Main.js"></script>
+    <script src="Menu.js"></script>
+    <script src="Sound.js"></script>
 
     <script src="Background.js"></script>
     <script src="Platform.js"></script>
@@ -20,133 +22,8 @@
     <script src="Player.js"></script>
     <script src="Enemy.js"></script>
 
-  
+    <link rel="stylesheet" type="text/css" href="style.css">
 
-   
- 
-    <style>
-
-        * {
-          font-family: fantasy;
-        }
-
-        body,
-        html {
-          height: 100%;
-          margin: 0px;
-          overflow: hidden;
-        }
-
-        .background {
-          filter: blur(4px);
-          -webkit-filter: blur(4px);
-          width: 100%;
-          height: 100%;
-
-          background-image: url(Assets/World/BG.png);
-          background-repeat: no-repeat;
-          background-size: cover;
-          position: fixed;
-          z-index: -100;
-        }
-    
-        #overlay {
-          background-color: #fff;
-          opacity: 50%;
-          width: 50em;
-          height: 25em;
-          margin: auto;
-          text-align: center;
-          display: block;
-          margin-top: 5%;
-          padding-top: 5%;
-        }
-
-        img {
-          display: none;
-        }
-
-        .menu {
-          margin: auto;
-          text-align: center;
-          width: 100%;
-          height: 100%;
-        }
-
-        .menuBtns {
-          width: auto; 
-          height: auto;
-          margin: 5% auto;
-          text-align: center;
-          display: block;
-        }
-
-        h1 {
-          color: #000;
-          font-size: 2em;
-        }
-
-        button {
-          margin-top: 5%;
-          text-align: center;
-          color: #000;
-          font-size: 1.5em;
-          border: none;
-          background: none;
-          margin: 0 auto;
-          display: inline-block;
-        }
-
-        button:hover {
-         color: darkgreen;
-         cursor: pointer;
-        }
-
-        button:active {
-          color: darkgreen;
-          cursor: pointer;
-          border: none;
-          background: none;
-        }
-
-        canvas {
-          width: 100%;
-          height: 100%;
-          display: block;
-          -webkit-box-shadow: 1px 1px 3px 3px #7b7b7b4d;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-          -moz-box-shadow:    1px 1px 3px 3px #7b7b7b4d;  /* Firefox 3.5 - 3.6 */
-          box-shadow:         1px 1px 3px 3px #7b7b7b4d;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
-        }
-
-        .canv {
-          margin: 0 auto;
-          position: relative;
-          width: 80%;
-          height: 80%;
-        }
-
-        #game {
-          display: none;
-        }
-
-        .game {
-          z-index: 0;
-        }
-
-        .stats {
-          width: 20%;
-          height: 8%;
-          margin-top: 1%;
-          margin-left: 1%;
-          z-index: 100;
-          position: absolute;
-          color: #000;
-          font-family: fantasy;
-          font-size: 1.5em;
-        }
-
-      </style>
-    </head>
 </head>
 
 <body>
@@ -157,12 +34,33 @@
 
         <h1>Super Maria Sis</h1>
 
-        <div class="menuBtns">
-          <button id="startBtn">START</button><br>
-          <button id="soundBtn">SOUNDS</button><br>
-          <button id="musicBtn">MUSIK</button><br>
+        <div class="menuBtns" id="startMenu">
+          <button id="startBtn">START</button>
+            <br>
+            <br>
+          <button id="settingsBtn">SETTINGS</button>
+            <br>
+            <br>
           <button id="instructionsBtn">STORY</button><br>
         </div>
+
+        <div class="menuBtns" id="settingsMenu">
+          <button id="toggleMusic">MUSIK AN</button>
+            <br>
+            <br>
+          <button id="toggleSound">SOUND AN</button>
+            <br>
+            <br>
+
+        </div>
+
+        <div class="menuBtns" id="instructionsMenu">
+            <br>
+            <br>
+
+        </div>
+
+        <button id="backBtn">ZURÜCK</button><br>
       </div>
 
     </div>
@@ -229,6 +127,14 @@
     <img class="collectable" src="Assets/Collectables/MonedaD.png"/>
     <img class="collectable" src="Assets/Collectables/MonedaP.png"/>
     <img class="collectable" src="Assets/Collectables/MonedaR.png"/>
+
+
+    <audio id="music" src="Assets/Sounds/8_bit_cactu_sama_2_lofi.mp3" type="audio/mpeg"></audio>
+    <audio id="jump" src="Assets/Sounds/jump_08.wav" type="audio/wav"></audio>
+    <audio id="collect" src="Assets/Sounds/Blink (life_money).wav" type="audio/wav"></audio>
+    <audio id="attack" src="Assets/Sounds/sword-knife-clash-22.wav" type="audio/wav"></audio>
+    <audio id="die" src="Assets/Sounds/death.wav" type="audio/wav"></audio>
+    <audio id="win" src="Assets/Sounds/round_end.wav" type="audio/wav"></audio>
 
 </body>
 </html>

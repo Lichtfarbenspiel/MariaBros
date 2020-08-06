@@ -81,19 +81,18 @@ namespace Platformer {
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break; 
                 case ACTION.JUMP:
-                    this.isIdle = false;
-                    this.speed.y = 8;
+                    if (this.speed.y <= 1) {
+                        this.isIdle = false;
+                        this.speed.y = 8;
+                        Sound.play("jump");
+                    }
                     break;
                 case ACTION.ATTACK:
                     this.isIdle = false;
                     this.isAttacking = true;
+                    Sound.play("attack");
                     // this.attack(this.enemy);
                     break;
-                // case ACTION.DIE:
-                //     this.isIdle = false;
-                //     this.isDead = true;
-                //     this.speed.x = 0;
-                //     break;
             }
 
             if (_action == this.action)
@@ -127,6 +126,7 @@ namespace Platformer {
                 let distance: number = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
 
                 if (distance <= 0.16) {
+                    Sound.play("collect");
                     this.wealth += (<Collectable>collectable).value;
                     collectables.removeChild(<Collectable>collectable);
                 }

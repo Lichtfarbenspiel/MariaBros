@@ -20,14 +20,26 @@ namespace Platformer {
 
   function initialize(_event: Event): void {
     document.getElementById("startBtn").addEventListener("click", start);
+    document.getElementById("settingsBtn").addEventListener("click", displaySetings);
+    document.getElementById("settingsBtn").addEventListener("click", displaySetings);
+    document.getElementById("toggleMusic").addEventListener("click", toggleMusic);
+    document.getElementById("toggleSound").addEventListener("click", toggleSound);
+
+
+    document.getElementById("instructionsBtn").addEventListener("click", displayInstructions);
+    document.getElementById("backBtn").addEventListener("click", displayMenu);
+
+
+    document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
+
     // document.getElementById("soundBtn").addEventListener("click", toggleSound);
   }
-
+  
   function start(): void {
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("game").style.display = "initial";
+    Sound.initialize();
+    displayGame();
+
     canvas = document.querySelector("canvas.game");
-    // Sound.initialize();
     
     game = new f.Node("Game");
     collectables = new f.Node("Collectables");
@@ -73,8 +85,6 @@ namespace Platformer {
     if (!player.isDead) {
       if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
         player.act(ACTION.JUMP);
-      if (_event.code == ƒ.KEYBOARD_CODE.F)
-        player.act(ACTION.ATTACK, player.dir);
     }
   }
 
@@ -91,9 +101,9 @@ namespace Platformer {
       else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
         player.act(ACTION.JUMP, player.dir);
       }
-      // else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-      //   player.act(ACTION.ATTACK, player.dir);
-      // }
+      else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+        player.act(ACTION.ATTACK, player.dir);
+      }
       else if (!player.isDead || player.isIdle)
         player.act(ACTION.IDLE);
     }
@@ -236,8 +246,9 @@ namespace Platformer {
   }
 
   export function gameOver(): void {
+    Sound.play("die");
     let gameOver: HTMLImageElement = document.querySelector("div.gameOver");
-    gameOver.style.visibility = "visible";
+    gameOver.style.display = "initial";
     let canvas: HTMLImageElement = document.querySelector("canvas.game");
     canvas.style.visibility = "0.5";
   }

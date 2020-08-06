@@ -10,19 +10,23 @@ var Platformer;
         }
         static play(_id) {
             if (!Platformer.muteSound) {
-                Sound.sounds[_id].volume = 0.5;
+                if (_id == "collect")
+                    Sound.sounds[_id].volume = 0.7;
+                {
+                    Sound.sounds[_id].volume = 0.5;
+                }
                 Sound.sounds[_id].play();
             }
         }
         static playMusic() {
             if (!Platformer.muteSoundBG) {
-                Sound.sounds["backgroundSound"].loop = true;
-                Sound.sounds["backgroundSound"].volume = 0.3;
-                Sound.sounds["backgroundSound"].play();
+                Sound.sounds["music"].loop = true;
+                Sound.sounds["music"].volume = 0.08;
+                Sound.sounds["music"].play();
             }
         }
         static stopMusic() {
-            Sound.sounds["backgroundSound"].muted = true;
+            Sound.sounds["music"].muted = true;
         }
     }
     Sound.sounds = {};

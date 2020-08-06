@@ -12,13 +12,19 @@ var Platformer;
     let viewport;
     function initialize(_event) {
         document.getElementById("startBtn").addEventListener("click", start);
+        document.getElementById("settingsBtn").addEventListener("click", Platformer.displaySetings);
+        document.getElementById("settingsBtn").addEventListener("click", Platformer.displaySetings);
+        document.getElementById("toggleMusic").addEventListener("click", Platformer.toggleMusic);
+        document.getElementById("toggleSound").addEventListener("click", Platformer.toggleSound);
+        document.getElementById("instructionsBtn").addEventListener("click", Platformer.displayInstructions);
+        document.getElementById("backBtn").addEventListener("click", Platformer.displayMenu);
+        document.addEventListener(ƒ.KEYBOARD_CODE.ESC, Platformer.displayMenu);
         // document.getElementById("soundBtn").addEventListener("click", toggleSound);
     }
     function start() {
-        document.getElementById("menu").style.display = "none";
-        document.getElementById("game").style.display = "initial";
+        Platformer.Sound.initialize();
+        Platformer.displayGame();
         canvas = document.querySelector("canvas.game");
-        // Sound.initialize();
         Platformer.game = new f.Node("Game");
         Platformer.collectables = new f.Node("Collectables");
         Platformer.level = createPlatform();
@@ -53,8 +59,6 @@ var Platformer;
         if (!player.isDead) {
             if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
                 player.act(Platformer.ACTION.JUMP);
-            if (_event.code == ƒ.KEYBOARD_CODE.F)
-                player.act(Platformer.ACTION.ATTACK, player.dir);
         }
     }
     function processInput() {
@@ -70,9 +74,9 @@ var Platformer;
             else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
                 player.act(Platformer.ACTION.JUMP, player.dir);
             }
-            // else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
-            //   player.act(ACTION.ATTACK, player.dir);
-            // }
+            else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.F])) {
+                player.act(Platformer.ACTION.ATTACK, player.dir);
+            }
             else if (!player.isDead || player.isIdle)
                 player.act(Platformer.ACTION.IDLE);
         }
@@ -178,8 +182,9 @@ var Platformer;
         return objects;
     }
     function gameOver() {
+        Platformer.Sound.play("die");
         let gameOver = document.querySelector("div.gameOver");
-        gameOver.style.visibility = "visible";
+        gameOver.style.display = "initial";
         let canvas = document.querySelector("canvas.game");
         canvas.style.visibility = "0.5";
     }

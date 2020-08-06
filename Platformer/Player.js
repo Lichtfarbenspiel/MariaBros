@@ -78,19 +78,18 @@ var Platformer;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
                     break;
                 case Platformer.ACTION.JUMP:
-                    this.isIdle = false;
-                    this.speed.y = 8;
+                    if (this.speed.y <= 1) {
+                        this.isIdle = false;
+                        this.speed.y = 8;
+                        Platformer.Sound.play("jump");
+                    }
                     break;
                 case Platformer.ACTION.ATTACK:
                     this.isIdle = false;
                     this.isAttacking = true;
+                    Platformer.Sound.play("attack");
                     // this.attack(this.enemy);
                     break;
-                // case ACTION.DIE:
-                //     this.isIdle = false;
-                //     this.isDead = true;
-                //     this.speed.x = 0;
-                //     break;
             }
             if (_action == this.action)
                 return;
@@ -105,6 +104,7 @@ var Platformer;
                 let difference = f.Vector3.DIFFERENCE(collectPos, characterPos);
                 let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
                 if (distance <= 0.16) {
+                    Platformer.Sound.play("collect");
                     this.wealth += collectable.value;
                     Platformer.collectables.removeChild(collectable);
                 }
