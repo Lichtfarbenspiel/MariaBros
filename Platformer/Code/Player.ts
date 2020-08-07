@@ -196,7 +196,7 @@ namespace Platformer {
             }
         }
 
-        private checkDrowning(): void {
+        protected checkDrowning(): void {
             if (this.isDrowning) {
                 this.isDead = true;
                 this.healthPoints = 0;

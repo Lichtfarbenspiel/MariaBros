@@ -110,11 +110,5 @@ namespace Platformer {
                 this.changeDirection();
             }
         }
-
-        private checkDrowning(): void {
-            if (this.isDrowning) {
-                enemies.removeChild(this);
-            }
-        }
     }
 }

@@ -81,11 +81,6 @@ var Platformer;
                 this.changeDirection();
             }
         }
-        checkDrowning() {
-            if (this.isDrowning) {
-                Platformer.enemies.removeChild(this);
-            }
-        }
     }
     Platformer.Enemy = Enemy;
 })(Platformer || (Platformer = {}));

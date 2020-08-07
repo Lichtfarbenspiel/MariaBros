@@ -80,10 +80,20 @@ var Platformer;
                     this.cmpTransform.local.translation = translation;
                     this.isIdle = true;
                     this.speed.y = 0;
+                    if (!object.isHit) {
+                        let rand = ƒ.Random.default.getRange(0, 4);
+                        object.isHit = true;
+                        object.addObjectCollectables(rand, Platformer.COLLECTABLE.COIN_GOLD);
+                    }
                     return object;
                 }
             }
             return null;
+        }
+        checkDrowning() {
+            if (this.isDrowning) {
+                Platformer.enemies.removeChild(this);
+            }
         }
     }
     Character.gravity = f.Vector2.Y(-8);

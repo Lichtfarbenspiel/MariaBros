@@ -22,6 +22,7 @@ var Platformer;
     class Object extends f.Node {
         constructor(name, posX, posY, posZ = 0, scaleX = 1, scaleY = 1, type) {
             super(name);
+            this.isHit = false;
             this.objectIMG = document.querySelectorAll("img.object");
             this.width = scaleX;
             this.height = scaleY;
@@ -50,6 +51,17 @@ var Platformer;
             rect.position = topLeft.toVector2();
             rect.size = size;
             return rect;
+        }
+        addObjectCollectables(_amount, _type) {
+            let range = this.width / 2;
+            for (let i = 0; i < _amount; i++) {
+                let randPos = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-0.5, 0));
+                let objectPos = this.cmpTransform.local.translation.copy;
+                if (_type != Platformer.COLLECTABLE.GEM_GOLD)
+                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), objectPos.x + randPos.x, objectPos.y + randPos.y + 1, 0.5, 0.5, _type));
+                else
+                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), objectPos.x + 1.5, objectPos.y + 1, 0.5, 0.5, _type));
+            }
         }
         getImageType(type) {
             let texture = new f.TextureImage();

@@ -109,10 +109,23 @@ namespace Platformer {
                     this.cmpTransform.local.translation = translation;
                     this.isIdle = true;
                     this.speed.y = 0;
+
+                    if (!(<Object>object).isHit) {
+                        let rand: number = ƒ.Random.default.getRange(0, 4);
+                        (<Object>object).isHit = true;
+                        (<Object>object).addObjectCollectables(rand, COLLECTABLE.COIN_GOLD);
+                    }
+                    
                     return <Object>object;
                 }
             }
             return null;
+        }
+
+        protected checkDrowning(): void {
+            if (this.isDrowning) {
+                enemies.removeChild(this);
+            }
         }
     }
 }

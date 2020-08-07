@@ -26,6 +26,8 @@ namespace Platformer {
         public height: number;
         public type: OBJECT;
 
+        public isHit: boolean = false;
+
         private objectIMG: NodeListOf<HTMLImageElement> = document.querySelectorAll("img.object");
 
         public constructor(name: string, posX: number, posY: number, posZ: number = 0, scaleX: number = 1, scaleY: number = 1, type: OBJECT) {
@@ -68,6 +70,19 @@ namespace Platformer {
             rect.size = size;
 
             return rect;
+        }
+
+        public addObjectCollectables(_amount: number, _type: COLLECTABLE): void {    
+            let range: number = this.width / 2;
+            for (let i: number = 0; i < _amount; i++) {
+                let randPos: f.Vector3 = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-0.5, 0));
+                let objectPos: f.Vector3 = this.cmpTransform.local.translation.copy;
+
+                if (_type != COLLECTABLE.GEM_GOLD) 
+                    collectables.appendChild(new Collectable(_type.toString(), objectPos.x + randPos.x, objectPos.y + randPos.y + 1, 0.5, 0.5, _type));
+                else
+                    collectables.appendChild(new Collectable(_type.toString(), objectPos.x + 1.5, objectPos.y + 1, 0.5, 0.5, _type));
+            }
         }
 
         private getImageType(type: OBJECT): f.TextureImage {
