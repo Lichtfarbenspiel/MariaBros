@@ -58,9 +58,9 @@ var Platformer;
                 let randPos = new f.Vector3(ƒ.Random.default.getRange(-range, range), ƒ.Random.default.getRange(-0.5, 0));
                 let objectPos = this.cmpTransform.local.translation.copy;
                 if (_type != Platformer.COLLECTABLE.GEM_GOLD)
-                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), objectPos.x + randPos.x, objectPos.y + randPos.y + 1, 0.5, 0.5, _type));
+                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), objectPos.x + randPos.x, objectPos.y + randPos.y + 1.5, 0.5, 0.5, _type));
                 else
-                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), objectPos.x + 1.5, objectPos.y + 1, 0.5, 0.5, _type));
+                    Platformer.collectables.appendChild(new Platformer.Collectable(_type.toString(), objectPos.x + 1.3, objectPos.y + 1, 0.5, 0.5, _type));
             }
         }
         getImageType(type) {

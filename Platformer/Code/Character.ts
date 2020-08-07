@@ -115,7 +115,6 @@ namespace Platformer {
                         (<Object>object).isHit = true;
                         (<Object>object).addObjectCollectables(rand, COLLECTABLE.COIN_GOLD);
                     }
-                    
                     return <Object>object;
                 }
             }

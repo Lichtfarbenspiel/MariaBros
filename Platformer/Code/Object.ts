@@ -79,9 +79,9 @@ namespace Platformer {
                 let objectPos: f.Vector3 = this.cmpTransform.local.translation.copy;
 
                 if (_type != COLLECTABLE.GEM_GOLD) 
-                    collectables.appendChild(new Collectable(_type.toString(), objectPos.x + randPos.x, objectPos.y + randPos.y + 1, 0.5, 0.5, _type));
+                    collectables.appendChild(new Collectable(_type.toString(), objectPos.x + randPos.x, objectPos.y + randPos.y + 1.5, 0.5, 0.5, _type));
                 else
-                    collectables.appendChild(new Collectable(_type.toString(), objectPos.x + 1.5, objectPos.y + 1, 0.5, 0.5, _type));
+                    collectables.appendChild(new Collectable(_type.toString(), objectPos.x + 1.3, objectPos.y + 1, 0.5, 0.5, _type));
             }
         }
 
