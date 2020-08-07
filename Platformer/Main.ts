@@ -34,18 +34,14 @@ namespace Platformer {
     document.getElementById("instructionsBtn").addEventListener("click", displayInstructions);
     document.getElementById("backBtn").addEventListener("click", displayMenu);
 
-    document.getElementById("restartBtn").addEventListener("click", restart);
+    // document.getElementById("restartBtn").addEventListener("click", restart);
     document.getElementById("backMenuBtn").addEventListener("click", displayMenu);
-
-
-    // document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
   }
 
   export async function loadJSON(): Promise<void> {
     let response: Response = await fetch("data.json");
     let json: string = await response.text();
     enemyJSON = JSON.parse(json);
-    console.log(enemyJSON);
   }
   
   function start(): void {
@@ -96,7 +92,9 @@ namespace Platformer {
     if (!player.isDead) {
       if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
         player.act(ACTION.JUMP);
-    }
+      if (_event.code == ƒ.KEYBOARD_CODE.ESC)
+        displayMenu();
+    }       
   }
 
   function processInput(): void {

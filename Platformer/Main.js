@@ -18,15 +18,13 @@ var Platformer;
         document.getElementById("toggleSound").addEventListener("click", Platformer.toggleSound);
         document.getElementById("instructionsBtn").addEventListener("click", Platformer.displayInstructions);
         document.getElementById("backBtn").addEventListener("click", Platformer.displayMenu);
-        document.getElementById("restartBtn").addEventListener("click", restart);
+        // document.getElementById("restartBtn").addEventListener("click", restart);
         document.getElementById("backMenuBtn").addEventListener("click", Platformer.displayMenu);
-        // document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
     }
     async function loadJSON() {
         let response = await fetch("data.json");
         let json = await response.text();
         Platformer.enemyJSON = JSON.parse(json);
-        console.log(Platformer.enemyJSON);
     }
     Platformer.loadJSON = loadJSON;
     function start() {
@@ -66,6 +64,8 @@ var Platformer;
         if (!Platformer.player.isDead) {
             if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
                 Platformer.player.act(Platformer.ACTION.JUMP);
+            if (_event.code == ƒ.KEYBOARD_CODE.ESC)
+                Platformer.displayMenu();
         }
     }
     function processInput() {
