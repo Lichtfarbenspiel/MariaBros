@@ -118,8 +118,8 @@ var Platformer;
         canvas.style.visibility = "0.5";
     }
     Platformer.gameFinished = gameFinished;
-    function restart() {
-        location.reload();
-    }
+    // function restart(): void {
+    //   location.reload();
+    // }
 })(Platformer || (Platformer = {}));
 //# sourceMappingURL=Main.js.map

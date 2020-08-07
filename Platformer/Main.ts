@@ -151,7 +151,7 @@ namespace Platformer {
     canvas.style.visibility = "0.5";
   }
 
-  function restart(): void {
-    location.reload();
-  }
+  // function restart(): void {
+  //   location.reload();
+  // }
 }
