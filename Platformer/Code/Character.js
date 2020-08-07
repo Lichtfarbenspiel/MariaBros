@@ -26,7 +26,6 @@ var Platformer;
             this.isIdle = true;
             this.isAttacking = false;
             this.isDrowning = false;
-            this.attackRange = 0.5;
         }
         handleAttack(damage) {
             if (!this.isDead) {

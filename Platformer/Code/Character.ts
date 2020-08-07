@@ -31,8 +31,7 @@ namespace Platformer {
 
         public healthPoints: number;
         public strength: number;
-        public attackRange: number = 0.5;
-
+       
         protected action: ACTION;
         protected maxSpeed: f.Vector2;
 
@@ -47,7 +46,6 @@ namespace Platformer {
 
         public handleAttack(damage: number): void {
             if (!this.isDead) {
-
                 if (this.healthPoints > 0)                  
                     this.healthPoints -= damage;
                 {

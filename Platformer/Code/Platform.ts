@@ -23,7 +23,6 @@ namespace Platformer {
         public width: number;
         public height: number;
         public type: TYPE;
-        public center: FudgeAid.Node;
 
         public constructor(posX: number, posY: number, posZ: number = 0, type: TYPE, tiles: number, _amountCollectables?: number, _typeCollectables?: COLLECTABLE) {
             super("Platform");
@@ -32,10 +31,7 @@ namespace Platformer {
             this.height = 1;
             this.type = type;
 
-            // this.center = new ƒAid.Node("Center", ƒ.Matrix4x4.TRANSLATION(new ƒ.Vector3(0, 0.5, 0)));
-
             this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(posX, posY, posZ))));
-            // this.cmpTransform.local.translate(new f.Vector3(posX, posY, posZ));
 
             this.addCollectables(_amountCollectables, _typeCollectables);
             
