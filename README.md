@@ -8,7 +8,9 @@ Link zu den Design-Dokumenten: https://github.com/Lichtfarbenspiel/MariaBros/tre
 
 ## Anleitung
 Steuerung Links/Rechts: Pfeiltasten Rechts und Links oder A/D Tasten.
+
 Springen: Leertaste
+
 Gegner attackieren: Pfeil nach oben/ W Taste
 
 Sound und Musik AN/AUS im Menü unter "Settings"
