@@ -1,6 +1,7 @@
 namespace Platformer {
   import f = FudgeCore;
   
+  loadJSON();
   window.addEventListener("load", initialize);
 
   export let game: f.Node;
@@ -14,6 +15,7 @@ namespace Platformer {
   export let muteSoundBG: boolean = false;
 
   export let player: Player;
+  export let enemyJSON: Enemy[];
 
 
   let cmpCamera: f.ComponentCamera;
@@ -37,6 +39,13 @@ namespace Platformer {
 
 
     // document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
+  }
+
+  export async function loadJSON(): Promise<void> {
+    let response: Response = await fetch("data.json");
+    let json: string = await response.text();
+    enemyJSON = JSON.parse(json);
+    console.log(enemyJSON);
   }
   
   function start(): void {

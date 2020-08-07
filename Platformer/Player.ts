@@ -64,33 +64,34 @@ namespace Platformer {
         public show(_action: ACTION): void {
             // show only the animation defined for the action
             this.setAnimation(<fAid.SpriteSheetAnimation>Player.animations[_action]);
-            // if (_action == ACTION.JUMP)
-            // return;
         }
 
         public act(_action: ACTION, _direction?: DIRECTION): void {
             switch (_action) {
                 case ACTION.IDLE:
-                    this.isIdle = true;
                     this.speed.x = 0;
+                    this.isIdle = true;
                     break;
                 case ACTION.WALK:
-                    this.isIdle = false;
                     let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
                     this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
+                    this.isIdle = false;
                     break; 
                 case ACTION.JUMP:
                     if (this.speed.y <= 1) {
-                        this.isIdle = false;
                         this.speed.y = 8;
+                        this.isIdle = false;
                         Sound.play("jump");
                     }
                     break;
                 case ACTION.ATTACK:
-                    this.isIdle = false;
                     this.isAttacking = true;
+                    this.isIdle = false;
                     Sound.play("attack");
+                    ƒ.Time.game.setTimer(1500, 1, () => {
+                        this.isAttacking = false;
+                    });
                     break;
             }
 
@@ -130,12 +131,16 @@ namespace Platformer {
 
                 if (distance <= 0.16) {
                     Sound.play("collect");
-                    if (this.healthPoints <= 4 && (<Collectable>collectable).isHealing) {
-                        this.healthPoints += 1;
+                    if ((<Collectable>collectable).isHealing) {
+                        if (this.healthPoints <= 2)
+                            this.healthPoints += 1;
+                        else 
+                        this.wealth += (<Collectable>collectable).value;
                     }
                     else {
                         this.wealth += (<Collectable>collectable).value;
                     }
+
                     collectables.removeChild(<Collectable>collectable);
 
                     if ((<Collectable>collectable).type == COLLECTABLE.GEM_GOLD) {

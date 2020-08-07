@@ -2,6 +2,7 @@
 var Platformer;
 (function (Platformer) {
     var f = FudgeCore;
+    loadJSON();
     window.addEventListener("load", initialize);
     Platformer.muteSound = false;
     Platformer.muteSoundBG = false;
@@ -21,6 +22,13 @@ var Platformer;
         document.getElementById("backMenuBtn").addEventListener("click", Platformer.displayMenu);
         // document.addEventListener(ƒ.KEYBOARD_CODE.ESC, displayMenu);
     }
+    async function loadJSON() {
+        let response = await fetch("data.json");
+        let json = await response.text();
+        Platformer.enemyJSON = JSON.parse(json);
+        console.log(Platformer.enemyJSON);
+    }
+    Platformer.loadJSON = loadJSON;
     function start() {
         Platformer.Sound.initialize();
         Platformer.displayGame();

@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Frog 1", 
+        "platformNumber": 4,
+        "scaleX": 1.5,
+        "scaleY": 1.5,
+        "speedX": 0.2, 
+        "speedY": 2,
+        "strength": 1,
+        "type": "frog"
+    },
+    {
+        "name": "Frog 2", 
+        "platformNumber": 13,
+        "scaleX": 1.5,
+        "scaleY": 1.5,
+        "speedX": 0.2, 
+        "speedY": 2,
+        "strength": 1,
+        "type": "frog"
+    }, 
+    {
+        "name": "Frog 3", 
+        "platformNumber": 21,
+        "scaleX": 1.5,
+        "scaleY": 1.5,
+        "speedX": 0.2, 
+        "speedY": 2,
+        "strength": 1,
+        "type": "frog"
+    }, 
+    {
+        "name": "Frog 4", 
+        "platformNumber": 29,
+        "scaleX": 1.5,
+        "scaleY": 1.5,
+        "speedX": 0.2, 
+        "speedY": 2,
+        "strength": 1,
+        "type": "frog"
+    }
+]

@@ -8,39 +8,36 @@ var Platformer;
         ENEMY["FROG"] = "frog";
     })(ENEMY = Platformer.ENEMY || (Platformer.ENEMY = {}));
     class Enemy extends Platformer.Character {
-        // private object: Object;
-        constructor(_name = "Enemy", _platform, _scaleX, _scaleY, _maxSpeed, _strength, _type, _spritesheet) {
-            super(_name);
+        constructor(i) {
+            super(Platformer.enemyJSON[i].name);
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
                 this.speed.y += Enemy.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
-                // this.object = this.checkObjectCollision();
                 this.checkPlatformCollision();
                 this.checkDrowning();
                 this.checkWalkingRange();
-                // if (this.checkWalkingRange()) {
-                //     this.changeDirection();
-                // }
             };
-            this.platform = _platform;
-            this.maxSpeed = _maxSpeed;
-            this.strength = _strength;
-            this.scaleX = _scaleX;
-            this.scaleY = _scaleY;
+            this.platform = Platformer.level.getChild(Platformer.enemyJSON[i].platformNumber);
+            this.maxSpeed = new f.Vector2(0.2, 2);
+            this.strength = Platformer.enemyJSON[i].strength;
+            this.scaleX = Platformer.enemyJSON[i].scaleX;
+            this.scaleY = Platformer.enemyJSON[i].scaleY;
+            this.type = Platformer.enemyJSON[i].type;
             let pos = this.platform.cmpTransform.local.translation.copy;
-            // let position: f.Vector3 = 
             this.addComponent(new f.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(pos.x, pos.y, 0))));
-            this.cmpTransform.local.scaling = new f.Vector3(_scaleX, _scaleY, 0);
-            this.generateSprites(_spritesheet, _type);
+            this.cmpTransform.local.scaling = new f.Vector3(this.scaleX, this.scaleY, 0);
+            let enemyIMG = document.querySelector("img.enemy");
+            this.spritesheet = fAid.createSpriteSheet("Enemy", enemyIMG);
+            this.generateSprites();
             this.act(Platformer.ACTION.WALK, this.dir);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
         }
-        generateSprites(_spritesheet, type) {
+        generateSprites() {
             Enemy.animations = {};
-            let sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.WALK, _spritesheet);
-            switch (type) {
+            let sprite = new fAid.SpriteSheetAnimation(Platformer.ACTION.WALK, this.spritesheet);
+            switch (this.type) {
                 case ENEMY.FROG:
                     sprite.generateByGrid(f.Rectangle.GET(2, 4, 17, 12), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
                     Enemy.animations[Platformer.ACTION.WALK] = sprite;
@@ -83,10 +80,6 @@ var Platformer;
             if (!hitPlatform) {
                 this.changeDirection();
             }
-            // if (hitPlatform) {
-            //     return false;
-            // }
-            // return true;
         }
         checkDrowning() {
             if (this.isDrowning) {

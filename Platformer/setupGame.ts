@@ -28,22 +28,11 @@ namespace Platformer {
     
     export function createEnemies(): f.Node {
         let enemies: f.Node = new f.Node("Enemies");
-    
-        let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
-        let sprite: f.CoatTextured = fAid.createSpriteSheet("Enemy", enemyIMG);
-    
-        let enemy: Enemy = new Enemy("Frog", <Platform>level.getChild(4), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
-    
-        enemy = new Enemy("Frog", <Platform>level.getChild(13), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
-    
-        enemy = new Enemy("Frog", <Platform>level.getChild(21), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
-    
-        enemy = new Enemy("Frog", <Platform>level.getChild(29), 1.5, 1.5, new f.Vector2(0.2, 2), 1, ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
         
+        for (let i: number = 0; i < enemyJSON.length; i++) {
+          enemies.appendChild(new Enemy(i));
+        }
+          
         return enemies;
       }
     

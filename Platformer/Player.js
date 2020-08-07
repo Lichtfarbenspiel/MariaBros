@@ -64,32 +64,33 @@ var Platformer;
         show(_action) {
             // show only the animation defined for the action
             this.setAnimation(Player.animations[_action]);
-            // if (_action == ACTION.JUMP)
-            // return;
         }
         act(_action, _direction) {
             switch (_action) {
                 case Platformer.ACTION.IDLE:
-                    this.isIdle = true;
                     this.speed.x = 0;
+                    this.isIdle = true;
                     break;
                 case Platformer.ACTION.WALK:
-                    this.isIdle = false;
                     let direction = (_direction == Platformer.DIRECTION.RIGHT ? 1 : -1);
                     this.speed.x = this.maxSpeed.x;
                     this.cmpTransform.local.rotation = f.Vector3.Y(90 - 90 * direction);
+                    this.isIdle = false;
                     break;
                 case Platformer.ACTION.JUMP:
                     if (this.speed.y <= 1) {
-                        this.isIdle = false;
                         this.speed.y = 8;
+                        this.isIdle = false;
                         Platformer.Sound.play("jump");
                     }
                     break;
                 case Platformer.ACTION.ATTACK:
-                    this.isIdle = false;
                     this.isAttacking = true;
+                    this.isIdle = false;
                     Platformer.Sound.play("attack");
+                    ƒ.Time.game.setTimer(1500, 1, () => {
+                        this.isAttacking = false;
+                    });
                     break;
             }
             if (_action == this.action)
@@ -106,8 +107,11 @@ var Platformer;
                 let distance = Math.abs(Math.sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z));
                 if (distance <= 0.16) {
                     Platformer.Sound.play("collect");
-                    if (this.healthPoints <= 4 && collectable.isHealing) {
-                        this.healthPoints += 1;
+                    if (collectable.isHealing) {
+                        if (this.healthPoints <= 2)
+                            this.healthPoints += 1;
+                        else
+                            this.wealth += collectable.value;
                     }
                     else {
                         this.wealth += collectable.value;

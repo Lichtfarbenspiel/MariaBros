@@ -57,6 +57,7 @@ namespace Platformer {
                     for (let i: number = 0; i < 5; i++) {
                         sprite.frames[i].timeScale = 2;
                     }
+                    this.isHealing = false;
                     this.value = 10;
                     break;
                 case COLLECTABLE.COIN_RED:
@@ -65,6 +66,7 @@ namespace Platformer {
                     for (let i: number = 0; i < 5; i++) {
                         sprite.frames[i].timeScale = 2;
                     }
+                    this.isHealing = false;
                     this.value = -8;
                     break;
                 case COLLECTABLE.COIN_GREEN:
@@ -84,7 +86,7 @@ namespace Platformer {
                     for (let i: number = 0; i < 4; i++) {
                         sprite.frames[i].timeScale = 3;
                     }
-                    this.isHealing = true;
+                    this.isHealing = false;
                     this.value = 50;
                     break;
             }

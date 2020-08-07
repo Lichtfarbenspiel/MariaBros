@@ -26,16 +26,9 @@ var Platformer;
     Platformer.createPlayer = createPlayer;
     function createEnemies() {
         let enemies = new f.Node("Enemies");
-        let enemyIMG = document.querySelector("img.enemy");
-        let sprite = fAid.createSpriteSheet("Enemy", enemyIMG);
-        let enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(4), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
-        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(13), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
-        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(21), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
-        enemy = new Platformer.Enemy("Frog", Platformer.level.getChild(29), 1.5, 1.5, new f.Vector2(0.2, 2), 1, Platformer.ENEMY.FROG, sprite);
-        enemies.appendChild(enemy);
+        for (let i = 0; i < Platformer.enemyJSON.length; i++) {
+            enemies.appendChild(new Platformer.Enemy(i));
+        }
         return enemies;
     }
     Platformer.createEnemies = createEnemies;

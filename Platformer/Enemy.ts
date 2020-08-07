@@ -1,6 +1,7 @@
 namespace Platformer {
     import f = FudgeCore;
     import fAid = FudgeAid;
+   
 
     export enum ENEMY {
         FROG = "frog"
@@ -10,37 +11,40 @@ namespace Platformer {
     export class Enemy extends Character {
 
         private platform: Platform;
-        // private object: Object;
+        private platformNumber: number;
+        private type: ENEMY;
+        private spritesheet: f.CoatTextured;
 
-        constructor(_name: string = "Enemy", _platform: Platform, _scaleX: number, _scaleY: number, _maxSpeed: f.Vector2, _strength: number, _type: ENEMY, _spritesheet: f.CoatTextured) {
-            super(_name);
+        constructor(i: number) {
+            super(enemyJSON[i].name);
 
-            this.platform = _platform;
-            this.maxSpeed = _maxSpeed;
-            this.strength = _strength;
+            this.platform = <Platform>level.getChild(enemyJSON[i].platformNumber);
+            this.maxSpeed = new f.Vector2(0.2, 2);
+            this.strength = enemyJSON[i].strength;
 
-            this.scaleX = _scaleX;
-            this.scaleY = _scaleY;
+            this.scaleX = enemyJSON[i].scaleX;
+            this.scaleY = enemyJSON[i].scaleY;
+            this.type = <ENEMY>enemyJSON[i].type;
 
             let pos: f.Vector3 = this.platform.cmpTransform.local.translation.copy;
 
-            // let position: f.Vector3 = 
-
             this.addComponent(new f.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(new f.Vector3(pos.x, pos.y, 0))));
-            this.cmpTransform.local.scaling = new f.Vector3(_scaleX, _scaleY, 0);
+            this.cmpTransform.local.scaling = new f.Vector3(this.scaleX, this.scaleY, 0);
 
-            this.generateSprites(_spritesheet, _type);
+            let enemyIMG: HTMLImageElement = document.querySelector("img.enemy");
+            this.spritesheet = fAid.createSpriteSheet("Enemy", enemyIMG);
+           
+            this.generateSprites();
 
             this.act(ACTION.WALK, this.dir);
             f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
         }
 
 
-        public generateSprites(_spritesheet: f.CoatTextured, type: ENEMY): void {
+        public generateSprites(): void {
             Enemy.animations = {};
-
-            let sprite: fAid.SpriteSheetAnimation = new fAid.SpriteSheetAnimation(ACTION.WALK, _spritesheet);
-            switch (type) {
+            let sprite: fAid.SpriteSheetAnimation = new fAid.SpriteSheetAnimation(ACTION.WALK, this.spritesheet);
+            switch (this.type) {
                 case ENEMY.FROG:
                     sprite.generateByGrid(f.Rectangle.GET(2, 4, 17, 12), 3, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
                     Enemy.animations[ACTION.WALK] = sprite;
@@ -72,7 +76,6 @@ namespace Platformer {
                     break;
             }
             
-
             this.show(_action);
         }
 
@@ -90,16 +93,10 @@ namespace Platformer {
             let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
             this.cmpTransform.local.translate(distance);
             
-            // this.object = this.checkObjectCollision();
-
             this.checkPlatformCollision();
 
             this.checkDrowning();
             this.checkWalkingRange();
-
-            // if (this.checkWalkingRange()) {
-            //     this.changeDirection();
-            // }
         }
 
         private checkWalkingRange(): void {
@@ -112,10 +109,6 @@ namespace Platformer {
             if (!hitPlatform) {
                 this.changeDirection();
             }
-            // if (hitPlatform) {
-            //     return false;
-            // }
-            // return true;
         }
 
         private checkDrowning(): void {
